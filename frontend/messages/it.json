@@ -218,7 +218,16 @@
         "deleteWorkflowConfirm": "Eliminare questo workflow?",
         "shareWorkflow": "Condividi workflow",
         "allowEdit": "Consenti modifica",
-        "viewOnly": "Solo visualizzazione"
+        "viewOnly": "Solo visualizzazione",
+        "people": "Persone",
+        "addByEmail": "Aggiungi persone tramite email…",
+        "allowEditingDesc": "Consenti modifica ai destinatari",
+        "peopleWithAccess": "Persone con accesso",
+        "none": "Nessuno",
+        "canEdit": "Può modificare",
+        "readOnly": "Sola lettura",
+        "sharing": "Condivisione…",
+        "share": "Condividi"
     },
     "settings": {
         "title": "Impostazioni",
@@ -249,6 +258,27 @@
         "saveDisplayNameFailed": "Impossibile aggiornare il nome. Riprova.",
         "saveOrgFailed": "Impossibile aggiornare l'organizzazione. Riprova.",
         "deleteAccountFailed": "Impossibile eliminare l'account. Riprova."
+    },
+    "selectProject": {
+        "breadcrumb": "Avvia chat in un fascicolo",
+        "continue": "Continua"
+    },
+    "assistantWorkflow": {
+        "addWorkflow": "Aggiungi workflow",
+        "searchWorkflows": "Cerca workflow…",
+        "noMatches": "Nessuna corrispondenza",
+        "noAssistantWorkflows": "Nessun workflow assistente trovato",
+        "builtin": "Predefinito",
+        "custom": "Personalizzato",
+        "workflowPrompt": "Prompt del workflow",
+        "noPromptDefined": "_Nessun prompt definito._",
+        "use": "Usa"
+    },
+    "modelToggle": {
+        "modelDefault": "Modello",
+        "apiKeyMissing": "Chiave API mancante per il modello selezionato",
+        "chooseModel": "Scegli modello",
+        "apiKeyMissingShort": "Chiave API mancante"
     },
     "models": {
         "title": "Preferenze modello",
@@ -330,6 +360,15 @@
         "personSingular": "persona",
         "peoplePlural": "persone",
         "withAccessCount": "{n, plural, one {# persona con accesso.} other {# persone con accesso.}}"
+    },
+    "editor": {
+        "h1": "Titolo 1",
+        "h2": "Titolo 2",
+        "h3": "Titolo 3",
+        "bold": "Grassetto",
+        "italic": "Corsivo",
+        "bulletList": "Elenco puntato",
+        "numberedList": "Elenco numerato"
     },
     "addDocsModal": {
         "noMatches": "Nessuna corrispondenza",

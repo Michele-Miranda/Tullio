@@ -218,7 +218,16 @@
         "deleteWorkflowConfirm": "Delete this workflow?",
         "shareWorkflow": "Share workflow",
         "allowEdit": "Allow edit",
-        "viewOnly": "View only"
+        "viewOnly": "View only",
+        "people": "People",
+        "addByEmail": "Add people by email…",
+        "allowEditingDesc": "Allow editing by share recipients",
+        "peopleWithAccess": "People with access",
+        "none": "None",
+        "canEdit": "Can edit",
+        "readOnly": "Read-only",
+        "sharing": "Sharing…",
+        "share": "Share"
     },
     "settings": {
         "title": "Settings",
@@ -249,6 +258,27 @@
         "saveDisplayNameFailed": "Failed to update display name. Please try again.",
         "saveOrgFailed": "Failed to update organisation. Please try again.",
         "deleteAccountFailed": "Failed to delete account. Please try again."
+    },
+    "selectProject": {
+        "breadcrumb": "Start Chat in a Project",
+        "continue": "Continue"
+    },
+    "assistantWorkflow": {
+        "addWorkflow": "Add workflow",
+        "searchWorkflows": "Search workflows…",
+        "noMatches": "No matches found",
+        "noAssistantWorkflows": "No assistant workflows found",
+        "builtin": "Built-in",
+        "custom": "Custom",
+        "workflowPrompt": "Workflow Prompt",
+        "noPromptDefined": "_No prompt defined._",
+        "use": "Use"
+    },
+    "modelToggle": {
+        "modelDefault": "Model",
+        "apiKeyMissing": "API key missing for selected model",
+        "chooseModel": "Choose model",
+        "apiKeyMissingShort": "API key missing"
     },
     "models": {
         "title": "Model Preferences",
@@ -330,6 +360,15 @@
         "personSingular": "person",
         "peoplePlural": "people",
         "withAccessCount": "{n, plural, one {# person with access.} other {# people with access.}}"
+    },
+    "editor": {
+        "h1": "Heading 1",
+        "h2": "Heading 2",
+        "h3": "Heading 3",
+        "bold": "Bold",
+        "italic": "Italic",
+        "bulletList": "Bullet list",
+        "numberedList": "Numbered list"
     },
     "addDocsModal": {
         "noMatches": "No matches found",

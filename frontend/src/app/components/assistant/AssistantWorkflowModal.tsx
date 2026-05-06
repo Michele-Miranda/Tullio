@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { ChevronLeft, Search, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useTranslations } from "next-intl";
 import type { MikeWorkflow } from "../shared/types";
 import { listWorkflows } from "@/app/lib/mikeApi";
 import { BUILT_IN_WORKFLOWS } from "../workflows/builtinWorkflows";
@@ -26,6 +27,9 @@ export function AssistantWorkflowModal({
     projectCmNumber,
     initialWorkflowId,
 }: Props) {
+    const t = useTranslations("assistantWorkflow");
+    const tSidebar = useTranslations("sidebar");
+    const tCommon = useTranslations("common");
     const [workflows, setWorkflows] = useState<MikeWorkflow[]>([]);
     const [loading, setLoading] = useState(false);
     const [selected, setSelected] = useState<MikeWorkflow | null>(null);
@@ -97,7 +101,7 @@ export function AssistantWorkflowModal({
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                         {projectName ? (
                             <>
-                                <span>Projects</span>
+                                <span>{tSidebar("projects")}</span>
                                 <span>›</span>
                                 <span>
                                     {projectName}
@@ -106,15 +110,15 @@ export function AssistantWorkflowModal({
                                         : ""}
                                 </span>
                                 <span>›</span>
-                                <span>Assistant</span>
+                                <span>{tSidebar("assistant")}</span>
                                 <span>›</span>
-                                <span>Add workflow</span>
+                                <span>{t("addWorkflow")}</span>
                             </>
                         ) : (
                             <>
-                                <span>Assistant</span>
+                                <span>{tSidebar("assistant")}</span>
                                 <span>›</span>
-                                <span>Add workflow</span>
+                                <span>{t("addWorkflow")}</span>
                             </>
                         )}
                     </div>
@@ -138,7 +142,7 @@ export function AssistantWorkflowModal({
                                 <Search className="h-3 w-3 text-gray-400 shrink-0" />
                                 <input
                                     type="text"
-                                    placeholder="Search workflows…"
+                                    placeholder={t("searchWorkflows")}
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     className="flex-1 bg-transparent text-xs text-gray-700 placeholder:text-gray-400 outline-none"
@@ -168,7 +172,7 @@ export function AssistantWorkflowModal({
                             </div>
                         ) : filteredWorkflows.length === 0 ? (
                             <p className="px-4 py-8 text-sm text-center text-gray-400">
-                                {search ? "No matches found" : "No assistant workflows found"}
+                                {search ? t("noMatches") : t("noAssistantWorkflows")}
                             </p>
                         ) : (
                             filteredWorkflows.map((wf) => (
@@ -190,7 +194,7 @@ export function AssistantWorkflowModal({
                                         {wf.title}
                                     </span>
                                     <span className="shrink-0 text-xs text-gray-400">
-                                        {wf.is_system ? "Built-in" : "Custom"}
+                                        {wf.is_system ? t("builtin") : t("custom")}
                                     </span>
                                 </button>
                             ))
@@ -202,7 +206,7 @@ export function AssistantWorkflowModal({
                         <div className={`flex-1 border-l border-gray-100 flex flex-col overflow-hidden px-3 pb-3 transition-opacity duration-200 ${rightVisible ? "opacity-100" : "opacity-0"}`}>
                             <div className="flex items-center justify-between py-3 shrink-0">
                                 <p className="text-xs font-medium text-gray-700">
-                                    Workflow Prompt
+                                    {t("workflowPrompt")}
                                 </p>
                                 <button
                                     onClick={() => setSelected(null)}
@@ -261,7 +265,7 @@ export function AssistantWorkflowModal({
                                     }}
                                 >
                                     {selected.prompt_md ??
-                                        "_No prompt defined._"}
+                                        t("noPromptDefined")}
                                 </ReactMarkdown>
                             </div>
                         </div>
@@ -275,7 +279,7 @@ export function AssistantWorkflowModal({
                         onClick={onClose}
                         className="rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </button>
                     <button
                         type="button"
@@ -283,7 +287,7 @@ export function AssistantWorkflowModal({
                         disabled={!selected}
                         className="rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
                     >
-                        Use
+                        {t("use")}
                     </button>
                 </div>
             </div>
