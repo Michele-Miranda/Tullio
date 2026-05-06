@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Upload, Search, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
     uploadStandaloneDocument,
     uploadProjectDocument,
@@ -34,6 +35,9 @@ export function AddDocumentsModal({
     allowMultiple = true,
     projectId,
 }: Props) {
+    const t = useTranslations("addDocsModal");
+    const tCommon = useTranslations("common");
+    const tSearch = useTranslations("search");
     const { loading, standaloneDocuments, projects } = useDirectoryData(open);
     const { user } = useAuth();
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -146,9 +150,7 @@ export function AddDocumentsModal({
         });
         const blocked = ids.length - owned.length;
         if (owned.length === 0 && blocked > 0) {
-            setOwnerOnlyAction(
-                "delete these documents — only the document creator can delete a document",
-            );
+            setOwnerOnlyAction(t("deleteOnlyOwnerSingle"));
             return;
         }
         const idSet = new Set(owned);
@@ -166,9 +168,7 @@ export function AddDocumentsModal({
             return next;
         });
         if (blocked > 0) {
-            setOwnerOnlyAction(
-                `delete ${blocked} of the selected documents — only the document creator can delete a document`,
-            );
+            setOwnerOnlyAction(t("deleteOnlyOwner", { n: blocked }));
         }
     }
 
@@ -224,7 +224,7 @@ export function AddDocumentsModal({
                         <Search className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                         <input
                             type="text"
-                            placeholder="Search…"
+                            placeholder={tSearch("placeholder")}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="flex-1 bg-transparent text-sm text-gray-700 placeholder:text-gray-400 outline-none"
@@ -252,7 +252,7 @@ export function AddDocumentsModal({
                         allowMultiple={allowMultiple}
                         forceExpanded={!!q}
                         emptyMessage={
-                            q ? "No matches found" : "No documents yet"
+                            q ? t("noMatches") : t("noDocumentsYet")
                         }
                         onDelete={handleDelete}
                     />
@@ -279,27 +279,27 @@ export function AddDocumentsModal({
                             ) : (
                                 <Upload className="h-3.5 w-3.5" />
                             )}
-                            {uploading ? "Uploading…" : "Upload"}
+                            {uploading ? t("uploading") : t("upload")}
                         </button>
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedIds.size > 0 && (
                             <span className="text-xs text-gray-400">
-                                {selectedIds.size} selected
+                                {t("selected", { n: selectedIds.size })}
                             </span>
                         )}
                         <button
                             onClick={onClose}
                             className="rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100"
                         >
-                            Cancel
+                            {tCommon("cancel")}
                         </button>
                         <button
                             onClick={handleConfirm}
                             disabled={selectedIds.size === 0 || uploading}
                             className="rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-40"
                         >
-                            {uploading ? "Saving…" : "Confirm"}
+                            {uploading ? t("saving") : t("confirm")}
                         </button>
                     </div>
                 </div>

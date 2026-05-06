@@ -1,6 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 import { Lock, X } from "lucide-react";
 
 interface Props {
@@ -25,18 +26,19 @@ interface Props {
 export function OwnerOnlyModal({
     open,
     onClose,
-    title = "Owner-only action",
+    title,
     action,
     ownerEmail,
     message,
 }: Props) {
+    const t = useTranslations("modals");
     if (!open) return null;
 
     const body =
         message ??
         (action
-            ? `Only the project owner can ${action}.`
-            : "Only the project owner can perform this action.");
+            ? t("ownerOnlyAction", { action })
+            : t("ownerOnlyDefault"));
 
     return createPortal(
         <div
@@ -52,7 +54,7 @@ export function OwnerOnlyModal({
                     <div className="flex items-center gap-2">
                         <Lock className="h-4 w-4 text-amber-600" />
                         <h2 className="text-base font-medium text-gray-900">
-                            {title}
+                            {title ?? t("ownerOnlyTitle")}
                         </h2>
                     </div>
                     <button
@@ -70,9 +72,7 @@ export function OwnerOnlyModal({
                     </p>
                     {ownerEmail && (
                         <p className="mt-2 text-xs text-gray-400">
-                            Ask{" "}
-                            <span className="text-gray-600">{ownerEmail}</span>{" "}
-                            if you need access.
+                            {t("askOwner", { email: ownerEmail })}
                         </p>
                     )}
                 </div>
@@ -83,7 +83,7 @@ export function OwnerOnlyModal({
                         onClick={onClose}
                         className="rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700"
                     >
-                        OK
+                        {t("ok")}
                     </button>
                 </div>
             </div>

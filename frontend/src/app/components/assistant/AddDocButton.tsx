@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { PlusIcon, Upload, LayoutGridIcon, Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export function AddDocButton({ onSelectDoc, onBrowseAll, selectedDocIds = [] }: Props) {
+    const t = useTranslations("addDocButton");
     const [isOpen, setIsOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,8 +59,8 @@ export function AddDocButton({ onSelectDoc, onBrowseAll, selectedDocIds = [] }: 
                                 ? "text-black hover:bg-gray-100"
                                 : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
                         } ${isOpen ? "bg-gray-100" : ""}`}
-                        title="Add documents"
-                        aria-label="Add documents"
+                        title={t("addDocuments")}
+                        aria-label={t("addDocuments")}
                     >
                         {selectedDocIds.length > 0 ? (
                             <span className="font-medium tabular-nums">{selectedDocIds.length}</span>
@@ -69,8 +71,8 @@ export function AddDocButton({ onSelectDoc, onBrowseAll, selectedDocIds = [] }: 
                         )}
                         <span className="hidden sm:inline">
                             {selectedDocIds.length === 1
-                                ? "Document"
-                                : "Documents"}
+                                ? t("documentSingular")
+                                : t("documentsPlural")}
                         </span>
                     </button>
                 </DropdownMenuTrigger>
@@ -93,7 +95,7 @@ export function AddDocButton({ onSelectDoc, onBrowseAll, selectedDocIds = [] }: 
                             <Upload className="h-4 w-4 mr-2 text-gray-500" />
                         )}
                         <span className="text-sm">
-                            {uploading ? "Uploading…" : "Upload files"}
+                            {uploading ? t("uploading") : t("uploadFiles")}
                         </span>
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -101,7 +103,7 @@ export function AddDocButton({ onSelectDoc, onBrowseAll, selectedDocIds = [] }: 
                         onClick={onBrowseAll}
                     >
                         <LayoutGridIcon className="h-4 w-4 mr-2 text-gray-500" />
-                        <span className="text-sm">Browse all</span>
+                        <span className="text-sm">{t("browseAll")}</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

@@ -187,7 +187,17 @@
     "workflows": {
         "title": "Workflow",
         "newWorkflow": "Nuovo workflow",
+        "editWorkflow": "Modifica workflow",
+        "saveChanges": "Salva modifiche",
+        "creating": "Creazione…",
         "createWorkflow": "Crea workflow",
+        "createFailed": "Impossibile creare il workflow",
+        "updateFailed": "Impossibile aggiornare il workflow",
+        "workflowName": "Nome workflow",
+        "practiceAreaLabel": "Area di pratica",
+        "practiceCustomPlaceholder": "Inserisci area di pratica…",
+        "typeAssistantLabel": "Assistente",
+        "typeTabularLabel": "Tabellare",
         "workflowTitle": "Titolo",
         "workflowTitlePlaceholder": "Es. Sintesi contratto di locazione",
         "workflowPrompt": "Istruzioni",
@@ -210,14 +220,35 @@
         "allowEdit": "Consenti modifica",
         "viewOnly": "Solo visualizzazione"
     },
+    "settings": {
+        "title": "Impostazioni",
+        "tabGeneral": "Generale",
+        "tabModels": "Modelli e Chiavi API",
+        "ariaLabel": "Impostazioni"
+    },
     "account": {
         "title": "Account",
+        "profile": "Profilo",
         "displayName": "Nome visualizzato",
+        "displayNamePlaceholder": "Inserisci il tuo nome",
+        "organisation": "Studio / Organizzazione",
+        "organisationPlaceholder": "Inserisci il nome dello studio",
         "email": "Email",
         "tier": "Piano",
+        "tierFree": "Free",
+        "usagePlan": "Piano d'uso",
         "creditsUsed": "Crediti usati",
+        "actions": "Azioni",
+        "signOut": "Esci",
+        "dangerZone": "Zona pericolosa",
+        "dangerZoneDescription": "Elimina definitivamente il tuo account e tutti i dati associati. L'azione non può essere annullata.",
+        "deleteConfirmText": "Sei sicuro? L'account sarà eliminato definitivamente.",
         "deleteAccount": "Elimina account",
-        "deleteAccountConfirm": "Confermi di voler eliminare l'account? Tutti i dati saranno cancellati."
+        "deletingAccount": "Eliminazione…",
+        "deleteAccountConfirm": "Confermi di voler eliminare l'account? Tutti i dati saranno cancellati.",
+        "saveDisplayNameFailed": "Impossibile aggiornare il nome. Riprova.",
+        "saveOrgFailed": "Impossibile aggiornare l'organizzazione. Riprova.",
+        "deleteAccountFailed": "Impossibile eliminare l'account. Riprova."
     },
     "models": {
         "title": "Preferenze modello",
@@ -249,6 +280,98 @@
         "createNew": "+ Crea nuovo",
         "noTab": "Nessun fascicolo {tab}",
         "deleteOnlyOwner": "elimina {n} dei fascicoli selezionati — solo il titolare può eliminare un fascicolo"
+    },
+    "modals": {
+        "ownerOnlyTitle": "Azione riservata al titolare",
+        "ownerOnlyDefault": "Solo il titolare del fascicolo può eseguire questa azione.",
+        "ownerOnlyAction": "Solo il titolare del fascicolo può {action}.",
+        "askOwner": "Chiedi a {email} per ottenere l'accesso.",
+        "ok": "OK",
+        "apiKeyRequired": "Chiave API necessaria",
+        "apiKeyMissingBody": "Non hai ancora aggiunto una chiave API {provider}. Aggiungine una nelle impostazioni dell'account per usare questo modello.",
+        "apiKeyThisProvider": "questo provider",
+        "goToAccount": "Vai alle impostazioni",
+        "deleteAllChatsTitle": "Elimina tutte le chat",
+        "deleteAllChatsConfirm": "Sei sicuro di voler eliminare tutte le {count} chat? Questa azione è permanente e non può essere annullata.",
+        "deleteAllChatsDeleting": "Eliminazione...",
+        "deleteAllChatsDone": "Tutte le chat eliminate",
+        "deleteAllChatsDoneBody": "La cronologia è stata eliminata correttamente.",
+        "creditsExhaustedTitle": "Limite messaggi raggiunto",
+        "creditsExhaustedBody": "Hai raggiunto il limite mensile di 100 messaggi.",
+        "creditsResetOn": "I crediti si rinnoveranno il:",
+        "creditsResetHint": "I crediti messaggi si rinnovano automaticamente il primo giorno di ogni mese.",
+        "shareChatTitle": "Condividi chat",
+        "shareLinkLabel": "Link di condivisione",
+        "copyLink": "Copia link",
+        "linkCopied": "Copiato!"
+    },
+    "search": {
+        "placeholder": "Cerca…"
+    },
+    "sidebarChatItem": {
+        "untitled": "Chat senza titolo",
+        "renameAction": "rinominare questa chat",
+        "deleteAction": "eliminare questa chat"
+    },
+    "people": {
+        "addMember": "Aggiungi membro",
+        "addByEmail": "Aggiungi tramite email…",
+        "alreadyHasAccess": "{email} ha già accesso.",
+        "isOwner": "{email} è il titolare.",
+        "enterValidEmail": "Inserisci una email valida.",
+        "addError": "Impossibile aggiungere il membro. Riprova.",
+        "removeError": "Impossibile rimuovere il membro. Riprova.",
+        "peopleWithAccess": "Persone con accesso",
+        "noOneHasAccess": "Nessuno ha ancora accesso.",
+        "you": "(Tu)",
+        "owner": "Titolare",
+        "remove": "Rimuovi",
+        "removeAccess": "Rimuovi accesso",
+        "personSingular": "persona",
+        "peoplePlural": "persone",
+        "withAccessCount": "{n, plural, one {# persona con accesso.} other {# persone con accesso.}}"
+    },
+    "addDocsModal": {
+        "noMatches": "Nessuna corrispondenza",
+        "noDocumentsYet": "Nessun documento",
+        "uploading": "Caricamento…",
+        "upload": "Carica",
+        "selected": "{n} selezionati",
+        "saving": "Salvataggio…",
+        "confirm": "Conferma",
+        "deleteOnlyOwner": "eliminare {n} dei documenti selezionati — solo il creatore può eliminare un documento",
+        "deleteOnlyOwnerSingle": "eliminare questi documenti — solo il creatore può eliminare un documento"
+    },
+    "uploadVersion": {
+        "title": "Carica nuova versione",
+        "newVersionName": "Nome della nuova versione",
+        "versionNamePlaceholder": "Nome versione",
+        "currentVersion": "Versione attuale:",
+        "newVersionFile": "File della nuova versione:",
+        "changeFile": "Cambia file",
+        "upload": "Carica"
+    },
+    "projectPicker": {
+        "selectProject": "Seleziona fascicolo",
+        "noProject": "Nessun fascicolo",
+        "search": "Cerca fascicoli…",
+        "noMatches": "Nessuna corrispondenza",
+        "noProjectsYet": "Nessun fascicolo ancora",
+        "projectsLabel": "Fascicoli"
+    },
+    "emailPill": {
+        "addByEmail": "Aggiungi tramite email…",
+        "invalidEmail": "Inserisci un indirizzo email valido.",
+        "verificationFailed": "Impossibile verificare l'email. Riprova.",
+        "checking": "Verifica…"
+    },
+    "addDocButton": {
+        "addDocuments": "Aggiungi documenti",
+        "documentSingular": "Documento",
+        "documentsPlural": "Documenti",
+        "uploading": "Caricamento…",
+        "uploadFiles": "Carica file",
+        "browseAll": "Sfoglia tutti"
     },
     "rowActions": {
         "rename": "Rinomina",

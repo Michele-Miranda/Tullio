@@ -187,7 +187,17 @@
     "workflows": {
         "title": "Workflows",
         "newWorkflow": "New workflow",
+        "editWorkflow": "Edit workflow",
+        "saveChanges": "Save changes",
+        "creating": "Creating…",
         "createWorkflow": "Create workflow",
+        "createFailed": "Failed to create workflow",
+        "updateFailed": "Failed to update workflow",
+        "workflowName": "Workflow name",
+        "practiceAreaLabel": "Practice Area",
+        "practiceCustomPlaceholder": "Enter practice area…",
+        "typeAssistantLabel": "Assistant",
+        "typeTabularLabel": "Tabular",
         "workflowTitle": "Title",
         "workflowTitlePlaceholder": "e.g. Lease contract summary",
         "workflowPrompt": "Instructions",
@@ -210,14 +220,35 @@
         "allowEdit": "Allow edit",
         "viewOnly": "View only"
     },
+    "settings": {
+        "title": "Settings",
+        "tabGeneral": "General",
+        "tabModels": "Models & API Keys",
+        "ariaLabel": "Settings"
+    },
     "account": {
         "title": "Account",
-        "displayName": "Display name",
+        "profile": "Profile",
+        "displayName": "Display Name",
+        "displayNamePlaceholder": "Enter your name",
+        "organisation": "Organisation",
+        "organisationPlaceholder": "Enter your organisation",
         "email": "Email",
         "tier": "Tier",
+        "tierFree": "Free",
+        "usagePlan": "Usage Plan",
         "creditsUsed": "Credits used",
-        "deleteAccount": "Delete account",
-        "deleteAccountConfirm": "Are you sure you want to delete your account? All data will be deleted."
+        "actions": "Actions",
+        "signOut": "Sign Out",
+        "dangerZone": "Danger Zone",
+        "dangerZoneDescription": "Permanently delete your account and all associated data. This action cannot be undone.",
+        "deleteConfirmText": "Are you sure? This will permanently delete your account.",
+        "deleteAccount": "Delete Account",
+        "deletingAccount": "Deleting…",
+        "deleteAccountConfirm": "Are you sure you want to delete your account? All data will be deleted.",
+        "saveDisplayNameFailed": "Failed to update display name. Please try again.",
+        "saveOrgFailed": "Failed to update organisation. Please try again.",
+        "deleteAccountFailed": "Failed to delete account. Please try again."
     },
     "models": {
         "title": "Model Preferences",
@@ -249,6 +280,98 @@
         "createNew": "+ Create New",
         "noTab": "No {tab} projects",
         "deleteOnlyOwner": "delete {n} of the selected projects — only the project owner can delete a project"
+    },
+    "modals": {
+        "ownerOnlyTitle": "Owner-only action",
+        "ownerOnlyDefault": "Only the project owner can perform this action.",
+        "ownerOnlyAction": "Only the project owner can {action}.",
+        "askOwner": "Ask {email} if you need access.",
+        "ok": "OK",
+        "apiKeyRequired": "API key required",
+        "apiKeyMissingBody": "You haven't added a {provider} API key yet. Add one in your account settings to use this model.",
+        "apiKeyThisProvider": "this provider",
+        "goToAccount": "Go to account settings",
+        "deleteAllChatsTitle": "Delete All Chats",
+        "deleteAllChatsConfirm": "Are you sure you want to delete all {count} chats? This action is permanent and cannot be undone.",
+        "deleteAllChatsDeleting": "Deleting...",
+        "deleteAllChatsDone": "All Chats Deleted",
+        "deleteAllChatsDoneBody": "Your chat history has been successfully deleted.",
+        "creditsExhaustedTitle": "Message Limit Reached",
+        "creditsExhaustedBody": "You've reached your monthly message limit of 100 messages.",
+        "creditsResetOn": "Your credits will reset on:",
+        "creditsResetHint": "Your message credits automatically reset on the first day of each month.",
+        "shareChatTitle": "Share Chat",
+        "shareLinkLabel": "Share Link",
+        "copyLink": "Copy Link",
+        "linkCopied": "Copied!"
+    },
+    "search": {
+        "placeholder": "Search…"
+    },
+    "sidebarChatItem": {
+        "untitled": "Untitled chat",
+        "renameAction": "rename this chat",
+        "deleteAction": "delete this chat"
+    },
+    "people": {
+        "addMember": "Add member",
+        "addByEmail": "Add by email…",
+        "alreadyHasAccess": "{email} already has access.",
+        "isOwner": "{email} is the owner.",
+        "enterValidEmail": "Enter a valid email.",
+        "addError": "Couldn't add the member. Try again.",
+        "removeError": "Couldn't remove the member. Try again.",
+        "peopleWithAccess": "People with Access",
+        "noOneHasAccess": "No one has access yet.",
+        "you": "(You)",
+        "owner": "Owner",
+        "remove": "Remove",
+        "removeAccess": "Remove access",
+        "personSingular": "person",
+        "peoplePlural": "people",
+        "withAccessCount": "{n, plural, one {# person with access.} other {# people with access.}}"
+    },
+    "addDocsModal": {
+        "noMatches": "No matches found",
+        "noDocumentsYet": "No documents yet",
+        "uploading": "Uploading…",
+        "upload": "Upload",
+        "selected": "{n} selected",
+        "saving": "Saving…",
+        "confirm": "Confirm",
+        "deleteOnlyOwner": "delete {n} of the selected documents — only the document creator can delete a document",
+        "deleteOnlyOwnerSingle": "delete these documents — only the document creator can delete a document"
+    },
+    "uploadVersion": {
+        "title": "Upload new version",
+        "newVersionName": "New version name",
+        "versionNamePlaceholder": "Version name",
+        "currentVersion": "Current Version:",
+        "newVersionFile": "New Version File:",
+        "changeFile": "Change file",
+        "upload": "Upload"
+    },
+    "projectPicker": {
+        "selectProject": "Select project",
+        "noProject": "No project",
+        "search": "Search projects…",
+        "noMatches": "No matches found",
+        "noProjectsYet": "No projects yet",
+        "projectsLabel": "Projects"
+    },
+    "emailPill": {
+        "addByEmail": "Add by email…",
+        "invalidEmail": "Enter a valid email address.",
+        "verificationFailed": "Could not verify email. Try again.",
+        "checking": "Checking…"
+    },
+    "addDocButton": {
+        "addDocuments": "Add documents",
+        "documentSingular": "Document",
+        "documentsPlural": "Documents",
+        "uploading": "Uploading…",
+        "uploadFiles": "Upload files",
+        "browseAll": "Browse all"
     },
     "rowActions": {
         "rename": "Rename",

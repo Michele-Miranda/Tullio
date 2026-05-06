@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -11,19 +12,19 @@ interface TabDef {
     href: string;
 }
 
-const TABS: TabDef[] = [
-    { id: "general", label: "General", href: "/account" },
-    { id: "models", label: "Models & API Keys", href: "/account/models" },
-];
-
 export default function AccountLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const t = useTranslations("settings");
     const router = useRouter();
     const pathname = usePathname();
     const { isAuthenticated, authLoading } = useAuth();
+    const TABS: TabDef[] = [
+        { id: "general", label: t("tabGeneral"), href: "/account" },
+        { id: "models", label: t("tabModels"), href: "/account/models" },
+    ];
 
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
@@ -47,12 +48,12 @@ export default function AccountLayout({
         <div className="flex flex-col h-full md:overflow-y-auto px-6 py-6 md:py-10">
             <div className="max-w-5xl w-full mx-auto">
                 <h1 className="text-4xl font-medium mb-8 font-eb-garamond">
-                    Settings
+                    {t("title")}
                 </h1>
 
                 <div className="flex flex-col md:flex-row gap-6 md:gap-10">
                     <nav
-                        aria-label="Settings"
+                        aria-label={t("ariaLabel")}
                         className="md:w-56 shrink-0 flex md:flex-col gap-1 overflow-x-auto"
                     >
                         {TABS.map((tab) => {

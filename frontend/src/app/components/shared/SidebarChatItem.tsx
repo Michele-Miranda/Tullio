@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { MoreHorizontal, Pencil, Trash2, Check, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -21,6 +22,8 @@ interface Props {
 }
 
 export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props) {
+    const t = useTranslations("sidebarChatItem");
+    const tCommon = useTranslations("common");
     const { renameChat, deleteChat } = useChatHistoryContext();
     const { user } = useAuth();
     const [isRenaming, setIsRenaming] = useState(false);
@@ -93,12 +96,12 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                         className={`flex-1 min-w-0 text-left px-3 py-2 text-xs overflow-x-hidden whitespace-nowrap scrollbar-none ${
                             isActive ? "text-gray-900" : "text-gray-700"
                         }`}
-                        title={projectName ? `${projectName}: ${chat.title ?? "Untitled chat"}` : (chat.title ?? "Untitled chat")}
+                        title={projectName ? `${projectName}: ${chat.title ?? t("untitled")}` : (chat.title ?? t("untitled"))}
                     >
                         {projectName && (
                             <span className="text-gray-400 font-normal">{projectName}: </span>
                         )}
-                        {chat.title ?? "Untitled chat"}
+                        {chat.title ?? t("untitled")}
                     </button>
 
                     <DropdownMenu>
@@ -117,7 +120,7 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                             <DropdownMenuItem
                                 onClick={() => {
                                     if (!isChatOwner) {
-                                        setOwnerOnlyAction("rename this chat");
+                                        setOwnerOnlyAction(t("renameAction"));
                                         return;
                                     }
                                     setEditTitle(chat.title ?? "");
@@ -125,12 +128,12 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                                 }}
                             >
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Rename
+                                {tCommon("rename")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 onClick={() => {
                                     if (!isChatOwner) {
-                                        setOwnerOnlyAction("delete this chat");
+                                        setOwnerOnlyAction(t("deleteAction"));
                                         return;
                                     }
                                     void deleteChat(chat.id);
@@ -138,7 +141,7 @@ export function SidebarChatItem({ chat, isActive, onSelect, projectName }: Props
                                 className="text-red-600 focus:text-red-600"
                             >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                {tCommon("delete")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
