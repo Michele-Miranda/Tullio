@@ -2,6 +2,10 @@
 
 Open-source release containing the Mike frontend and backend.
 
+This fork is being adapted for the Italian legal market: system prompts, default UI language, date/number formats and disclaimers target Italian law firms. See `ADATTAMENTO_LEGAL_ITALIA.md` for the full localization roadmap.
+
+> Mike è uno strumento di supporto. Le risposte non costituiscono parere legale ai sensi dell'art. 2230 c.c. e non sostituiscono la consulenza di un avvocato iscritto all'albo.
+
 ## Contents
 
 - `frontend/` - Next.js application

@@ -16,3 +16,6 @@ next-env.d.ts
 .DS_Store
 .vercel
 coverage
+
+# Claude Code session data
+.claude/
