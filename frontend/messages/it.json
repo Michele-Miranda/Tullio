@@ -462,6 +462,29 @@
         "deleteOnlyOwner": "eliminare {n} dei documenti selezionati — solo il creatore può eliminare un documento",
         "deleteOnlyOwnerSingle": "eliminare questi documenti — solo il creatore può eliminare un documento"
     },
+    "addNewTR": {
+        "newReview": "Nuova revisione",
+        "reviewName": "Nome revisione",
+        "workflowTemplate": "Template workflow",
+        "loadingTemplates": "Caricamento template…",
+        "noTemplate": "Nessun template — parti da zero",
+        "createUnderProject": "Crea dentro un fascicolo",
+        "selectProjectPlaceholder": "Seleziona fascicolo…",
+        "noProjectsFound": "Nessun fascicolo trovato",
+        "selectDocuments": "Seleziona documenti",
+        "projectDocuments": "Documenti del fascicolo",
+        "documents": "Documenti",
+        "noProjectDocsReady": "Nessun documento pronto in questo fascicolo",
+        "noDocumentsYet": "Nessun documento",
+        "uploading": "Caricamento…",
+        "upload": "Carica",
+        "create": "Crea"
+    },
+    "documentCard": {
+        "processing": "Elaborazione…",
+        "uploadFailed": "Caricamento non riuscito",
+        "removeDocument": "Rimuovi documento"
+    },
     "uploadVersion": {
         "title": "Carica nuova versione",
         "newVersionName": "Nome della nuova versione",

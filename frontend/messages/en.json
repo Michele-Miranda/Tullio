@@ -462,6 +462,29 @@
         "deleteOnlyOwner": "delete {n} of the selected documents — only the document creator can delete a document",
         "deleteOnlyOwnerSingle": "delete these documents — only the document creator can delete a document"
     },
+    "addNewTR": {
+        "newReview": "New review",
+        "reviewName": "Review name",
+        "workflowTemplate": "Workflow Template",
+        "loadingTemplates": "Loading templates…",
+        "noTemplate": "No template — start from scratch",
+        "createUnderProject": "Create under a project",
+        "selectProjectPlaceholder": "Select project…",
+        "noProjectsFound": "No projects found",
+        "selectDocuments": "Select Documents",
+        "projectDocuments": "Project Documents",
+        "documents": "Documents",
+        "noProjectDocsReady": "No ready documents in this project",
+        "noDocumentsYet": "No documents yet",
+        "uploading": "Uploading…",
+        "upload": "Upload",
+        "create": "Create"
+    },
+    "documentCard": {
+        "processing": "Processing…",
+        "uploadFailed": "Upload failed",
+        "removeDocument": "Remove document"
+    },
     "uploadVersion": {
         "title": "Upload new version",
         "newVersionName": "New version name",

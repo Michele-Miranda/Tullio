@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Check, ChevronDown, Loader2, Upload, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { MikeDocument, MikeProject, MikeWorkflow } from "../shared/types";
 import {
     getProject,
@@ -40,6 +41,10 @@ export function AddNewTRModal({
     projectName,
     projectCmNumber,
 }: Props) {
+    const t = useTranslations("addNewTR");
+    const tTabular = useTranslations("tabular");
+    const tSidebar = useTranslations("sidebar");
+    const tCommon = useTranslations("common");
     const isProjectMode = fixedProjectDocs !== undefined;
     const [title, setTitle] = useState("");
     const [underProject, setUnderProject] = useState(false);
@@ -222,22 +227,22 @@ export function AddNewTRModal({
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                         {isProjectMode && projectName ? (
                             <>
-                                <span>Projects</span>
+                                <span>{tSidebar("projects")}</span>
                                 <span>›</span>
                                 <span>
                                     {projectName}
                                     {projectCmNumber ? ` (#${projectCmNumber})` : ""}
                                 </span>
                                 <span>›</span>
-                                <span>Tabular Reviews</span>
+                                <span>{tTabular("tabularReviewBreadcrumb")}</span>
                                 <span>›</span>
-                                <span>New review</span>
+                                <span>{t("newReview")}</span>
                             </>
                         ) : (
                             <>
-                                <span>Tabular Reviews</span>
+                                <span>{tTabular("tabularReviewBreadcrumb")}</span>
                                 <span>›</span>
-                                <span>New review</span>
+                                <span>{t("newReview")}</span>
                             </>
                         )}
                     </div>
@@ -259,7 +264,7 @@ export function AddNewTRModal({
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Review name"
+                            placeholder={t("reviewName")}
                             className="w-full text-2xl font-serif text-gray-800 placeholder-gray-400 focus:outline-none bg-transparent"
                             autoFocus
                         />
@@ -267,7 +272,7 @@ export function AddNewTRModal({
                         {/* Workflow template */}
                         <div className="space-y-2">
                             <p className="text-xs font-medium text-gray-700">
-                                Workflow Template
+                                {t("workflowTemplate")}
                             </p>
                             <div className="relative">
                                 <button
@@ -290,10 +295,10 @@ export function AddNewTRModal({
                                             }
                                         >
                                             {loadingWorkflows
-                                                ? "Loading templates…"
+                                                ? t("loadingTemplates")
                                                 : selectedWorkflow
                                                   ? selectedWorkflow.title
-                                                  : "No template — start from scratch"}
+                                                  : t("noTemplate")}
                                         </span>
                                     </div>
                                     <ChevronDown className="h-3.5 w-3.5 text-gray-400 shrink-0 ml-2" />
@@ -309,7 +314,7 @@ export function AddNewTRModal({
                                             className={`w-full text-left flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-gray-50 ${!selectedWorkflowId ? "bg-gray-50 text-gray-900" : "text-gray-500"}`}
                                         >
                                             <span className="flex-1">
-                                                No template — start from scratch
+                                                {t("noTemplate")}
                                             </span>
                                             {!selectedWorkflowId && (
                                                 <Check className="h-3.5 w-3.5 text-gray-500 shrink-0" />
@@ -370,7 +375,7 @@ export function AddNewTRModal({
                                     />
                                 </span>
                                 <span className="text-sm text-gray-600">
-                                    Create under a project
+                                    {t("createUnderProject")}
                                 </span>
                             </button>
 
@@ -395,7 +400,7 @@ export function AddNewTRModal({
                                                   (selectedProject.cm_number
                                                       ? ` (#${selectedProject.cm_number})`
                                                       : "")
-                                                : "Select project…"}
+                                                : t("selectProjectPlaceholder")}
                                         </span>
                                         <ChevronDown className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                                     </button>
@@ -403,7 +408,7 @@ export function AddNewTRModal({
                                         <div className="absolute left-0 top-full z-20 mt-1 w-full rounded-xl border border-gray-100 bg-white shadow-lg overflow-y-auto max-h-48">
                                             {projects.length === 0 ? (
                                                 <p className="px-3 py-2 text-xs text-gray-400">
-                                                    No projects found
+                                                    {t("noProjectsFound")}
                                                 </p>
                                             ) : (
                                                 projects.map((p) => (
@@ -446,7 +451,7 @@ export function AddNewTRModal({
                         {showDirectory && (
                             <div className="space-y-2">
                                 <p className="text-xs font-medium text-gray-700">
-                                    Select Documents
+                                    {t("selectDocuments")}
                                 </p>
                                 <div>
                                     <FileDirectory
@@ -467,11 +472,11 @@ export function AddNewTRModal({
                                         loading={directoryLoading}
                                         selectedIds={selectedDocIds}
                                         onChange={setSelectedDocIds}
-                                        heading={isProjectMode ? "Project Documents" : "Documents"}
+                                        heading={isProjectMode ? t("projectDocuments") : t("documents")}
                                         emptyMessage={
                                             isProjectMode || underProject
-                                                ? "No ready documents in this project"
-                                                : "No documents yet"
+                                                ? t("noProjectDocsReady")
+                                                : t("noDocumentsYet")
                                         }
                                     />
                                 </div>
@@ -501,7 +506,7 @@ export function AddNewTRModal({
                                 ) : (
                                     <Upload className="h-3.5 w-3.5" />
                                 )}
-                                {uploading ? "Uploading…" : "Upload"}
+                                {uploading ? t("uploading") : t("upload")}
                             </button>
                         </div>
                         <div className="flex items-center gap-2">
@@ -510,7 +515,7 @@ export function AddNewTRModal({
                                 onClick={handleClose}
                                 className="rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 transition-colors"
                             >
-                                Cancel
+                                {tCommon("cancel")}
                             </button>
                             <button
                                 type="submit"
@@ -520,7 +525,7 @@ export function AddNewTRModal({
                                 }
                                 className="rounded-lg bg-gray-900 px-5 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
                             >
-                                Create
+                                {t("create")}
                             </button>
                         </div>
                     </div>
