@@ -1,5 +1,11 @@
 "use client";
 
+// XSS SAFETY: ReactMarkdown 10+ escapes raw HTML in the model's response by
+// default (any <script>, <img onerror=...>, etc. is rendered as literal text).
+// We deliberately do NOT use the `rehype-raw` plugin and we do NOT pass
+// `dangerouslySetInnerHTML`. If you add new rehype/remark plugins, verify
+// they don't enable raw HTML rendering or add a sanitizer downstream.
+
 import { useId, useRef, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";

@@ -9,6 +9,7 @@ import { tabularRouter } from "./routes/tabular";
 import { workflowsRouter } from "./routes/workflows";
 import { userRouter } from "./routes/user";
 import { downloadsRouter } from "./routes/downloads";
+import { adminRouter } from "./routes/admin";
 import {
   aiChatLimiter,
   globalLimiter,
@@ -45,6 +46,7 @@ app.use("/workflows", workflowsRouter);
 app.use("/user", userRouter);
 app.use("/users", userRouter);
 app.use("/download", downloadsRouter);
+app.use("/admin", adminRouter);
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 

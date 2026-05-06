@@ -11,6 +11,8 @@ import {
     type TabularCellStore,
 } from "../lib/chatTools";
 import { completeText, streamChatWithTools } from "../lib/llm";
+import type { LlmUsage } from "../lib/llm";
+import { logModelInvocation } from "../lib/audit";
 import { getUserApiKeys, getUserModelSettings } from "../lib/userSettings";
 import {
     checkProjectAccess,
@@ -845,7 +847,7 @@ tabularRouter.post("/:reviewId/generate", requireAuth, async (req, res) => {
                 // Single LLM call for all columns, streaming one JSON line per column
                 const receivedColumns = new Set<number>();
                 try {
-                    await queryGeminiAllColumns(
+                    const invocation = await queryGeminiAllColumns(
                         tabular_model,
                         filename,
                         markdown,
@@ -867,6 +869,17 @@ tabularRouter.post("/:reviewId/generate", requireAuth, async (req, res) => {
                         },
                         api_keys,
                     );
+                    await logModelInvocation(db, {
+                        userId,
+                        chatId: null,
+                        projectId: review.project_id ?? null,
+                        surface: "tabular",
+                        model: tabular_model,
+                        usage: invocation.usage,
+                        latencyMs: invocation.latencyMs,
+                        status: invocation.status,
+                        errorMessage: invocation.errorMessage ?? null,
+                    });
                 } catch (err) {
                     console.error(
                         `[tabular/generate] queryGeminiAllColumns error doc=${docId}`,
@@ -1230,8 +1243,9 @@ tabularRouter.post("/:reviewId/chat", requireAuth, async (req, res) => {
 
     const apiKeys = await getUserApiKeys(userId, db);
 
+    const invocationStart = Date.now();
     try {
-        const { fullText, events } = await runLLMStream({
+        const { fullText, events, usage, model: usedModel } = await runLLMStream({
             apiMessages,
             docStore: new Map(),
             docIndex: {},
@@ -1246,6 +1260,17 @@ tabularRouter.post("/:reviewId/chat", requireAuth, async (req, res) => {
         });
 
         const annotations = extractTabularAnnotations(fullText, tabularStore);
+
+        await logModelInvocation(db, {
+            userId,
+            chatId: chatId ?? null,
+            projectId: review.project_id ?? null,
+            surface: "tabular_cell",
+            model: usedModel,
+            usage,
+            latencyMs: Date.now() - invocationStart,
+            status: "ok",
+        });
 
         if (chatId) {
             await db.from("tabular_review_chat_messages").insert({
@@ -1503,7 +1528,16 @@ async function queryGeminiAllColumns(
     columns: Column[],
     onResult: (columnIndex: number, result: CellResult) => Promise<void>,
     apiKeys?: import("../lib/llm").UserApiKeys,
-): Promise<void> {
+): Promise<{ usage: LlmUsage; latencyMs: number; status: "ok" | "error"; errorMessage?: string }> {
+    const startedAt = Date.now();
+    let resultUsage: LlmUsage = {
+        input_tokens: 0,
+        output_tokens: 0,
+        provider: "gemini",
+        iterations: 0,
+    };
+    let status: "ok" | "error" = "ok";
+    let errorMessage: string | undefined;
     const columnsDesc = columns
         .map((col) => {
             const suffix = formatPromptSuffix(col.format as never, col.tags);
@@ -1559,7 +1593,7 @@ Rules:
     };
 
     try {
-        await streamChatWithTools({
+        const r = await streamChatWithTools({
             model,
             systemPrompt: SYSTEM,
             messages: [{ role: "user", content: USER }],
@@ -1580,12 +1614,21 @@ Rules:
                 },
             },
         });
+        resultUsage = r.usage;
     } catch (err) {
         console.error("[queryGeminiAllColumns] stream failed", err);
+        status = "error";
+        errorMessage = (err as Error)?.message?.slice(0, 500);
     }
 
     if (contentBuffer.trim()) pending.push(processLine(contentBuffer));
     await Promise.all(pending);
+    return {
+        usage: resultUsage,
+        latencyMs: Date.now() - startedAt,
+        status,
+        errorMessage,
+    };
 }
 
 async function extractPdfMarkdown(buf: ArrayBuffer): Promise<string> {

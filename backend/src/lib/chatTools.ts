@@ -238,6 +238,38 @@ export const PROJECT_EXTRA_TOOLS = [
             },
         },
     },
+    {
+        type: "function",
+        function: {
+            name: "semantic_search",
+            description:
+                "Search inside one or more project documents by semantic similarity (RAG). Use this for long documents (>100 pages) when you want the most relevant excerpts for a question rather than reading the whole text. Returns the top-K most relevant chunks with their page numbers. The first call on a document triggers automatic chunking and embedding (lazy indexing); subsequent calls reuse the index.",
+            parameters: {
+                type: "object",
+                properties: {
+                    query: {
+                        type: "string",
+                        description:
+                            "Natural-language query in Italian. Phrase it as a self-contained question (e.g. 'qual è il tasso di interesse di mora applicato ai ritardati pagamenti?').",
+                    },
+                    doc_ids: {
+                        type: "array",
+                        items: { type: "string" },
+                        description:
+                            "Array of document IDs to search within (e.g. ['doc-0', 'doc-2']). If omitted, searches across all project documents.",
+                    },
+                    top_k: {
+                        type: "integer",
+                        description:
+                            "Maximum number of chunks to return. Defaults to 8. Use a higher value (up to 20) only if you need broad coverage; otherwise prefer 4–8 for tight context.",
+                        minimum: 1,
+                        maximum: 20,
+                    },
+                },
+                required: ["query"],
+            },
+        },
+    },
 ];
 
 export const TABULAR_TOOLS = [
@@ -1680,6 +1712,119 @@ export async function runToolCalls(
                 tool_call_id: tc.id,
                 content: parts.join("\n\n"),
             });
+
+        } else if (tc.function.name === "semantic_search") {
+            const query = (args.query as string)?.trim() ?? "";
+            const rawDocIds = (args.doc_ids as string[]) ?? [];
+            const topK =
+                typeof args.top_k === "number" && args.top_k > 0
+                    ? Math.min(20, Math.floor(args.top_k))
+                    : 8;
+            const docIdsToSearch = (
+                rawDocIds.length
+                    ? rawDocIds.map(
+                          (id) => resolveDocLabel(id, docStore, docIndex) ?? id,
+                      )
+                    : Array.from(docStore.keys())
+            ).filter((d) => docStore.has(d));
+
+            if (!query || !docIdsToSearch.length || !db) {
+                toolResults.push({
+                    role: "tool",
+                    tool_call_id: tc.id,
+                    content: JSON.stringify({
+                        ok: false,
+                        error:
+                            "semantic_search requires a non-empty query and at least one accessible document.",
+                    }),
+                });
+            } else {
+                try {
+                    const { ensureDocumentChunks, searchChunks } = await import(
+                        "./embeddings"
+                    );
+                    /* Lazy index: per ogni doc, se non c'è ancora indice
+                       per la versione corrente, costruiscilo on-demand. */
+                    const dbDocIds: string[] = [];
+                    for (const docLabel of docIdsToSearch) {
+                        const info = docIndex?.[docLabel];
+                        if (!info?.document_id) continue;
+                        dbDocIds.push(info.document_id);
+                        const text = await readDocumentContent(
+                            docLabel,
+                            docStore,
+                            write,
+                            docIndex,
+                            db,
+                            { emitEvents: false },
+                        );
+                        if (
+                            !text ||
+                            text === "Document could not be read."
+                        ) {
+                            continue;
+                        }
+                        await ensureDocumentChunks({
+                            db,
+                            documentId: info.document_id,
+                            versionId: info.version_id ?? null,
+                            fullText: text,
+                        });
+                    }
+
+                    const hits = await searchChunks({
+                        db,
+                        documentIds: dbDocIds,
+                        query,
+                        topK,
+                    });
+
+                    const wrappedHits = hits.map((h) => {
+                        /* Re-resolve docLabel from document_id for citation alignment. */
+                        const slug =
+                            Object.entries(docIndex ?? {}).find(
+                                ([, info]) => info.document_id === h.document_id,
+                            )?.[0] ?? h.document_id;
+                        const filename =
+                            docIndex?.[slug]?.filename ?? slug;
+                        const { wrapped } = wrapUntrustedExcerpt(h.text, {
+                            docId: slug,
+                            filename,
+                        });
+                        return {
+                            doc_id: slug,
+                            filename,
+                            page: h.page,
+                            score: h.score,
+                            excerpt: wrapped,
+                        };
+                    });
+
+                    toolResults.push({
+                        role: "tool",
+                        tool_call_id: tc.id,
+                        content: JSON.stringify({
+                            ok: true,
+                            query,
+                            top_k: topK,
+                            hits: wrappedHits,
+                        }),
+                    });
+                } catch (err) {
+                    console.error("[semantic_search] failed:", err);
+                    toolResults.push({
+                        role: "tool",
+                        tool_call_id: tc.id,
+                        content: JSON.stringify({
+                            ok: false,
+                            error:
+                                "semantic_search failed: " +
+                                ((err as Error)?.message?.slice(0, 200) ??
+                                    "unknown"),
+                        }),
+                    });
+                }
+            }
 
         } else if (tc.function.name === "list_workflows") {
             const list = workflowStore
