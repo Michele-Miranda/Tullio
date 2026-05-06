@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus, Loader2, Play, ChevronDown, MessageSquare, Download, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { HeaderSearchBtn } from "../shared/HeaderSearchBtn";
 
 import {
@@ -48,6 +49,9 @@ interface Props {
 }
 
 export function TRView({ reviewId, projectId }: Props) {
+    const t = useTranslations("tabular");
+    const tCommon = useTranslations("common");
+    const tSidebar = useTranslations("sidebar");
     const { setSidebarOpen } = useSidebar();
     const [review, setReview] = useState<TabularReview | null>(null);
     const [project, setProject] = useState<MikeProject | null>(null);
@@ -518,7 +522,7 @@ export function TRView({ reviewId, projectId }: Props) {
                                 onClick={() => router.push("/tabular-reviews")}
                                 className="text-gray-500 hover:text-gray-700 transition-colors"
                             >
-                                Tabular Reviews
+                                {t("tabularReviewBreadcrumb")}
                             </button>
                         )}
                         <span className="text-gray-300">›</span>
@@ -526,14 +530,14 @@ export function TRView({ reviewId, projectId }: Props) {
                             <div className="h-6 w-40 rounded bg-gray-100 animate-pulse" />
                         ) : (
                             <RenameableTitle
-                                value={review?.title || "Untitled Review"}
+                                value={review?.title || t("untitledReview")}
                                 onCommit={handleTitleCommit}
                             />
                         )}
                     </div>
                     {!loading && (
                         <div className="flex items-center gap-2">
-                            <HeaderSearchBtn value={search} onChange={setSearch} placeholder="Search documents…" />
+                            <HeaderSearchBtn value={search} onChange={setSearch} placeholder={t("searchDocuments")} />
                             {!projectId && (
                                 <button
                                     onClick={() => setPeopleModalOpen(true)}
@@ -543,8 +547,8 @@ export function TRView({ reviewId, projectId }: Props) {
                                             ? "text-gray-300 cursor-default"
                                             : "text-gray-500 hover:text-gray-900 cursor-pointer"
                                     }`}
-                                    title="People with access"
-                                    aria-label="People with access"
+                                    title={t("peopleWithAccess")}
+                                    aria-label={t("peopleWithAccess")}
                                 >
                                     <Users className="h-4 w-4" />
                                 </button>
@@ -552,14 +556,14 @@ export function TRView({ reviewId, projectId }: Props) {
                             <button
                                 onClick={() =>
                                     exportTabularReviewToExcel({
-                                        reviewTitle: review?.title || "Tabular Review",
+                                        reviewTitle: review?.title || t("tabularReviewBreadcrumb"),
                                         columns,
                                         documents,
                                         cells,
                                     })
                                 }
                                 disabled={columns.length === 0 || documents.length === 0}
-                                title="Export to Excel"
+                                title={t("exportToExcel")}
                                 className={`flex h-8 items-center justify-center gap-1.5 px-3 text-sm transition-colors ${
                                     columns.length === 0 || documents.length === 0
                                         ? "text-gray-300 cursor-default"
@@ -567,7 +571,7 @@ export function TRView({ reviewId, projectId }: Props) {
                                 }`}
                             >
                                 <Download className="h-4 w-4" />
-                                Export
+                                {t("export")}
                             </button>
                             <button
                                 onClick={handleGenerate}
@@ -591,7 +595,7 @@ export function TRView({ reviewId, projectId }: Props) {
                                 ) : (
                                     <Play className="h-4 w-4" />
                                 )}
-                                {generating ? "Running…" : "Run"}
+                                {generating ? t("running") : t("run")}
                             </button>
                         </div>
                     )}
@@ -777,14 +781,14 @@ export function TRView({ reviewId, projectId }: Props) {
                         handleAddDocuments(docs)
                     }
                     breadcrumb={[
-                        "Projects",
+                        tSidebar("projects"),
                         project.name +
                             (project.cm_number
                                 ? ` (#${project.cm_number})`
                                 : ""),
-                        "Tabular Reviews",
-                        ...(review ? [review.title || "Untitled Review"] : []),
-                        "Add Documents",
+                        t("tabularReviewBreadcrumb"),
+                        ...(review ? [review.title || t("untitledReview")] : []),
+                        t("addDocumentsBreadcrumb"),
                     ]}
                     projectId={project.id}
                     excludeDocIds={new Set(documents.map((d) => d.id))}
@@ -797,9 +801,9 @@ export function TRView({ reviewId, projectId }: Props) {
                         handleAddDocuments(docs)
                     }
                     breadcrumb={[
-                        "Tabular Reviews",
-                        ...(review ? [review.title || "Untitled Review"] : []),
-                        "Add Documents",
+                        t("tabularReviewBreadcrumb"),
+                        ...(review ? [review.title || t("untitledReview")] : []),
+                        t("addDocumentsBreadcrumb"),
                     ]}
                 />
             )}
@@ -811,9 +815,9 @@ export function TRView({ reviewId, projectId }: Props) {
                 fetchPeople={getTabularReviewPeople}
                 currentUserEmail={user?.email ?? null}
                 breadcrumb={[
-                    "Tabular Reviews",
-                    review?.title || "Untitled Review",
-                    "People",
+                    t("tabularReviewBreadcrumb"),
+                    review?.title || t("untitledReview"),
+                    t("peopleBreadcrumb"),
                 ]}
                 // Only the review owner may modify the member list. PeopleModal
                 // hides the add/remove controls when this prop is undefined.

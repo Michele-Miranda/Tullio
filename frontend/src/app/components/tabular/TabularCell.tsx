@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AlertCircle, Expand } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ColumnConfig, TabularCell as TCell } from "../shared/types";
 import { preprocessCitations, type ParsedCitation } from "./citation-utils";
 import { getPillClass } from "./pillUtils";
@@ -98,7 +99,7 @@ function CellMarkdown({
                         if (citation) {
                             return (
                                 <span
-                                    title={`Page ${citation.page}: "${citation.quote}"`}
+                                    title={`Pagina ${citation.page}: "${citation.quote}"`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (onCitationClick) {
@@ -152,6 +153,7 @@ export function TabularCell({
     onExpand,
     onCitationClick,
 }: Props) {
+    const t = useTranslations("tabular");
     const [inlineExpanded, setInlineExpanded] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -258,7 +260,7 @@ export function TabularCell({
                             className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
                         >
                             <Expand className="h-3 w-3" />
-                            See details
+                            {t("seeDetails")}
                         </button>
                     </div>
                 </div>
