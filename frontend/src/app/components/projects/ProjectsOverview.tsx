@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Plus, FolderOpen, ChevronDown } from "lucide-react";
 import { HeaderSearchBtn } from "@/app/components/shared/HeaderSearchBtn";
 import { listProjects, updateProject, deleteProject } from "@/app/lib/mikeApi";
@@ -11,14 +12,7 @@ import type { MikeProject } from "@/app/components/shared/types";
 import { NewProjectModal } from "./NewProjectModal";
 import { ToolbarTabs } from "@/app/components/shared/ToolbarTabs";
 import { RowActions } from "@/app/components/shared/RowActions";
-
-function formatDate(iso: string) {
-    return new Date(iso).toLocaleDateString(undefined, {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-    });
-}
+import { formatDateShort } from "@/lib/format";
 
 type Tab = "all" | "mine" | "shared-with-me";
 
@@ -26,6 +20,9 @@ const CHECK_W = "w-8 shrink-0";
 const NAME_COL_W = "w-[300px] shrink-0";
 
 export function ProjectsOverview() {
+    const t = useTranslations("projectsOverview");
+    const tCommon = useTranslations("common");
+    const tProjects = useTranslations("projects");
     const [projects, setProjects] = useState<MikeProject[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
@@ -100,9 +97,9 @@ export function ProjectsOverview() {
     }
 
     const tabs: { id: Tab; label: string }[] = [
-        { id: "all", label: "All" },
-        { id: "mine", label: "Mine" },
-        { id: "shared-with-me", label: "Shared with me" },
+        { id: "all", label: t("tabAll") },
+        { id: "mine", label: t("tabMine") },
+        { id: "shared-with-me", label: t("tabSharedWithMe") },
     ];
 
     async function handleRenameSubmit(projectId: string) {
@@ -141,9 +138,7 @@ export function ProjectsOverview() {
         await Promise.all(owned.map((id) => deleteProject(id).catch(() => {})));
         setProjects((prev) => prev.filter((p) => !owned.includes(p.id)));
         if (blocked > 0) {
-            setOwnerOnlyAction(
-                `delete ${blocked} of the selected projects — only the project owner can delete a project`,
-            );
+            setOwnerOnlyAction(t("deleteOnlyOwner", { n: blocked }));
         }
     }
 
@@ -155,7 +150,7 @@ export function ProjectsOverview() {
                         onClick={() => setActionsOpen((v) => !v)}
                         className="flex items-center gap-1 text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors"
                     >
-                        Actions
+                        {t("actions")}
                         <ChevronDown className="h-3.5 w-3.5" />
                     </button>
                     {actionsOpen && (
@@ -164,7 +159,7 @@ export function ProjectsOverview() {
                                 onClick={handleDeleteSelected}
                                 className="w-full px-3 py-1.5 text-left text-xs text-red-600 hover:bg-red-50 transition-colors"
                             >
-                                Delete
+                                {tCommon("delete")}
                             </button>
                         </div>
                     )}
@@ -178,13 +173,13 @@ export function ProjectsOverview() {
             {/* Page header */}
             <div className="flex items-center justify-between px-8 py-4">
                 <h1 className="text-2xl font-medium font-serif text-gray-900">
-                    Projects
+                    {tProjects("title")}
                 </h1>
                 <div className="flex items-center gap-2">
                     <HeaderSearchBtn
                         value={search}
                         onChange={setSearch}
-                        placeholder="Search projects…"
+                        placeholder={t("searchPlaceholder")}
                     />
                     <button
                         onClick={() => setModalOpen(true)}
@@ -221,15 +216,15 @@ export function ProjectsOverview() {
                         )}
                     </div>
                     <div className={`sticky left-8 z-[60] ${NAME_COL_W} bg-white pl-2 text-left`}>
-                        Name
+                        {t("colName")}
                     </div>
-                    <div className="ml-auto w-32 shrink-0 text-left">CM</div>
-                    <div className="w-24 shrink-0 text-left">Files</div>
-                    <div className="w-24 shrink-0 text-left">Chats</div>
+                    <div className="ml-auto w-32 shrink-0 text-left">{t("colMatter")}</div>
+                    <div className="w-24 shrink-0 text-left">{t("colFiles")}</div>
+                    <div className="w-24 shrink-0 text-left">{t("colChats")}</div>
                     <div className="w-36 shrink-0 text-left">
-                        Tabular Reviews
+                        {t("colReviews")}
                     </div>
-                    <div className="w-32 shrink-0 text-left">Created</div>
+                    <div className="w-32 shrink-0 text-left">{t("colCreated")}</div>
                     <div className="w-8 shrink-0" />
                 </div>
 
@@ -269,23 +264,21 @@ export function ProjectsOverview() {
                             <>
                                 <FolderOpen className="h-8 w-8 text-gray-300 mb-4" />
                                 <p className="text-2xl font-medium font-serif text-gray-900">
-                                    Projects
+                                    {tProjects("title")}
                                 </p>
                                 <p className="mt-1 text-xs text-gray-400 max-w-xs">
-                                    Upload documents into projects and to
-                                    commence chats and tabular reviews with
-                                    them.
+                                    {t("emptyDescription")}
                                 </p>
                                 <button
                                     onClick={() => setModalOpen(true)}
                                     className="mt-4 inline-flex items-center gap-1 rounded-full bg-gray-900 px-3 py-1 text-xs font-medium text-white hover:bg-gray-700 transition-colors shadow-md"
                                 >
-                                    + Create New
+                                    {t("createNew")}
                                 </button>
                             </>
                         ) : (
                             <p className="text-sm text-gray-400">
-                                No {activeTab} projects
+                                {t("noTab", { tab: activeTab })}
                             </p>
                         )}
                     </div>
@@ -368,7 +361,7 @@ export function ProjectsOverview() {
                                             onBlur={() =>
                                                 handleCmSubmit(project.id)
                                             }
-                                            placeholder="CM #"
+                                            placeholder={t("colMatter")}
                                             className="w-full text-sm text-gray-800 bg-transparent outline-none"
                                         />
                                     ) : (
@@ -389,7 +382,7 @@ export function ProjectsOverview() {
                                     {project.review_count ?? 0}
                                 </div>
                                 <div className="w-32 shrink-0 text-sm text-gray-500 truncate">
-                                    {formatDate(project.created_at)}
+                                    {formatDateShort(project.created_at)}
                                 </div>
 
                                 <div

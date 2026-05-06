@@ -17,7 +17,7 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-    title: "Mike — Assistente AI per studi legali",
+    title: "Tullio — Assistente AI per studi legali",
     description:
         "Piattaforma di analisi documentale e supporto AI per professionisti del diritto italiano.",
     icons: {

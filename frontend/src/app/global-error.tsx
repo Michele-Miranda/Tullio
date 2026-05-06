@@ -12,9 +12,9 @@ export default function GlobalError({
     }, [error]);
 
     return (
-        <html lang="en">
+        <html lang="it">
             <head>
-                <title>Something went wrong – Mike</title>
+                <title>Si è verificato un errore – Tullio</title>
                 <style>{`
                     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=EB+Garamond:wght@400;500&display=swap');
 
@@ -79,16 +79,16 @@ export default function GlobalError({
             </head>
             <body>
                 <div className="error-container">
-                    <h1 className="error-title">Something went wrong</h1>
+                    <h1 className="error-title">Si è verificato un errore</h1>
                     <p className="error-message">
-                        We encountered an unexpected error. This has been logged
-                        and our team will look into it.
+                        Abbiamo riscontrato un errore inatteso. È stato registrato
+                        e verrà esaminato dal nostro team.
                     </p>
                     <button
                         className="btn-back"
                         onClick={() => window.history.back()}
                     >
-                        Back
+                        Indietro
                     </button>
                 </div>
             </body>

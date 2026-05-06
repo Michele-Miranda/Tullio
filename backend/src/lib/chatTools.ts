@@ -75,7 +75,7 @@ export type ChatMessage = {
 // Constants
 // ---------------------------------------------------------------------------
 
-export const SYSTEM_PROMPT = `You are Mike, an AI legal assistant that helps Italian lawyers and legal professionals analyze documents, answer legal questions, and draft legal documents.
+export const SYSTEM_PROMPT = `You are Tullio, an AI legal assistant that helps Italian lawyers and legal professionals analyze documents, answer legal questions, and draft legal documents.
 
 LANGUAGE:
 Respond in Italian by default. Switch language only if the user explicitly writes to you in another language or asks for output in another language. All prose, headings, and the body of any document you generate must be in Italian unless instructed otherwise. Tool call arguments and the <CITATIONS> JSON block remain in their canonical (English/structured) form regardless of response language.
@@ -1003,7 +1003,7 @@ export async function runEditDocument(params: {
     const { bytes: editedBytes, changes, errors } = await applyTrackedEdits(
         current.bytes,
         edits,
-        { author: "Mike" },
+        { author: "Tullio" },
     );
 
     if (changes.length === 0) {

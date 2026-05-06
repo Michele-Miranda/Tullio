@@ -17,6 +17,7 @@ import {
     Square,
     X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { AddDocButton } from "./AddDocButton";
 import { AddDocumentsModal } from "../shared/AddDocumentsModal";
 import { AssistantWorkflowModal } from "./AssistantWorkflowModal";
@@ -59,6 +60,8 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
     }: Props,
     ref,
 ) {
+    const t = useTranslations("assistant");
+    const tSidebar = useTranslations("sidebar");
     const [value, setValue] = useState("");
     const [attachedDocs, setAttachedDocs] = useState<MikeDocument[]>([]);
     const [selectedWorkflow, setSelectedWorkflow] = useState<{
@@ -221,7 +224,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                         <textarea
                             ref={textareaRef}
                             rows={1}
-                            placeholder="Ask a question about your documents..."
+                            placeholder={t("askAnything")}
                             value={value}
                             onChange={handleChange}
                             onKeyDown={handleKeyDown}
@@ -245,12 +248,12 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                 <button
                                     type="button"
                                     onClick={onProjectsClick}
-                                    aria-label="Open projects"
+                                    aria-label={tSidebar("projects")}
                                     className="flex items-center gap-1.5 rounded-lg px-2 h-8 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
                                 >
                                     <FolderOpen className="h-3.5 w-3.5" />
                                     <span className="hidden sm:inline">
-                                        Projects
+                                        {tSidebar("projects")}
                                     </span>
                                 </button>
                             )}
@@ -258,7 +261,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                 <button
                                     type="button"
                                     onClick={() => setWorkflowModalOpen(true)}
-                                    aria-label="Open workflows"
+                                    aria-label={tSidebar("workflows")}
                                     className={`flex items-center gap-1.5 rounded-lg px-2 h-8 text-sm transition-colors ${selectedWorkflow ? "text-blue-600 hover:bg-blue-50" : "text-gray-400 hover:bg-gray-100 hover:text-gray-700"}`}
                                 >
                                     {selectedWorkflow ? (
@@ -267,7 +270,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                                         <Library className="h-3.5 w-3.5" />
                                     )}
                                     <span className="hidden sm:inline">
-                                        Workflows
+                                        {tSidebar("workflows")}
                                     </span>
                                 </button>
                             )}
@@ -304,7 +307,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput(
                 open={docSelectorOpen}
                 onClose={() => setDocSelectorOpen(false)}
                 onSelect={handleAddDocsFromSelector}
-                breadcrumb={["Assistant", "Add Documents"]}
+                breadcrumb={[tSidebar("assistant"), t("addDocument")]}
             />
             <AssistantWorkflowModal
                 open={workflowModalOpen}
