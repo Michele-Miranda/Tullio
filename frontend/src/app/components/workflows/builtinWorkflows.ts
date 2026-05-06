@@ -6,24 +6,24 @@ export const BUILT_IN_WORKFLOWS: MikeWorkflow[] = [
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Generate CP Checklist",
+        title: "Genera Checklist Condizioni Sospensive",
         type: "assistant",
-        practice: "General Transactions",
+        practice: "Diritto Bancario e Finanziario",
         prompt_md:
-            "## Generate Conditions Precedent Checklist\n\n" +
-            "Review the uploaded credit agreement or financing document and generate a comprehensive " +
-            "Conditions Precedent (CP) checklist.\n\n" +
-            "You MUST use the generate_docx tool to produce the checklist as a downloadable Word document. " +
-            "You MUST pass landscape: true to the generate_docx tool — the document must be in landscape orientation. " +
-            "Do not display the checklist inline — generate the .docx file and provide the download link.\n\n" +
-            "Structure the document as follows:\n" +
-            "- For each category of conditions (e.g. Corporate, Financial, Legal, Security), add a section with a heading\n" +
-            "- Under each category heading, include a table with exactly these four columns in this order:\n" +
-            "  1. Index — sequential number within the category (1, 2, 3…)\n" +
-            "  2. Clause Number — the clause or schedule reference from the agreement\n" +
-            "  3. Clause — a concise description of the condition precedent\n" +
-            "  4. Status — leave blank (empty string) for the user to fill in\n\n" +
-            "Use the table field in the section object (not content) for each category's rows.",
+            "## Genera Checklist Condizioni Sospensive (Conditions Precedent)\n\n" +
+            "Analizza il contratto di finanziamento o di compravendita partecipazioni caricato e genera una checklist " +
+            "completa delle condizioni sospensive (CP) all'erogazione/closing.\n\n" +
+            "DEVI usare lo strumento generate_docx per produrre la checklist come documento Word scaricabile. " +
+            "DEVI passare landscape: true a generate_docx — il documento deve essere in orientamento orizzontale. " +
+            "Non visualizzare la checklist inline — genera il file .docx e fornisci il link di download.\n\n" +
+            "Struttura il documento come segue:\n" +
+            "- Per ciascuna categoria di condizioni (es. Societarie, Finanziarie, Legali/Compliance, Garanzie, Autorizzazioni regolamentari) inserisci una sezione con un titolo\n" +
+            "- Sotto ciascuna categoria, includi una tabella con esattamente queste quattro colonne in quest'ordine:\n" +
+            "  1. Indice — numero progressivo all'interno della categoria (1, 2, 3…)\n" +
+            "  2. Riferimento — articolo, allegato o schedula del contratto (es. Art. 5.2, All. B)\n" +
+            "  3. Condizione — descrizione concisa della condizione sospensiva (es. \"Consegna dei verbali assembleari aggiornati\", \"Iscrizione del pegno sulle quote nel Registro delle Imprese\", \"Rilascio del nulla osta Banca d'Italia ex art. 19 TUB\")\n" +
+            "  4. Stato — lascia vuoto (stringa vuota) per la compilazione da parte dell'utente\n\n" +
+            "Usa il campo table dell'oggetto sezione (non content) per le righe di ciascuna categoria.",
         columns_config: null,
     },
     {
@@ -31,55 +31,55 @@ export const BUILT_IN_WORKFLOWS: MikeWorkflow[] = [
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Change of Control Review",
+        title: "Due Diligence Cambio di Controllo",
         type: "tabular",
-        practice: "Corporate",
+        practice: "Diritto Societario",
         prompt_md:
-            "## Change of Control Due Diligence Review\n\n" +
-            "This workflow performs a change of control due diligence review across the selected documents.",
+            "## Due Diligence sul Cambio di Controllo\n\n" +
+            "Questo workflow esegue una due diligence sulle clausole di cambio di controllo (change of control) sui documenti selezionati, anche al fine di verificare il consenso necessario per operazioni straordinarie e il rischio di terminazione anticipata dei rapporti contrattuali.",
         columns_config: [
             {
                 index: 0,
-                name: "Parties",
+                name: "Parti",
                 format: "bulleted_list",
-                prompt: "Identify all parties to this agreement. For each party state their full legal name and their role (e.g. counterparty, licensor, lender, supplier).",
+                prompt: "Identifica tutte le parti del contratto. Per ciascuna parte indica la denominazione sociale completa e il ruolo (es. controparte, licenziante, finanziatore, fornitore, conduttore).",
             },
             {
                 index: 1,
-                name: "Date",
+                name: "Data",
                 format: "date",
-                prompt: "What is the date of this agreement? If a commencement date differs from the signing date, state both.",
+                prompt: "Qual è la data del contratto? Se la data di efficacia è diversa dalla data di sottoscrizione, indica entrambe.",
             },
             {
                 index: 2,
-                name: "Term",
+                name: "Durata",
                 format: "text",
-                prompt: "What is the term or duration of this agreement? State the start and end dates or the length of the term.",
+                prompt: "Qual è la durata del contratto? Indica le date di inizio e fine o la durata complessiva, e segnala eventuali rinnovi taciti (artt. 1597, 1598 c.c.).",
             },
             {
                 index: 3,
-                name: "Change of Control Clause",
-                prompt: "Identify and summarize the change of control clause(s) in this document. Quote the exact triggering language and specify what constitutes a 'change of control'.",
+                name: "Clausola di Cambio di Controllo",
+                prompt: "Identifica e riassumi la/le clausola/e di cambio di controllo nel documento. Cita esattamente la formulazione che fa scattare la clausola e specifica cosa costituisce 'cambio di controllo' (rinvio all'art. 2359 c.c., controllo di diritto/fatto/contrattuale, soglie partecipative).",
             },
             {
                 index: 4,
-                name: "Consent Required",
-                prompt: "Does a change of control require prior consent from any party? Identify who must consent, the notice period, and any conditions.",
+                name: "Consenso Richiesto",
+                prompt: "Il cambio di controllo richiede il consenso preventivo di una qualche parte? Identifica chi deve prestare il consenso, il termine di preavviso e le eventuali condizioni (es. comunicazione formale, PEC).",
             },
             {
                 index: 5,
-                name: "Termination Rights",
-                prompt: "What termination rights arise upon a change of control? Who can terminate, and what are the notice requirements?",
+                name: "Diritti di Recesso/Risoluzione",
+                prompt: "Quali diritti di recesso o risoluzione sorgono in caso di cambio di controllo? Chi può recedere/risolvere e quali sono i requisiti di forma e preavviso? Distingui tra recesso ordinario (art. 1373 c.c.) e clausola risolutiva espressa (art. 1456 c.c.).",
             },
             {
                 index: 6,
-                name: "Put/Call Options",
-                prompt: "Are there any put or call options triggered by a change of control? Summarize the terms, pricing, and exercise period.",
+                name: "Opzioni Put/Call",
+                prompt: "Sono previste opzioni put o call attivate dal cambio di controllo? Riassumi termini, meccanismo di prezzo (valore nominale, fair market value, formula contrattuale) e periodo di esercizio.",
             },
             {
                 index: 7,
-                name: "Financial Implications",
-                prompt: "What are the financial implications of a change of control? Include any fees, payments, accelerated obligations, or pricing adjustments.",
+                name: "Implicazioni Economiche",
+                prompt: "Quali sono le implicazioni economiche del cambio di controllo? Includi eventuali commissioni, pagamenti, accelerazione di obbligazioni (es. rimborso anticipato in contratti di finanziamento), aggiustamenti di prezzo o penali (art. 1382 c.c.).",
             },
         ],
     },
@@ -88,296 +88,297 @@ export const BUILT_IN_WORKFLOWS: MikeWorkflow[] = [
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Credit Agreement Summary",
+        title: "Sintesi Contratto di Finanziamento",
         type: "assistant",
-        practice: "Finance",
+        practice: "Diritto Bancario e Finanziario",
         prompt_md:
-            "## Credit Agreement Summary\n\n" +
-            "Review the uploaded credit agreement and produce a comprehensive legal summary covering the following topics. " +
-            "For each section, identify the key provisions, quote the relevant clause or schedule references, and flag any unusual, onerous, or non-market terms.\n\n" +
-            "1. **Lenders** — All lenders or members of the lender syndicate, including their full legal name and role (e.g. mandated lead arranger, original lender, agent bank)\n" +
-            "2. **Borrowers** — All borrowers, including their full legal name and jurisdiction of incorporation\n" +
-            "3. **Guarantors** — All guarantors, including their full legal name and the scope of their guarantee obligation\n" +
-            "4. **Other Parties** — Any other material parties (e.g. facility agent, security agent, hedge counterparties, issuing bank) and their roles\n" +
-            "5. **Date of Agreement** — Date of the credit agreement\n" +
-            "6. **Facilities** — Each facility available (e.g. Revolving Credit Facility, Term Loan A, Term Loan B, Term Loan C), the facility type, tranche name, and any key structural features\n" +
-            "7. **Amount** — Total committed amount across all facilities, the currency, and breakdown by tranche if applicable\n" +
-            "8. **Purpose** — Stated purpose for which borrowings may be used and any restrictions on use of proceeds\n" +
-            "9. **Interest** — Applicable reference rate (e.g. SOFR, EURIBOR, base rate), the margin, any margin ratchet mechanism, and how interest periods are structured\n" +
-            "10. **Commitment Fee** — Commitment or utilisation fees, the applicable rate, how they are calculated, and the basis (e.g. undrawn commitment, average utilisation)\n" +
-            "11. **Repayment Schedule** — Repayment profile for each facility, whether by scheduled instalments or bullet repayment, and the repayment dates and amounts\n" +
-            "12. **Maturity** — Final maturity date for each facility\n" +
-            "13. **Security** — Each class of security granted or required (e.g. share pledges, fixed and floating charges, real estate mortgages, account pledges) and the assets or entities over which security is taken\n" +
-            "14. **Guarantees** — Guarantee obligations, the guarantors, the scope of the guarantee, and any limitations (e.g. up-stream guarantee limitations, guarantor coverage test)\n" +
-            "15. **Financial Covenants** — Each financial covenant, the metric (e.g. leverage ratio, interest cover, cashflow cover), the applicable test, testing frequency, and any equity cure rights\n" +
-            "16. **Events of Default** — Each event of default, noting any grace periods, materiality thresholds, or cross-default provisions\n" +
-            "17. **Assignment** — Restrictions or permissions on assignment or transfer (e.g. white/blacklists, borrower consent for lender transfers; restrictions on borrower assignment)\n" +
-            "18. **Change of Control** — What constitutes a change of control, what obligations it triggers (e.g. mandatory prepayment, cancellation, lender consent), and any cure period\n" +
-            "19. **Prepayment Fee** — Any prepayment fees, make-whole premiums, or soft-call protections, the applicable fee, the period during which it applies, and any exceptions (e.g. prepayment from insurance proceeds or asset disposals)\n" +
-            "20. **Governing Law** — Governing law of the agreement\n" +
-            "21. **Dispute Resolution** — Whether disputes go to litigation or arbitration, the chosen forum or seat, and any submission to jurisdiction provisions\n\n" +
-            "Deliver the summary inline in your chat response — do NOT call generate_docx. Only produce a downloadable Word document if the user explicitly asks for one.",
+            "## Sintesi Contratto di Finanziamento\n\n" +
+            "Analizza il contratto di finanziamento caricato e produci una sintesi legale completa che copra i seguenti punti. " +
+            "Per ciascuna sezione individua le clausole chiave, cita gli articoli/allegati di riferimento e segnala eventuali clausole insolite, onerose o non in linea con la prassi di mercato (anche con riferimento alle Norme Bancarie Uniformi ABI e alla disciplina del TUB — D.Lgs. 385/1993).\n\n" +
+            "1. **Finanziatori (Lenders)** — Tutti i finanziatori o membri del pool, denominazione sociale completa e ruolo (es. mandated lead arranger, banca finanziatrice, banca agente ex art. 1387 c.c., banca depositaria)\n" +
+            "2. **Prenditori (Borrowers)** — Tutti i prenditori, con denominazione sociale completa, sede legale e P.IVA/codice fiscale\n" +
+            "3. **Garanti** — Tutti i garanti, con denominazione sociale e ambito dell'obbligazione di garanzia (fideiussione, fideiussione omnibus, garanzia autonoma a prima richiesta)\n" +
+            "4. **Altre parti** — Eventuali altre parti rilevanti (banca agente, security agent/agente delle garanzie, controparti hedge, banca emittente di garanzie autonome) e relativo ruolo\n" +
+            "5. **Data del contratto** — Data di sottoscrizione e, se diversa, data di efficacia\n" +
+            "6. **Linee di credito (Facilities)** — Ciascuna linea disponibile (es. Linea Revolving, Term Loan A/B/C, Linea Bullet, Linea Amortising), tipologia, denominazione e caratteristiche strutturali\n" +
+            "7. **Importo** — Importo totale impegnato, valuta (di norma EUR) e ripartizione per tranche\n" +
+            "8. **Scopo (Purpose)** — Scopo del finanziamento e vincoli di destinazione (es. acquisition financing, capex, working capital, refinancing). Verifica coerenza con l'oggetto sociale dei prenditori\n" +
+            "9. **Interessi** — Tasso di riferimento (EURIBOR, €STR), spread/margine, eventuale margin ratchet, durata dei periodi di interesse, presenza di tasso fisso/variabile, conformità al tasso soglia anti-usura ex L. 108/1996 (TEG/TEGM trimestrale)\n" +
+            "10. **Commissioni** — Commitment fee, utilization fee, agency fee, arrangement fee — tasso, base di calcolo (impegno non utilizzato, utilizzo medio) e rispetto della normativa sulla trasparenza ex artt. 116-117 TUB\n" +
+            "11. **Piano di rimborso** — Profilo di rimborso per ciascuna linea (rate amortizing, bullet, semi-bullet), date e importi delle rate\n" +
+            "12. **Scadenza** — Data di scadenza finale per ciascuna linea\n" +
+            "13. **Garanzie reali (Security Package)** — Ciascuna categoria di garanzia (pegno su quote/azioni con annotazione nel libro soci, ipoteca, privilegio speciale ex art. 46 TUB, pegno su crediti, pegno su conti correnti, cessione del credito in garanzia ex art. 1260 c.c.) e relativi beni o entità, con menzione della disciplina applicabile (artt. 2784 ss. c.c. per il pegno; artt. 2808 ss. c.c. per l'ipoteca)\n" +
+            "14. **Garanzie personali** — Fideiussioni, fideiussioni omnibus, garanzie autonome a prima richiesta — soggetti garanti, ambito ed eventuali limitazioni (limiti di importo, upstream guarantee limitations alla luce dei vincoli ex art. 2358 c.c.)\n" +
+            "15. **Covenants finanziari** — Ciascun parametro finanziario (Leverage Ratio, DSCR, Interest Cover, Cashflow Cover), test applicabile, frequenza di verifica e diritto di equity cure\n" +
+            "16. **Eventi di Default** — Ciascun evento di inadempimento (mancato pagamento, breach of covenant, cross-default, insolvenza ex art. 5 L.F./CCII, Material Adverse Change), con eventuali grace period e soglie di materialità\n" +
+            "17. **Cessione (Assignment)** — Restrizioni o consensi richiesti per cessione/trasferimento (whitelist/blacklist, consenso del prenditore, divieti di subpartecipazione)\n" +
+            "18. **Cambio di Controllo** — Definizione di cambio di controllo (rilevante anche ai fini ex art. 2359 c.c.), obblighi conseguenti (rimborso anticipato obbligatorio, cancellazione delle linee, consenso dei finanziatori) e periodo di cura\n" +
+            "19. **Commissioni di rimborso anticipato** — Prepayment fee, make-whole, soft-call protection — importo, periodo di applicazione ed eccezioni\n" +
+            "20. **Trasparenza e jus variandi** — Verifica del rispetto degli artt. 117-118 TUB sulla forma scritta e sulle modifiche unilaterali; clausole vessatorie ex artt. 1341/1342 c.c. e relativa specifica approvazione per iscritto\n" +
+            "21. **Legge applicabile** — Legge regolatrice del contratto\n" +
+            "22. **Foro competente / Arbitrato** — Devoluzione delle controversie (foro esclusivo, arbitrato CAM/ICC), eventuale clausola compromissoria ex art. 808 c.p.c.\n\n" +
+            "Restituisci la sintesi inline nella chat — NON chiamare generate_docx. Produci un documento Word scaricabile solo se l'utente lo richiede esplicitamente.",
         columns_config: null,
     },
 
-    // ─── Commercial Agreement ───────────────────────────────────────────────────
+    // ─── Contratto Commerciale ────────────────────────────────────────────────────
     {
         id: "builtin-commercial-agreement",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Commercial Agreement Review",
+        title: "Review Contratto Commerciale",
         type: "tabular",
-        practice: "General Transactions",
+        practice: "Contrattualistica Commerciale",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Parties",
+                name: "Parti",
                 format: "bulleted_list",
-                prompt: "Identify all parties to this agreement. For each party state their full legal name, jurisdiction of incorporation (if stated), and their role in the agreement (e.g. supplier, customer, licensor).",
+                prompt: "Identifica tutte le parti del contratto. Per ciascuna parte indica la denominazione sociale completa, sede legale, codice fiscale/P.IVA (se presente) e il ruolo (es. fornitore, cliente, licenziante, mandatario, agente).",
             },
             {
                 index: 1,
-                name: "Scope of Work",
+                name: "Oggetto del Contratto",
                 format: "text",
-                prompt: "Summarise the scope of work or services to be provided under this agreement. What are the key deliverables, obligations, or services? Identify any limitations or exclusions to the scope.",
+                prompt: "Riassumi l'oggetto del contratto e le prestazioni dovute. Quali sono le principali deliverable, obbligazioni o servizi (artt. 1325, 1346 c.c.)? Identifica eventuali limitazioni o esclusioni dell'oggetto.",
             },
             {
                 index: 2,
-                name: "Amends Earlier Agreement",
+                name: "Modifica Contratto Precedente",
                 format: "yes_no",
-                prompt: "Does this agreement amend, restate, supplement, or replace an earlier agreement? If yes, identify the earlier agreement by name and date.",
+                prompt: "Il contratto modifica, integra, sostituisce o nova un contratto preesistente (art. 1230 c.c. — novazione)? Se sì, identifica il contratto originario per data e oggetto.",
             },
             {
                 index: 3,
-                name: "Effective Date",
+                name: "Data di Efficacia",
                 format: "date",
-                prompt: "What is the effective date or commencement date of this agreement? If no explicit date is stated, note when it is deemed to take effect.",
+                prompt: "Qual è la data di efficacia o di decorrenza del contratto? Se non è espressamente indicata, segnala da quando si considera operativo.",
             },
             {
                 index: 4,
-                name: "Term",
+                name: "Durata",
                 format: "text",
-                prompt: "What is the duration or term of this agreement? State the initial term length and any conditions that affect the duration.",
+                prompt: "Qual è la durata del contratto? Indica la durata iniziale e le condizioni che ne influenzano la durata (durata determinata/indeterminata).",
             },
             {
                 index: 5,
-                name: "Renewal",
+                name: "Rinnovo",
                 format: "text",
-                prompt: "What renewal provisions apply? Specify whether renewal is automatic or requires notice, the renewal period, and any conditions or notice periods required to prevent automatic renewal.",
+                prompt: "Quali sono le clausole di rinnovo? Specifica se il rinnovo è tacito o richiede comunicazione, il periodo di rinnovo, i termini di disdetta e i requisiti di forma (raccomandata A/R, PEC). Verifica eventuali profili di clausole vessatorie ex art. 1341 c.c.",
             },
             {
                 index: 6,
-                name: "Pricing",
+                name: "Corrispettivo",
                 format: "text",
-                prompt: "What is the pricing structure under this agreement? Identify all fees, rates, charges, and payment terms including currency, payment schedule, and invoicing requirements.",
+                prompt: "Qual è il corrispettivo previsto dal contratto? Identifica tutte le voci (canoni, fee, royalties, parcelle), le modalità di pagamento, la valuta (di norma EUR), il calendario di fatturazione e il termine di pagamento.",
             },
             {
                 index: 7,
-                name: "Price Adjustments",
+                name: "Aggiornamenti del Prezzo",
                 format: "text",
-                prompt: "Are there any price adjustment mechanisms in this agreement? Identify any indexation, CPI/RPI linkage, benchmarking, volume-based adjustments, or other mechanisms that allow prices to change over the term.",
+                prompt: "Sono previsti meccanismi di adeguamento del prezzo? Identifica eventuali indicizzazioni (ISTAT FOI, IPCA), benchmark, aggiustamenti basati sui volumi o altri meccanismi. Specifica frequenza e modalità di calcolo.",
             },
             {
                 index: 8,
-                name: "Penalties for Late Payment",
+                name: "Penali e Interessi di Mora",
                 format: "text",
-                prompt: "What penalties or consequences apply for late payment? Include any interest rates on overdue amounts, suspension rights, or other remedies available to the payee.",
+                prompt: "Quali penali si applicano in caso di ritardato pagamento? Includi tassi di interesse di mora (verifica conformità con D.Lgs. 231/2002 — interessi di mora nelle transazioni commerciali, attualmente tasso BCE + 8 punti percentuali), diritti di sospensione e altre tutele.",
             },
             {
                 index: 9,
-                name: "Estimated Contract Value",
+                name: "Valore Stimato del Contratto",
                 format: "monetary_amount",
-                prompt: "What is the total estimated or stated contract value? If no single figure is given, calculate or estimate based on stated rates and term. State the currency and any assumptions made.",
+                prompt: "Qual è il valore totale stimato o dichiarato del contratto? Se non è indicato un valore unico, calcola/stima sulla base dei prezzi e della durata. Indica la valuta e le ipotesi assunte.",
             },
             {
                 index: 10,
-                name: "Limitation of Liability",
+                name: "Limitazioni di Responsabilità",
                 format: "text",
-                prompt: "What limitations of liability apply? Identify any caps on liability (including how they are calculated), exclusions of consequential or indirect loss, and any carve-outs from the cap (e.g. fraud, death, IP infringement).",
+                prompt: "Quali limitazioni di responsabilità sono previste? Identifica i massimali (e come sono calcolati), le esclusioni di danno indiretto/consequenziale e i carve-out (dolo, colpa grave, danni alla persona — verifica validità ex artt. 1229, 1341/1342 c.c.).",
             },
             {
                 index: 11,
-                name: "IP Ownership and Licensing",
+                name: "Proprietà Intellettuale",
                 format: "text",
-                prompt: "How is intellectual property ownership and licensing addressed? Identify who owns pre-existing IP, who owns newly created IP, and what licences are granted to each party. Note any restrictions on use.",
+                prompt: "Come sono regolati la titolarità e la licenza dei diritti di proprietà intellettuale? Identifica chi detiene la PI preesistente, chi acquista la PI generata e quali licenze sono concesse alle parti. Distingui tra background IP e foreground IP, e verifica clausole su know-how ex art. 98 CPI.",
             },
             {
                 index: 12,
-                name: "Change of Control",
+                name: "Cambio di Controllo",
                 format: "text",
-                prompt: "Is there a change of control provision? If so, describe what constitutes a change of control, whether consent is required, and what rights (e.g. termination, assignment) are triggered.",
+                prompt: "È prevista una clausola di cambio di controllo? In caso affermativo, descrivi cosa costituisce cambio di controllo (rinvio all'art. 2359 c.c.), se è richiesto consenso e quali diritti sono attivati (recesso, cessione del contratto ex art. 1406 c.c.).",
             },
             {
                 index: 13,
-                name: "Force Majeure",
+                name: "Forza Maggiore",
                 format: "text",
-                prompt: "Summarise the force majeure clause. What events qualify, what obligations are suspended, how long must the event persist before termination is permitted, and what notice is required?",
+                prompt: "Riassumi la clausola di forza maggiore. Quali eventi qualificano come forza maggiore (causa non imputabile ex art. 1218 c.c.), quali obbligazioni sono sospese, per quanto tempo deve durare l'evento prima della risoluzione e quali oneri di comunicazione sono previsti?",
             },
             {
                 index: 14,
-                name: "Termination Rights",
+                name: "Diritti di Recesso e Risoluzione",
                 format: "text",
-                prompt: "What are the termination rights of each party? Identify termination for convenience (including notice period), termination for cause (including cure periods), and the consequences of termination (e.g. payment obligations, survival of terms).",
+                prompt: "Quali sono i diritti di recesso e risoluzione delle parti? Distingui tra recesso ad nutum (art. 1373 c.c.), clausola risolutiva espressa (art. 1456 c.c.), risoluzione per inadempimento (art. 1453 c.c.) e risoluzione di diritto (diffida ad adempiere ex art. 1454 c.c., termine essenziale ex art. 1457 c.c.). Indica preavvisi e periodi di cura.",
             },
             {
                 index: 15,
-                name: "Liquidated Damages",
+                name: "Penali Contrattuali",
                 format: "text",
-                prompt: "Are there any liquidated damages provisions? If so, identify what triggers them, the applicable rate or formula, any cap on aggregate liquidated damages, and whether they are the exclusive remedy.",
+                prompt: "Sono previste penali contrattuali (art. 1382 c.c.)? Identifica gli eventi che le attivano, l'importo o la formula, eventuali limitazioni cumulative e se costituiscono rimedio esclusivo. Considera il potere giudiziale di riduzione equitativa (art. 1384 c.c.).",
             },
             {
                 index: 16,
-                name: "Governing Law",
+                name: "Legge Applicabile",
                 format: "text",
-                prompt: "What governing law applies to this agreement? State the jurisdiction and any specific legal system referenced.",
+                prompt: "Quale legge regola il contratto? Indica la legge applicabile e i riferimenti specifici (es. Reg. Roma I se internazionale).",
             },
             {
                 index: 17,
-                name: "Dispute Resolution",
+                name: "Foro Competente / Arbitrato",
                 format: "text",
-                prompt: "How are disputes resolved under this agreement? Identify whether disputes go to litigation or arbitration, the chosen forum or seat, any escalation or mediation steps required before formal proceedings, and the language of proceedings.",
+                prompt: "Come si risolvono le controversie? Identifica se le controversie vanno in giudizio ordinario (foro convenzionale o esclusivo ex art. 28 c.p.c.) o in arbitrato (CAM, ICC), eventuali clausole compromissorie (art. 808 c.p.c.), tentativi obbligatori di mediazione ex D.Lgs. 28/2010 e lingua del procedimento.",
             },
         ],
     },
 
-    // ─── Credit Agreement ────────────────────────────────────────────────────────
+    // ─── Contratto di Finanziamento ────────────────────────────────────────────────
     {
         id: "builtin-credit-agreement",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Credit Agreement Review",
+        title: "Review Contratto di Finanziamento",
         type: "tabular",
-        practice: "Finance",
+        practice: "Diritto Bancario e Finanziario",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Lenders",
+                name: "Finanziatori",
                 format: "bulleted_list",
-                prompt: "Identify all lenders (or the lender syndicate) named in this agreement. For each, state their full legal name and role (e.g. mandated lead arranger, original lender, agent bank).",
+                prompt: "Identifica tutti i finanziatori (o il pool/sindacato) indicati nel contratto. Per ciascuno indica la denominazione sociale completa e il ruolo (es. mandated lead arranger, banca finanziatrice, banca agente, security agent).",
             },
             {
                 index: 1,
-                name: "Borrowers",
+                name: "Prenditori",
                 format: "bulleted_list",
-                prompt: "Identify all borrowers named in this agreement, including their full legal name and jurisdiction of incorporation.",
+                prompt: "Identifica tutti i prenditori indicati nel contratto, con denominazione sociale, sede legale, P.IVA/codice fiscale e numero REA.",
             },
             {
                 index: 2,
-                name: "Guarantors",
+                name: "Garanti",
                 format: "bulleted_list",
-                prompt: "Identify all guarantors named in this agreement, including their full legal name and the scope of their guarantee obligation.",
+                prompt: "Identifica tutti i garanti del contratto, con denominazione sociale completa e ambito dell'obbligazione di garanzia (fideiussione ex art. 1936 c.c., fideiussione omnibus, garanzia autonoma a prima richiesta).",
             },
             {
                 index: 3,
-                name: "Other Parties",
+                name: "Altre Parti",
                 format: "bulleted_list",
-                prompt: "Identify any other material parties to this agreement (e.g. facility agent, security agent, hedge counterparties, issuing bank). State their name and role.",
+                prompt: "Identifica eventuali altre parti rilevanti del contratto (banca agente, security agent/agente delle garanzie, controparti hedge, banca emittente di garanzie autonome). Indica nome e ruolo.",
             },
             {
                 index: 4,
-                name: "Date of Agreement",
+                name: "Data del Contratto",
                 format: "date",
-                prompt: "What is the date of this credit agreement?",
+                prompt: "Qual è la data del contratto di finanziamento?",
             },
             {
                 index: 5,
-                name: "Facility",
+                name: "Linee di Credito",
                 format: "bulleted_list",
-                prompt: "List each facility available under this agreement (e.g. Revolving Credit Facility, Term Loan A, Term Loan B, Term Loan C). For each, state the facility type, tranche name, and any key structural features.",
+                prompt: "Elenca ciascuna linea di credito disponibile (es. Linea Revolving, Term Loan A/B/C, Linea Bullet, Linea Amortising). Per ciascuna indica tipologia, denominazione della tranche e principali caratteristiche strutturali.",
             },
             {
                 index: 6,
-                name: "Amount",
+                name: "Importo",
                 format: "monetary_amount",
-                prompt: "What is the total committed amount available under this agreement across all facilities? State the amount, currency, and breakdown by tranche if applicable.",
+                prompt: "Qual è l'importo totale impegnato nel contratto, sommando tutte le linee? Indica importo, valuta (di norma EUR) e ripartizione per tranche.",
             },
             {
                 index: 7,
-                name: "Purpose",
+                name: "Scopo",
                 format: "text",
-                prompt: "What is the stated purpose for which borrowings under this agreement may be used? Identify any restrictions on use of proceeds.",
+                prompt: "Qual è lo scopo dichiarato per cui possono essere utilizzati i fondi? Identifica eventuali vincoli di destinazione (es. acquisition financing, capex, working capital, refinancing) e verifica coerenza con l'oggetto sociale dei prenditori.",
             },
             {
                 index: 8,
-                name: "Interest",
+                name: "Interessi",
                 format: "text",
-                prompt: "What interest rate applies to borrowings under this agreement? Identify the applicable rate (e.g. SOFR, EURIBOR, base rate), the margin, any margin ratchet mechanism, and how interest periods are structured.",
+                prompt: "Quale tasso di interesse si applica? Identifica il tasso di riferimento (EURIBOR, €STR, tasso BCE), lo spread/margine, eventuale margin ratchet, durata dei periodi di interesse e segnala eventuali profili di superamento del tasso soglia anti-usura ex L. 108/1996.",
             },
             {
                 index: 9,
-                name: "Commitment Fee",
+                name: "Commissioni",
                 format: "text",
-                prompt: "Is there a commitment fee or utilisation fee? If so, state the applicable rate, how it is calculated, and on what basis (e.g. undrawn commitment, average utilisation).",
+                prompt: "Sono previste commissioni (commitment fee, utilization fee, agency fee, arrangement fee)? Indica tasso, base di calcolo (impegno non utilizzato, utilizzo medio) e verifica conformità agli obblighi di trasparenza ex artt. 116-117 TUB.",
             },
             {
                 index: 10,
-                name: "Repayment Schedule",
+                name: "Piano di Rimborso",
                 format: "text",
-                prompt: "Summarise the repayment schedule for each facility. Identify whether repayment is by scheduled instalments or bullet repayment, and state the repayment dates and amounts where specified.",
+                prompt: "Riassumi il piano di rimborso per ciascuna linea. Identifica se il rimborso è amortizing, bullet o semi-bullet, e indica date e importi delle rate.",
             },
             {
                 index: 11,
-                name: "Maturity",
+                name: "Scadenza Finale",
                 format: "date",
-                prompt: "What is the final maturity date of the facilities under this agreement? If different facilities have different maturities, state each.",
+                prompt: "Qual è la data di scadenza finale (final maturity) delle linee? Se le linee hanno scadenze diverse, indica ciascuna.",
             },
             {
                 index: 12,
-                name: "Security",
+                name: "Garanzie Reali",
                 format: "bulleted_list",
-                prompt: "What security is granted or required to be granted under this agreement? List each class of security (e.g. share pledges, fixed and floating charges, real estate mortgages, account pledges) and the assets or entities over which security is taken.",
+                prompt: "Quali garanzie reali sono prestate o devono essere prestate? Elenca ciascuna categoria (pegno su quote/azioni con annotazione nel libro soci, ipoteca, privilegio speciale ex art. 46 TUB, pegno su crediti, pegno su conti correnti, cessione del credito in garanzia ex art. 1260 c.c.) e i beni/entità su cui sono costituite.",
             },
             {
                 index: 13,
-                name: "Guarantees",
+                name: "Garanzie Personali",
                 format: "bulleted_list",
-                prompt: "What guarantee obligations are given under or in connection with this agreement? Identify the guarantors, the scope of the guarantee, and any limitations (e.g. up-stream guarantee limitations, guarantor coverage test).",
+                prompt: "Quali garanzie personali sono prestate? Identifica i garanti, l'ambito (fideiussione ex art. 1936 c.c., fideiussione omnibus, garanzia autonoma a prima richiesta) e le eventuali limitazioni (limiti di importo, upstream guarantee limitations alla luce dell'art. 2358 c.c.).",
             },
             {
                 index: 14,
-                name: "Financial Covenants",
+                name: "Covenants Finanziari",
                 format: "bulleted_list",
-                prompt: "What financial covenants are included in this agreement? For each covenant identify the metric (e.g. leverage ratio, interest cover, cashflow cover), the applicable test, the testing frequency, and any equity cure rights.",
+                prompt: "Quali covenants finanziari sono previsti? Per ciascuno identifica il parametro (es. Leverage Ratio, DSCR, Interest Cover, Cashflow Cover), il test applicabile, la frequenza di verifica e l'eventuale diritto di equity cure.",
             },
             {
                 index: 15,
-                name: "Events of Default",
+                name: "Eventi di Default",
                 format: "bulleted_list",
-                prompt: "List the events of default under this agreement. For each, note any grace periods, materiality thresholds, or cross-default provisions.",
+                prompt: "Elenca gli eventi di default. Per ciascuno indica eventuali grace period, soglie di materialità, e clausole di cross-default. Considera in particolare insolvenza ex art. 5 L.F. / Codice della Crisi (D.Lgs. 14/2019), Material Adverse Change e violazione di covenant.",
             },
             {
                 index: 16,
-                name: "Assignment",
+                name: "Cessione",
                 format: "text",
-                prompt: "What restrictions or permissions apply to assignment or transfer of rights under this agreement? Identify restrictions on lender transfers (e.g. white/blacklists, borrower consent) and on borrower assignment.",
+                prompt: "Quali restrizioni o consensi si applicano alla cessione/trasferimento dei diritti contrattuali? Identifica restrizioni alle cessioni dei finanziatori (whitelist/blacklist, consenso del prenditore) e alla cessione del prenditore.",
             },
             {
                 index: 17,
-                name: "Change of Control",
+                name: "Cambio di Controllo",
                 format: "text",
-                prompt: "Is there a change of control provision? If so, what constitutes a change of control, what obligations does it trigger (e.g. mandatory prepayment, cancellation, lender consent), and is there any cure period?",
+                prompt: "È presente una clausola di cambio di controllo? In caso affermativo, indica cosa costituisce cambio di controllo (rinvio all'art. 2359 c.c.), quali obblighi attiva (rimborso anticipato obbligatorio, cancellazione, consenso dei finanziatori) ed eventuale periodo di cura.",
             },
             {
                 index: 18,
-                name: "Prepayment Fee",
+                name: "Commissioni di Rimborso Anticipato",
                 format: "text",
-                prompt: "Are there any prepayment fees, make-whole premiums, or soft-call protections? If so, state the applicable fee, the period during which it applies, and any exceptions (e.g. prepayment from insurance proceeds or asset disposal).",
+                prompt: "Sono previste commissioni di rimborso anticipato, make-whole o soft-call protection? Indica importo, periodo di applicazione ed eccezioni (rimborso da indennizzi assicurativi, da disposizioni di asset).",
             },
             {
                 index: 19,
-                name: "Governing Law",
+                name: "Legge Applicabile",
                 format: "text",
-                prompt: "What governing law applies to this agreement? State the jurisdiction and any specific legal system referenced.",
+                prompt: "Quale legge regola il contratto? Indica la giurisdizione e gli eventuali riferimenti normativi specifici.",
             },
             {
                 index: 20,
-                name: "Dispute Resolution",
+                name: "Foro Competente / Arbitrato",
                 format: "text",
-                prompt: "How are disputes resolved under this agreement? Identify whether disputes go to litigation or arbitration, the chosen forum or seat, and any submission to jurisdiction provisions.",
+                prompt: "Come si risolvono le controversie? Identifica se vanno in giudizio ordinario (foro esclusivo ex art. 28 c.p.c.) o in arbitrato (CAM, ICC, LCIA), eventuali sedi arbitrali e clausole di sottomissione alla giurisdizione.",
             },
         ],
     },
@@ -388,242 +389,242 @@ export const BUILT_IN_WORKFLOWS: MikeWorkflow[] = [
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "E-Discovery Review",
+        title: "Review Documenti per Contenzioso (e-Discovery)",
         type: "tabular",
-        practice: "Litigation",
+        practice: "Contenzioso e Arbitrato",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Date",
+                name: "Data",
                 format: "date",
-                prompt: "What is the date of this document? For emails or correspondence, use the date sent. For other documents, use the date of creation, signature, or the most prominent date shown.",
+                prompt: "Qual è la data del documento? Per email o corrispondenza, usa la data di invio. Per altri documenti, usa la data di creazione, sottoscrizione o la data più rilevante. Per atti giudiziari indica la data di deposito o di notifica.",
             },
             {
                 index: 1,
-                name: "Type of Document",
+                name: "Tipologia di Documento",
                 format: "text",
-                prompt: "What type of document is this? (e.g. email, memorandum, letter, contract, report, meeting minutes, text message, invoice, presentation). Be specific.",
+                prompt: "Di che tipo di documento si tratta? (es. email, memorandum, lettera raccomandata, PEC, contratto, perizia, verbale di riunione, SMS/messaggio, fattura, presentazione, atto di citazione, comparsa di costituzione e risposta, sentenza). Sii specifico.",
             },
             {
                 index: 2,
-                name: "Sender",
+                name: "Mittente",
                 format: "text",
-                prompt: "Who is the sender or author of this document? State their full name, title, and organisation where identifiable.",
+                prompt: "Chi è il mittente o autore del documento? Indica nome completo, qualifica e organizzazione laddove identificabili.",
             },
             {
                 index: 3,
-                name: "Recipient(s)",
+                name: "Destinatari",
                 format: "bulleted_list",
-                prompt: "Who are the recipients of this document? List all To, CC, and BCC recipients where identifiable. State their full name, title, and organisation for each. Note whether they appear in To, CC, or BCC fields.",
+                prompt: "Chi sono i destinatari del documento? Elenca tutti i destinatari A:, CC:, CCN: ove identificabili. Per ciascuno indica nome completo, qualifica e organizzazione, specificando se è in A, CC o CCN.",
             },
             {
                 index: 4,
-                name: "Summary",
+                name: "Sintesi",
                 format: "text",
-                prompt: "Provide a concise factual summary of the content of this document in 2–4 sentences. Focus on the key subject matter, any decisions made, actions requested, or information conveyed. Do not include legal conclusions.",
+                prompt: "Fornisci una sintesi fattuale concisa del contenuto del documento in 2-4 frasi. Concentrati sulla materia, decisioni assunte, azioni richieste o informazioni veicolate. Non includere conclusioni giuridiche.",
             },
             {
                 index: 5,
-                name: "Persons Mentioned",
+                name: "Persone Citate",
                 format: "bulleted_list",
-                prompt: "List all individuals mentioned in this document (other than the sender and recipients already identified). For each person, state their name and, if discernible, their role or organisation.",
+                prompt: "Elenca tutte le persone citate nel documento (oltre a mittente e destinatari già identificati). Per ciascuna indica il nome e, se identificabili, il ruolo o l'organizzazione.",
             },
             {
                 index: 6,
-                name: "Privileged?",
+                name: "Coperto da Segreto Professionale?",
                 format: "yes_no",
-                prompt: "Does this document appear to be legally privileged? Answer Yes if it appears to be a communication between a lawyer and client made for the dominant purpose of obtaining or giving legal advice, or created for the dominant purpose of litigation. Answer No otherwise. If uncertain, note the basis for uncertainty.",
+                prompt: "Il documento sembra coperto da segreto professionale forense (artt. 200 c.p.p. e 622 c.p.) o costituisce corrispondenza tra avvocato e cliente tutelata (art. 622 c.p.; D.Lgs. 96/2001 per gli avvocati stabiliti)? Rispondi Sì se appare comunicazione tra avvocato e cliente finalizzata a fornire o ottenere consulenza legale, oppure se redatto in vista di un contenzioso. Rispondi No altrimenti. Se incerto, motiva l'incertezza.",
             },
         ],
     },
 
-    // ─── Supply Agreement ────────────────────────────────────────────────────────
+    // ─── Contratto di Fornitura ──────────────────────────────────────────────────
     {
         id: "builtin-supply-agreement",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Supply Agreement Review",
+        title: "Review Contratto di Fornitura",
         type: "tabular",
-        practice: "General Transactions",
+        practice: "Contrattualistica Commerciale",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Parties",
+                name: "Parti",
                 format: "bulleted_list",
-                prompt: "Identify all parties to this supply agreement. For each, state their full legal name, jurisdiction of incorporation (if stated), and their role (e.g. supplier, buyer, distributor).",
+                prompt: "Identifica tutte le parti del contratto di fornitura. Per ciascuna indica denominazione sociale completa, sede legale, P.IVA/codice fiscale e ruolo (es. fornitore, acquirente, distributore).",
             },
             {
                 index: 1,
-                name: "Effective Date",
+                name: "Data di Efficacia",
                 format: "date",
-                prompt: "What is the effective date or commencement date of this agreement? If no explicit date is stated, note the date it is deemed to take effect.",
+                prompt: "Qual è la data di efficacia o di decorrenza del contratto? Se non è indicata, segnala da quando si considera operativo.",
             },
             {
                 index: 2,
-                name: "Products",
+                name: "Beni Forniti",
                 format: "bulleted_list",
-                prompt: "What products are to be supplied under this agreement? List each product or product category, including any relevant specifications, part numbers, or standards referenced.",
+                prompt: "Quali beni o servizi devono essere forniti in base al contratto? Elenca ciascun prodotto o categoria, includendo specifiche tecniche, codici prodotto e standard di riferimento (norme UNI, EN, ISO).",
             },
             {
                 index: 3,
-                name: "Term",
+                name: "Durata",
                 format: "text",
-                prompt: "What is the initial term or duration of this agreement? State the start date (or reference to when it commences) and the end date or duration.",
+                prompt: "Qual è la durata iniziale del contratto? Indica la data di inizio (o riferimento all'inizio dell'efficacia) e la data di fine o la durata complessiva.",
             },
             {
                 index: 4,
-                name: "Renewal",
+                name: "Rinnovo",
                 format: "text",
-                prompt: "What renewal provisions apply? Is renewal automatic or by agreement? State the renewal period, notice requirements to prevent renewal, and any conditions on renewal.",
+                prompt: "Quali clausole di rinnovo si applicano? Il rinnovo è tacito o per accordo? Indica il periodo di rinnovo, i termini di disdetta e le eventuali condizioni. Verifica eventuali profili di vessatorietà ex art. 1341 c.c. e, in caso di rinnovo automatico, l'art. 1597 c.c.",
             },
             {
                 index: 5,
-                name: "Delivery",
+                name: "Consegna",
                 format: "text",
-                prompt: "What delivery obligations and terms apply? Identify the delivery terms (e.g. Incoterms), delivery lead times, delivery locations, risk of loss, and any consequences for late or failed delivery.",
+                prompt: "Quali sono le modalità di consegna? Identifica gli Incoterms applicabili (es. EXW, FCA, DDP), i tempi di consegna, i luoghi, il passaggio del rischio (artt. 1510, 1465 c.c.) e le conseguenze di ritardo o mancata consegna.",
             },
             {
                 index: 6,
-                name: "Quality",
+                name: "Qualità e Conformità",
                 format: "text",
-                prompt: "What quality standards or specifications apply to the products? Identify any applicable standards (e.g. ISO, regulatory requirements), inspection rights, acceptance procedures, and consequences of non-conformance.",
+                prompt: "Quali standard qualitativi o specifiche tecniche si applicano? Identifica eventuali norme applicabili (UNI, ISO, marcatura CE, RoHS, regolamenti settoriali), diritti di ispezione, procedure di accettazione e conseguenze della non conformità (denuncia dei vizi ex artt. 1495, 1511 c.c.).",
             },
             {
                 index: 7,
-                name: "Warranties",
+                name: "Garanzie",
                 format: "text",
-                prompt: "What warranties does the supplier give in relation to the products? State the warranty period, the scope of the warranty (e.g. free from defects, conformance to specifications), the remedy for breach (e.g. repair, replacement, refund), and any exclusions.",
+                prompt: "Quali garanzie il fornitore presta sui beni? Indica il periodo di garanzia, l'ambito (esenzione da vizi, conformità alle specifiche), il rimedio in caso di violazione (riparazione, sostituzione, riduzione del prezzo, risoluzione — artt. 1492, 1497 c.c.) ed eventuali esclusioni. In caso di vendita B2C, considera la garanzia legale di conformità ex artt. 128 ss. Codice del Consumo.",
             },
             {
                 index: 8,
-                name: "Liquidated Damages",
+                name: "Penali",
                 format: "text",
-                prompt: "Are there any liquidated damages provisions? If so, identify what triggers them (e.g. late delivery, failure to meet quality standards), the applicable rate or formula, any aggregate cap, and whether they are stated to be the exclusive remedy.",
+                prompt: "Sono previste penali contrattuali (art. 1382 c.c.)? Identifica gli eventi che le attivano (es. ritardo nella consegna, mancato rispetto degli standard qualitativi), il tasso o la formula applicabile, eventuali tetti aggregati e se costituiscono rimedio esclusivo. Considera la possibilità di riduzione giudiziale (art. 1384 c.c.).",
             },
             {
                 index: 9,
-                name: "Limitation of Liability",
+                name: "Limitazioni di Responsabilità",
                 format: "text",
-                prompt: "What limitations of liability apply? Identify any caps on liability (and how they are calculated, e.g. contract value, fees paid), exclusions of consequential or indirect loss, and any carve-outs from the limitation (e.g. fraud, wilful misconduct, death or personal injury).",
+                prompt: "Quali limitazioni di responsabilità si applicano? Identifica massimali di responsabilità (e modalità di calcolo: valore del contratto, fatturato annuo), esclusioni di danni indiretti/consequenziali e carve-out (dolo, colpa grave, danni alla persona — verifica validità ex art. 1229 c.c. e clausole vessatorie ex artt. 1341/1342 c.c.).",
             },
             {
                 index: 10,
-                name: "Force Majeure",
+                name: "Forza Maggiore",
                 format: "text",
-                prompt: "Summarise the force majeure clause. What events qualify, what obligations are suspended, what notice must be given, how long must the event persist before either party may terminate, and what are the consequences of termination for force majeure?",
+                prompt: "Riassumi la clausola di forza maggiore. Quali eventi qualificano (causa non imputabile ex art. 1218 c.c., factum principis), quali obbligazioni sono sospese, quale preavviso deve essere dato, dopo quanto tempo le parti possono risolvere il contratto e quali sono le conseguenze della risoluzione per forza maggiore?",
             },
             {
                 index: 11,
-                name: "Termination Rights",
+                name: "Diritti di Recesso/Risoluzione",
                 format: "text",
-                prompt: "What are the termination rights of each party? Distinguish between termination for convenience (including notice period) and termination for cause (including cure periods and triggers). Note what happens on termination, including any outstanding purchase orders or payment obligations.",
+                prompt: "Quali diritti di recesso e risoluzione hanno le parti? Distingui tra recesso ad nutum (art. 1373 c.c.), risoluzione per inadempimento (art. 1453 c.c.), clausola risolutiva espressa (art. 1456 c.c.), diffida ad adempiere (art. 1454 c.c.). Indica preavvisi, periodi di cura e conseguenze (es. ordini d'acquisto pendenti, obblighi di pagamento sopravvissuti).",
             },
             {
                 index: 12,
-                name: "Governing Law",
+                name: "Legge Applicabile",
                 format: "text",
-                prompt: "What governing law applies to this agreement? State the jurisdiction and any specific legal system referenced.",
+                prompt: "Quale legge regola il contratto? Indica la legge applicabile e segnala eventuale applicazione della Convenzione di Vienna sui contratti di vendita internazionale (CISG) e della sua eventuale esclusione.",
             },
             {
                 index: 13,
-                name: "Dispute Resolution",
+                name: "Foro Competente / Arbitrato",
                 format: "text",
-                prompt: "How are disputes resolved under this agreement? Identify whether disputes go to litigation or arbitration, the chosen forum or seat, and any mandatory escalation steps (e.g. negotiation, mediation) before formal proceedings.",
+                prompt: "Come si risolvono le controversie? Identifica se vanno in giudizio ordinario (foro esclusivo ex art. 28 c.p.c.) o in arbitrato (CAM, ICC), eventuale clausola compromissoria (art. 808 c.p.c.), tentativi obbligatori di mediazione (D.Lgs. 28/2010) e lingua del procedimento.",
             },
         ],
     },
 
-    // ─── SPA ─────────────────────────────────────────────────────────────────────
+    // ─── Compravendita Partecipazioni (SPA) ─────────────────────────────────────
     {
         id: "builtin-spa",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "SPA Review",
+        title: "Review Compravendita Partecipazioni (SPA)",
         type: "tabular",
-        practice: "Corporate",
+        practice: "Diritto Societario",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Parties",
+                name: "Parti",
                 format: "bulleted_list",
-                prompt: "Identify all parties to this share purchase agreement. For each, state their full legal name, jurisdiction of incorporation (if stated), and their role (e.g. seller, buyer, target company, warrantor, guarantor).",
+                prompt: "Identifica tutte le parti del contratto di compravendita partecipazioni. Per ciascuna indica denominazione sociale completa, sede legale, P.IVA/codice fiscale e ruolo (es. venditore, acquirente, società target, garante, fideiussore).",
             },
             {
                 index: 1,
-                name: "Date",
+                name: "Data",
                 format: "date",
-                prompt: "What is the date of this share purchase agreement?",
+                prompt: "Qual è la data di sottoscrizione (signing) del contratto?",
             },
             {
                 index: 2,
-                name: "Transaction",
+                name: "Operazione",
                 format: "text",
-                prompt: "Summarise the transaction. What shares or interests are being acquired, in which target company or companies, and what is the nature of the transaction (e.g. 100% acquisition, majority stake, minority investment)?",
+                prompt: "Riassumi l'operazione. Quali quote/azioni sono oggetto di compravendita, in quale società target, e qual è la natura dell'operazione (es. acquisizione del 100%, partecipazione di maggioranza, di minoranza, joint venture, MBO/LBO)? Indica se è un asset deal o uno share deal.",
             },
             {
                 index: 3,
-                name: "Consideration",
+                name: "Corrispettivo",
                 format: "monetary_amount",
-                prompt: "What is the consideration payable under this agreement? State the total headline price, the currency, and the structure (e.g. cash, shares, loan notes, deferred consideration, earnout). If the price is subject to adjustment (e.g. locked box, completion accounts), describe the mechanism.",
+                prompt: "Qual è il corrispettivo pattuito? Indica il prezzo headline, la valuta, la struttura (cassa, azioni, vendor loan, prezzo differito, earn-out) e l'eventuale meccanismo di aggiustamento (locked box con interest rate, completion accounts/closing accounts, leakage). Per share deal segnala l'eventuale tassazione plusvalenza.",
             },
             {
                 index: 4,
-                name: "Key Conditions Precedent",
+                name: "Condizioni Sospensive (CP)",
                 format: "bulleted_list",
-                prompt: "List the key conditions precedent (CPs) to completion. For each CP, state what must be satisfied or waived and by whom. Identify any long-stop date by which CPs must be satisfied.",
+                prompt: "Elenca le principali condizioni sospensive (Conditions Precedent) al closing. Per ciascuna indica cosa deve essere soddisfatto/rinunciato e da chi. Identifica long-stop date e considera autorizzazioni regolamentari (Antitrust AGCM/Commissione UE, Banca d'Italia ex art. 19 TUB, golden power D.L. 21/2012, IVASS, Consob).",
             },
             {
                 index: 5,
-                name: "Completion Date",
+                name: "Data di Closing",
                 format: "text",
-                prompt: "When does completion occur? State how many business days after satisfaction or waiver of all CPs completion must occur, and/or any fixed outside date for completion. Note whether there is any obligation to complete by a specific date after signing.",
+                prompt: "Quando si tiene il closing? Indica quanti giorni lavorativi dopo l'avveramento/rinuncia delle CP deve avvenire il closing e/o l'eventuale long-stop date. Indica se c'è obbligo di closing entro data certa successiva al signing.",
             },
             {
                 index: 6,
-                name: "Warranties",
+                name: "Dichiarazioni e Garanzie (R&W)",
                 format: "text",
-                prompt: "Summarise the warranty package. Who gives the warranties (e.g. seller, management, all sellers jointly and severally)? Are there business warranties and/or title warranties? Identify the scope of any warranty disclosure process and any limitations on warranty claims (e.g. time limits, minimum claim thresholds, aggregate cap).",
+                prompt: "Riassumi il pacchetto di dichiarazioni e garanzie. Chi le rilascia (venditore, management, tutti i venditori in solido)? Distingui tra business warranties (sulla società target) e title warranties (sulla titolarità delle partecipazioni). Identifica l'ambito della disclosure (disclosure letter) e le limitazioni (termini di prescrizione contrattuale, soglie minime, massimale aggregato, condotta del giudizio). Considera l'art. 1490 c.c. (vizi) e l'art. 1497 c.c. (qualità promesse).",
             },
             {
                 index: 7,
-                name: "Indemnities",
+                name: "Indennizzi (Indemnity)",
                 format: "text",
-                prompt: "Are there specific indemnities in this agreement? If so, list the key indemnities given, by whom, and for what potential liabilities (e.g. tax indemnity, environmental indemnity, litigation indemnity). Note any time limits or caps applicable to indemnity claims.",
+                prompt: "Sono previsti indennizzi specifici? In caso affermativo, elenca i principali (indemnity fiscale, ambientale, contenzioso pendente, lavoro, normativa antimafia). Indica i soggetti obbligati e le passività potenziali coperte. Segnala termini e massimali specifici per gli indemnity.",
             },
             {
                 index: 8,
-                name: "Limitation of Liability",
+                name: "Limitazioni di Responsabilità",
                 format: "text",
-                prompt: "What limitations on liability apply to warranty and indemnity claims? Identify the aggregate cap (and how it is calculated, e.g. as a percentage of consideration), any separate cap for fundamental warranties or indemnities, minimum claim thresholds (de minimis and basket/deductible), and time limits for bringing claims.",
+                prompt: "Quali limitazioni di responsabilità si applicano alle pretese da R&W e indemnity? Identifica il massimale aggregato (e modalità di calcolo, es. percentuale del prezzo), eventuali massimali separati per fundamental warranties o indemnity (es. fiscale), de minimis (importo singolo) e basket/franchigia (importo aggregato), e i termini di prescrizione contrattuale (typically 18-24 mesi per business warranties, 5-7 anni per fiscali, illimitato per fundamental).",
             },
             {
                 index: 9,
-                name: "Covenants",
+                name: "Patti Restrittivi",
                 format: "text",
-                prompt: "What restrictive or other covenants are given by the seller or management? Include non-compete, non-solicitation, and non-dealing covenants, stating the scope (activities and geography) and duration of each.",
+                prompt: "Quali patti restrittivi (covenants) sono assunti dal venditore o dal management? Includi non concorrenza, non sollecitazione di clienti e dipendenti, non disturbo. Indica ambito (attività e geografia) e durata. Verifica conformità con la giurisprudenza italiana sulla ragionevolezza (durata, ambito, corrispettivo) e con l'art. 2596 c.c.",
             },
             {
                 index: 10,
-                name: "Exclusivity",
+                name: "Esclusiva",
                 format: "text",
-                prompt: "Is there an exclusivity or no-shop provision in this agreement? If so, state the period of exclusivity, what activities are restricted (e.g. soliciting competing offers, engaging with third parties), and any carve-outs or break fee arrangements.",
+                prompt: "È prevista una clausola di esclusiva o no-shop? In caso affermativo indica il periodo di esclusiva, le attività vietate (es. sollecitazione di offerte concorrenti, contatti con terzi) ed eventuali carve-out o break fee (penale per recesso ex art. 1382 c.c.).",
             },
             {
                 index: 11,
-                name: "Governing Law and Jurisdiction",
+                name: "Legge Applicabile e Giurisdizione",
                 format: "text",
-                prompt: "What governing law applies to this agreement and what courts or arbitral tribunals have jurisdiction? State the chosen law, the forum for disputes, and whether jurisdiction is exclusive or non-exclusive.",
+                prompt: "Quale legge regola il contratto e quali tribunali o collegi arbitrali hanno giurisdizione? Indica la legge scelta, il foro per le controversie e se la giurisdizione è esclusiva o non esclusiva.",
             },
             {
                 index: 12,
-                name: "Dispute Resolution",
+                name: "Foro Competente / Arbitrato",
                 format: "text",
-                prompt: "How are disputes to be resolved under this agreement? Identify whether disputes go to litigation or arbitration, the chosen seat or forum, the applicable rules (if arbitration), and any mandatory pre-dispute escalation steps.",
+                prompt: "Come si risolvono le controversie? Identifica se vanno in giudizio ordinario o in arbitrato, la sede arbitrale (CAM, ICC, LCIA), il regolamento applicabile (per arbitrato) ed eventuali tappe pre-contenziose obbligatorie (mediazione D.Lgs. 28/2010, negoziazione assistita).",
             },
         ],
     },
@@ -634,610 +635,641 @@ export const BUILT_IN_WORKFLOWS: MikeWorkflow[] = [
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "NDA Review",
+        title: "Review Accordo di Riservatezza (NDA)",
         type: "tabular",
-        practice: "General Transactions",
+        practice: "Contrattualistica Commerciale",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Direction",
+                name: "Tipologia",
                 format: "tag",
-                tags: ["Mutual", "Unilateral"],
-                prompt: "Is this NDA mutual (both parties owe confidentiality obligations to each other) or unilateral (only one party owes confidentiality obligations)? Identify the direction and name the disclosing and receiving party or parties.",
+                tags: ["Reciproco", "Unilaterale"],
+                prompt: "L'NDA è reciproco (entrambe le parti assumono obblighi di riservatezza) o unilaterale (solo una parte assume obblighi di riservatezza)? Identifica la tipologia e nomina la parte divulgatrice e la parte ricevente.",
             },
             {
                 index: 1,
-                name: "Definition of Confidential Information",
+                name: "Definizione di Informazioni Riservate",
                 format: "text",
-                prompt: "How is 'Confidential Information' defined in this agreement? Is it broadly or narrowly drafted? Does it require information to be marked as confidential, or is all information shared in connection with the purpose automatically covered? Note any express inclusions or exclusions.",
+                prompt: "Come sono definite le 'Informazioni Riservate'? La definizione è ampia o restrittiva? Richiede che le informazioni siano marcate come riservate o tutto ciò che è scambiato è automaticamente coperto? Identifica eventuali inclusioni o esclusioni esplicite. Verifica coordinamento con la disciplina del segreto commerciale ex artt. 98-99 CPI (D.Lgs. 30/2005).",
             },
             {
                 index: 2,
-                name: "Obligations of Receiving Party",
+                name: "Obblighi della Parte Ricevente",
                 format: "bulleted_list",
-                prompt: "What are the key obligations of the receiving party in respect of the confidential information? List each obligation (e.g. keep confidential, not disclose to third parties, use only for the permitted purpose, apply a specific standard of care, restrict access to need-to-know personnel).",
+                prompt: "Quali sono gli obblighi principali della parte ricevente in relazione alle informazioni riservate? Elenca ciascun obbligo (es. mantenere riservate, non divulgare a terzi, usare solo per lo Scopo Permesso, applicare uno standard specifico di diligenza ex art. 1176 c.c., limitare l'accesso ai soli need-to-know).",
             },
             {
                 index: 3,
-                name: "Standard Carveouts Present?",
+                name: "Esclusioni Standard",
                 format: "yes_no",
-                prompt: "Does the agreement include the standard carveouts to confidentiality obligations? Answer Yes if the agreement excludes information that: (a) is or becomes publicly available without breach; (b) was already known to the receiving party; (c) is independently developed; and (d) is received from a third party without restriction. Note any carveouts that are missing or are drafted differently from the standard formulation.",
+                prompt: "L'NDA include le esclusioni standard agli obblighi di riservatezza? Rispondi Sì se l'accordo esclude informazioni che: (a) sono o diventano pubbliche senza violazione; (b) erano già note alla parte ricevente; (c) sono sviluppate indipendentemente; (d) sono ricevute da terzi senza vincoli. Segnala esclusioni mancanti o formulate in modo difforme dallo standard.",
             },
             {
                 index: 4,
-                name: "Permitted Disclosures",
+                name: "Divulgazioni Permesse",
                 format: "bulleted_list",
-                prompt: "To whom may the receiving party disclose confidential information? List each category of permitted recipient (e.g. employees, professional advisers, affiliates, financing parties, regulatory authorities). Note whether onward disclosure requires the recipient to be bound by equivalent obligations.",
+                prompt: "A chi può la parte ricevente divulgare le informazioni riservate? Elenca ciascuna categoria di destinatari permessi (es. dipendenti, consulenti professionali tenuti al segreto professionale, controllate, finanziatori, autorità di vigilanza per obblighi di legge). Indica se la divulgazione successiva richiede che il destinatario sia vincolato da obblighi equivalenti (back-to-back).",
             },
             {
                 index: 5,
-                name: "Term and Duration",
+                name: "Durata",
                 format: "text",
-                prompt: "What is the term of this NDA and how long do the confidentiality obligations last? State the initial term of the agreement and the duration of the confidentiality obligations (noting whether they survive termination and for how long).",
+                prompt: "Qual è la durata dell'NDA e per quanto tempo durano gli obblighi di riservatezza? Indica la durata iniziale dell'accordo e la durata degli obblighi di riservatezza (specificando se sopravvivono alla cessazione e per quanto). Tipicamente 3-5 anni per informazioni commerciali; tutela illimitata per segreti industriali ex art. 98 CPI.",
             },
             {
                 index: 6,
-                name: "Return and Destruction",
+                name: "Restituzione e Distruzione",
                 format: "text",
-                prompt: "What obligations apply on expiry or termination regarding return or destruction of confidential information? Is there a choice between return and destruction? Must destruction be certified? Are there any retention exceptions (e.g. for regulatory purposes, IT backup systems)?",
+                prompt: "Quali obblighi si applicano alla scadenza o cessazione in merito a restituzione o distruzione delle informazioni? È prevista una scelta tra restituzione e distruzione? La distruzione deve essere certificata? Sono previste eccezioni (es. obblighi di conservazione per finalità regolamentari, sistemi di backup IT, conservazione ex art. 2220 c.c. per le scritture contabili)?",
             },
             {
                 index: 7,
-                name: "Remedies",
+                name: "Rimedi",
                 format: "text",
-                prompt: "What remedies are available for breach of the confidentiality obligations? Does the agreement acknowledge that damages may be inadequate and that injunctive relief or specific performance is available? Are there any agreed liquidated damages or indemnities for breach?",
+                prompt: "Quali rimedi sono previsti per la violazione degli obblighi di riservatezza? L'accordo prevede penali (clausola penale ex art. 1382 c.c.) o indennizzi? È riconosciuto che il danno può essere irreparabile e che è disponibile una tutela cautelare/inibitoria (artt. 700, 669-bis ss. c.p.c.; art. 131 CPI)?",
             },
             {
                 index: 8,
-                name: "Governing Law and Jurisdiction",
+                name: "Legge Applicabile e Foro",
                 format: "text",
-                prompt: "What governing law applies to this agreement and which courts have jurisdiction? State the chosen law, the forum, and whether jurisdiction is exclusive or non-exclusive.",
+                prompt: "Quale legge regola l'accordo e quali tribunali hanno giurisdizione? Indica la legge scelta, il foro (esclusivo o non esclusivo ex art. 28 c.p.c.) e l'eventuale clausola compromissoria.",
             },
         ],
     },
 
-    // ─── Commercial Lease ─────────────────────────────────────────────────────────
+    // ─── Locazione Commerciale ────────────────────────────────────────────────────
     {
         id: "builtin-commercial-lease",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Commercial Lease Review",
+        title: "Review Locazione Commerciale (L. 392/78)",
         type: "tabular",
-        practice: "Real Estate",
+        practice: "Diritto Immobiliare",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Landlord",
+                name: "Locatore",
                 format: "text",
-                prompt: "Who is the landlord under this lease? State the full legal name, jurisdiction of incorporation or registration (if applicable), and any registered address or title number stated.",
+                prompt: "Chi è il locatore del contratto? Indica denominazione/nome completo, sede legale o residenza, codice fiscale/P.IVA e gli estremi catastali del bene (foglio, particella, subalterno) ove indicati.",
             },
             {
                 index: 1,
-                name: "Tenant",
+                name: "Conduttore",
                 format: "text",
-                prompt: "Who is the tenant under this lease? State the full legal name, jurisdiction of incorporation or registration (if applicable), and any registered address stated.",
+                prompt: "Chi è il conduttore? Indica denominazione/nome completo, sede legale o residenza, codice fiscale/P.IVA e l'attività che sarà svolta nei locali (con riferimento al codice ATECO).",
             },
             {
                 index: 2,
-                name: "Guarantor",
+                name: "Garante / Fideiussore",
                 format: "text",
-                prompt: "Is there a guarantor under this lease? If so, state the guarantor's full legal name and the scope of the guarantee (e.g. full guarantee of the tenant's obligations, or limited to specific obligations). If there is no guarantor, state this explicitly.",
+                prompt: "È previsto un garante/fideiussore? In caso affermativo, indica il nome completo e l'ambito della garanzia (fideiussione integrale ex art. 1936 c.c., fideiussione bancaria a prima richiesta, limitata a obbligazioni specifiche). Se non c'è garante, indicalo esplicitamente.",
             },
             {
                 index: 3,
-                name: "Premises",
+                name: "Immobile Locato",
                 format: "text",
-                prompt: "Describe the premises demised under this lease. Include the address, floor(s), unit reference, net internal area (if stated), and any areas included or excluded from the demise (e.g. common parts, roof, structure, car parking).",
+                prompt: "Descrivi l'immobile oggetto della locazione. Includi indirizzo, piano, identificativo unità (mappali catastali), superficie netta (mq), eventuali pertinenze incluse (cantine, posti auto, magazzini) o aree escluse, e destinazione d'uso urbanistica e catastale.",
             },
             {
                 index: 4,
-                name: "Date of Lease",
+                name: "Data del Contratto",
                 format: "date",
-                prompt: "What is the date of this lease? If the lease is undated or if the term commencement date differs from the execution date, note both.",
+                prompt: "Qual è la data del contratto? Se la data di decorrenza è diversa da quella di sottoscrizione, indica entrambe. Considera l'obbligo di registrazione entro 30 giorni dalla stipula presso l'Agenzia delle Entrate.",
             },
             {
                 index: 5,
-                name: "Term",
+                name: "Durata",
                 format: "text",
-                prompt: "What is the contractual term of this lease? State the length of the term and the term commencement and expiry dates.",
+                prompt: "Qual è la durata contrattuale? Indica la durata iniziale e le date di inizio e scadenza. Per locazioni commerciali la L. 392/1978 prevede durata minima di 6 anni + 6 di rinnovo automatico (art. 27 L. 392/78), salvo diniego del locatore solo per i motivi tassativi dell'art. 29 L. 392/78. Per locazioni transitorie ad uso non abitativo verifica i requisiti specifici.",
             },
             {
                 index: 6,
-                name: "Rent",
+                name: "Canone",
                 format: "monetary_amount",
-                prompt: "What is the initial annual rent payable under this lease? State the amount, the currency, the payment frequency (e.g. quarterly in advance), and the payment dates. Note any rent-free period or initial concessionary rent.",
+                prompt: "Qual è il canone iniziale annuo? Indica importo, valuta (EUR), frequenza di pagamento (es. mensile/trimestrale anticipato), date di pagamento. Segnala eventuale periodo di rent-free o canone agevolato iniziale (step-up rent).",
             },
             {
                 index: 7,
-                name: "Rent Review",
+                name: "Aggiornamento Canone",
                 format: "text",
-                prompt: "Are there rent review provisions? If so, state the review dates or frequency, the review mechanism (e.g. open market rent review, RPI/CPI indexation, fixed uplift), whether the review is upward-only, any assumptions and disregards applicable to an open market review, and the dispute resolution mechanism if the parties cannot agree the reviewed rent.",
+                prompt: "Sono previste clausole di aggiornamento del canone? Indica modalità di aggiornamento. Per locazioni soggette a L. 392/78 (uso diverso dall'abitativo) l'art. 32 prevede aggiornamento annuale ISTAT FOI nel limite del 75%, salvo deroga in melius per locazioni con canone superiore a determinati limiti. Verifica clausole di indicizzazione integrale e segnala potenziali profili di nullità per locazioni a regime vincolato.",
             },
             {
                 index: 8,
-                name: "Service Charge",
+                name: "Spese Accessorie / Oneri Condominiali",
                 format: "text",
-                prompt: "Is the tenant liable for a service charge? If so, describe what costs are included within the service charge, the tenant's apportionment or percentage share, any cap on the service charge, and how the service charge is administered and reconciled.",
+                prompt: "Il conduttore è responsabile di spese accessorie? Descrivi quali spese sono incluse (oneri condominiali ordinari, riscaldamento, ascensore, portierato, acqua, energia elettrica delle parti comuni), la ripartizione (millesimi, percentuale, intero) e la modalità di rendicontazione. Verifica conformità con art. 9 L. 392/78 (oneri accessori).",
             },
             {
                 index: 9,
-                name: "Insurance",
+                name: "Assicurazione",
                 format: "text",
-                prompt: "What are the insurance obligations under this lease? State who insures (landlord or tenant), what risks must be insured, who bears the insurance premium cost, and the tenant's obligations in respect of the landlord's insurance (e.g. not to vitiate the policy, to pay the premium as additional rent).",
+                prompt: "Quali sono gli obblighi assicurativi? Indica chi assicura (locatore o conduttore), quali rischi devono essere coperti (incendio, scoppio, RCT, danni a terzi), chi sostiene il premio e gli obblighi del conduttore rispetto alla polizza del locatore.",
             },
             {
                 index: 10,
-                name: "Permitted Use",
+                name: "Destinazione d'Uso",
                 format: "text",
-                prompt: "What is the permitted use of the premises under this lease? State the use class or specific use permitted and identify any restrictions on use. Note whether the landlord's consent is required to change use and on what basis consent may be withheld.",
+                prompt: "Qual è la destinazione d'uso prevista? Indica la categoria d'uso (es. ufficio direzionale, attività commerciale al dettaglio, attività di artigianato, attività industriale, attività ricettiva). Verifica coerenza con la destinazione urbanistica e catastale. Per attività con contatto diretto col pubblico (art. 27 L. 392/78) si applica il diritto all'indennità per perdita di avviamento. Indica se è richiesto il consenso del locatore per cambio di destinazione.",
             },
             {
                 index: 11,
-                name: "Repair & Maintenance",
+                name: "Manutenzione",
                 format: "text",
-                prompt: "Who is responsible for repair and maintenance of the premises? Describe the extent of the tenant's repairing obligation (e.g. full repairing, internal repairing only, subject to a schedule of condition). State the landlord's repairing obligations, if any, in respect of the structure, exterior, or common parts.",
+                prompt: "Chi è responsabile della manutenzione? Descrivi l'estensione degli obblighi del conduttore. Per le locazioni in generale: manutenzione straordinaria a carico del locatore (art. 1576 c.c.), ordinaria al conduttore (art. 1576 c.c. e art. 1609 c.c. per le riparazioni di piccola manutenzione). Verifica deroghe contrattuali e eventuali clausole 'as is' / inversione degli oneri.",
             },
             {
                 index: 12,
-                name: "Alterations",
+                name: "Lavori e Modifiche",
                 format: "text",
-                prompt: "What alterations may the tenant make to the premises? Distinguish between structural and non-structural alterations. Is landlord consent required, and if so on what basis may it be withheld? Must the tenant reinstate alterations at the end of the term?",
+                prompt: "Quali modifiche può apportare il conduttore? Distingui tra opere strutturali e non strutturali. È richiesto il consenso del locatore? Su quali basi può essere negato? Il conduttore deve ripristinare lo stato originario al termine? Verifica disciplina delle migliorie e delle addizioni ex artt. 1592, 1593 c.c.",
             },
             {
                 index: 13,
-                name: "Assignment & Subletting",
+                name: "Sublocazione e Cessione",
                 format: "text",
-                prompt: "What rights does the tenant have to assign or sublet the premises? State whether assignment and subletting are permitted with landlord consent, on what grounds consent may be withheld, any conditions to be satisfied (e.g. an authorised guarantee agreement on assignment, rent at no less than the passing rent on subletting), and whether any dealings are prohibited outright.",
+                prompt: "Quali diritti ha il conduttore di sublocare o cedere il contratto? Per locazioni commerciali soggette a L. 392/78 (art. 36) il conduttore può cedere il contratto o sublocare l'immobile insieme alla cessione/affitto d'azienda anche senza consenso del locatore, purché ne dia comunicazione. Verifica clausole di limitazione e adempimenti formali. Distingui tra cessione del contratto (art. 1406 c.c.) e cessione d'azienda (art. 2558 c.c.).",
             },
             {
                 index: 14,
-                name: "Break Rights",
+                name: "Recesso",
                 format: "text",
-                prompt: "Are there any break rights in this lease? If so, identify who holds the break right (landlord, tenant, or both), the break date(s), the notice period and form required to exercise the break, and any pre-conditions to effective exercise (e.g. no material breach, vacant possession, payment of all sums due).",
+                prompt: "Sono previsti diritti di recesso? Per il conduttore commerciale: recesso per gravi motivi con preavviso di 6 mesi (art. 27, ultimo comma, L. 392/78); recesso convenzionale ad nutum se previsto. Per il locatore: diniego di rinnovo solo per i motivi tassativi dell'art. 29 L. 392/78 (uso proprio, ricostruzione, etc.). Indica preavvisi e forme richieste (raccomandata A/R, PEC).",
             },
             {
                 index: 15,
-                name: "Security of Tenure",
+                name: "Indennità per Perdita di Avviamento",
                 format: "yes_no",
-                prompt: "Does the tenant have statutory security of tenure (e.g. under the Landlord and Tenant Act 1954 in England and Wales, or equivalent legislation in another jurisdiction)? Answer Yes if the lease is contracted in or benefits from security of tenure. Answer No if the lease has been contracted out or if security of tenure does not apply. State the basis for your answer.",
+                prompt: "Si applica l'indennità per perdita di avviamento commerciale (artt. 34-35 L. 392/78)? Rispondi Sì se l'attività comporta contatto diretto con il pubblico degli utenti e dei consumatori; in tal caso è dovuta un'indennità pari a 18 mensilità di canone (21 per attività alberghiere) in caso di mancato rinnovo non imputabile al conduttore. Rispondi No se l'attività non rientra (es. ufficio direzionale, deposito) o se vi è espressa rinuncia (verifica validità della rinuncia: secondo Cass. SS.UU. la rinuncia preventiva è nulla).",
             },
             {
                 index: 16,
-                name: "Dilapidations",
+                name: "Riconsegna e Stato dei Locali",
                 format: "text",
-                prompt: "What dilapidations obligations apply at the end of the term? Describe the tenant's yield-up obligations (e.g. to deliver the premises in repair, to reinstate alterations, to redecorate). Is there a schedule of condition limiting the tenant's liability? Note any dilapidations cap or other limitation on the landlord's claim.",
+                prompt: "Quali obblighi di riconsegna si applicano? Descrivi gli obblighi di yield-up (art. 1590 c.c.: restituzione nello stato in cui è stata ricevuta, salvo deterioramento per uso conforme; ripristino delle modifiche). È previsto un verbale di consegna iniziale? Esistono eventuali franchigie sulla restituzione (es. tinteggiatura) o tetti sull'eventuale richiesta di danni?",
             },
             {
                 index: 17,
-                name: "Rent Deposit",
+                name: "Deposito Cauzionale",
                 format: "monetary_amount",
-                prompt: "Is a rent deposit required? If so, state the amount, the period for which it is held, the conditions under which the landlord may draw on it, and the circumstances in which it is returned to the tenant.",
+                prompt: "È richiesto un deposito cauzionale? In caso affermativo, indica importo (di regola fino a 3 mensilità ex art. 11 L. 392/78), modalità di versamento, periodo di custodia, condizioni in cui il locatore può escutere la cauzione e modalità di restituzione (con interessi legali al tasso applicabile).",
             },
             {
                 index: 18,
-                name: "Forfeiture & Termination",
+                name: "Risoluzione e Sfratto",
                 format: "text",
-                prompt: "What are the landlord's forfeiture or termination rights? Identify the events that entitle the landlord to forfeit the lease (e.g. non-payment of rent after a grace period, material breach of covenant, insolvency) and any notice requirements before forfeiture can be exercised.",
+                prompt: "Quali sono le cause di risoluzione e i diritti di sfratto del locatore? Identifica gli eventi che attivano la risoluzione (morosità — art. 5 L. 392/78 prevede la risoluzione per ritardato pagamento del canone superiore a 20 giorni o degli oneri accessori superiori a 2 mensilità; gravi inadempimenti agli obblighi contrattuali; insolvenza). Considera la procedura di sfratto per morosità ex artt. 658 ss. c.p.c. e il termine di grazia ex art. 55 L. 392/78.",
             },
             {
                 index: 19,
-                name: "Governing Law",
+                name: "Legge Applicabile e Foro",
                 format: "text",
-                prompt: "What governing law applies to this lease and which courts have jurisdiction over disputes?",
+                prompt: "Quale legge regola il contratto e quale foro è competente? Indica il foro convenzionale (art. 28 c.p.c., generalmente foro dell'immobile per locazioni — art. 21 c.p.c.). Considera l'obbligatorietà della mediazione ex D.Lgs. 28/2010 per le controversie locatizie.",
             },
         ],
     },
 
-    // ─── Limited Partnership Agreement ───────────────────────────────────────────
+    // ─── Limited Partnership Agreement (Fondo) ───────────────────────────────────
     {
         id: "builtin-lpa",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Limited Partnership Agreement Review",
+        title: "Review Regolamento di Fondo / LPA",
         type: "tabular",
         practice: "Private Equity",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "General Partner",
+                name: "Gestore (GP / SGR)",
                 format: "text",
-                prompt: "Identify the General Partner(s) of the fund. State the full legal name, jurisdiction of establishment, and any affiliated management entity (e.g. the fund manager or investment adviser) named in the agreement.",
+                prompt: "Identifica il General Partner o la SGR (Società di Gestione del Risparmio) gestrice del fondo. Indica denominazione sociale completa, sede, eventuale autorizzazione Banca d'Italia ex art. 34 TUF (D.Lgs. 58/1998) e l'eventuale soggetto di gestione delegata (advisor).",
             },
             {
                 index: 1,
-                name: "Fund Name & Jurisdiction",
+                name: "Denominazione e Giurisdizione del Fondo",
                 format: "text",
-                prompt: "What is the full name of the fund and in which jurisdiction is the limited partnership established or registered?",
+                prompt: "Qual è la denominazione completa del fondo e in quale giurisdizione è istituito? Indica forma giuridica (FIA italiano riservato/aperto/chiuso ex TUF; SCS, SCA o equivalenti se estero come Lussemburgo SCSp, Cayman Exempted LP). Per FIA italiani indicare se si tratta di FIA mobiliare/immobiliare/credit fund ex Reg. Banca d'Italia.",
             },
             {
                 index: 2,
-                name: "Total Committed Capital",
+                name: "Patrimonio Sottoscritto Totale",
                 format: "monetary_amount",
-                prompt: "What is the total committed capital of the fund? State the target size, any hard cap, the currency, and the closing date or dates if specified.",
+                prompt: "Qual è il patrimonio sottoscritto/committed capital totale del fondo? Indica target size, eventuale hard cap, valuta (EUR per FIA italiani) e date di closing (first/final closing).",
             },
             {
                 index: 3,
-                name: "Capital Calls & Drawdowns",
+                name: "Richiami e Versamenti (Capital Calls)",
                 format: "text",
-                prompt: "How and when may the GP call capital from LPs? State the notice period for capital calls, the mechanics for issuing a call notice, any limit on the frequency or size of calls, and whether undrawn commitments can be recalled after repayment.",
+                prompt: "Come avvengono i richiami di capitale dagli investitori? Indica preavviso per i richiami (drawdown notice), meccanismo della comunicazione, eventuali limiti di frequenza o entità dei richiami, e se gli importi rimborsati possono essere richiamati nuovamente (recallable distributions).",
             },
             {
                 index: 4,
-                name: "Penalties for Failure to Fund",
+                name: "Conseguenze Inadempimento (Default Investitore)",
                 format: "text",
-                prompt: "What are the consequences if an LP fails to fund a capital call? Describe any penalties (e.g. interest on the shortfall, dilution of interest, forced transfer at a discount, loss of voting or distribution rights, exclusion from future investments). Are there any cure periods before penalties apply?",
+                prompt: "Quali sono le conseguenze in caso di mancato versamento da parte di un investitore? Descrivi penali (interessi sull'importo arretrato, diluizione della quota, vendita forzosa con sconto, perdita di diritti di voto o di distribuzione, esclusione da future operazioni). Eventuali periodi di cura prima dell'attivazione delle penali.",
             },
             {
                 index: 5,
-                name: "Investment Scope & Restrictions",
+                name: "Strategia di Investimento e Limiti",
                 format: "text",
-                prompt: "What is the fund's stated investment strategy, scope, and any restrictions? Include permitted sectors, geographies, investment stages, instrument types, and any concentration limits (e.g. maximum % of committed capital per single investment). Note how much discretion the GP has to deviate from the stated strategy.",
+                prompt: "Qual è la strategia di investimento dichiarata e quali sono i limiti? Includi settori, geografie, fasi di investimento, tipologie di strumenti e limiti di concentrazione (es. % massima del committed capital per singolo investimento). Verifica conformità con i limiti regolamentari per i FIA italiani (Reg. Banca d'Italia/Ministeriale 30/2015).",
             },
             {
                 index: 6,
-                name: "Fund Term",
+                name: "Durata del Fondo",
                 format: "text",
-                prompt: "What is the term of the fund? State the initial term (e.g. 10 years from final closing), any permitted extension periods (e.g. 2 × 1-year extensions), who has the right to approve extensions (GP alone or with LP/LPAC consent), and any early termination mechanics.",
+                prompt: "Qual è la durata del fondo? Indica la durata iniziale (es. 10 anni dal final closing), eventuali estensioni consentite (es. 2 × 1 anno), chi può approvarle (GP da solo o con consenso LPAC/investitori) e meccanismi di terminazione anticipata.",
             },
             {
                 index: 7,
-                name: "Management Fee",
+                name: "Commissione di Gestione",
                 format: "text",
-                prompt: "What management fee is payable to the GP or manager? State the fee rate, the basis on which it is calculated (e.g. committed capital during the investment period, then invested or net asset value thereafter), any step-downs over the fund life, and the payment frequency.",
+                prompt: "Qual è la commissione di gestione (management fee) corrisposta al gestore? Indica il tasso, la base di calcolo (committed capital durante il periodo di investimento, NAV o capitale investito successivamente), eventuali step-down e la frequenza di pagamento.",
             },
             {
                 index: 8,
                 name: "Carried Interest",
                 format: "text",
-                prompt: "What carried interest (carry) is payable to the GP? State the carry percentage, the structure (European/fund-level waterfall vs American/deal-by-deal), and identify each step of the distribution waterfall in sequence (e.g. return of capital, preferred return, GP catch-up, then profit split).",
+                prompt: "Qual è il carried interest spettante al GP? Indica la percentuale (tipicamente 20%), la struttura (waterfall a livello di fondo/europeo vs. deal-by-deal/americano) e identifica ogni step della distribution waterfall (rimborso del capitale, hurdle/preferred return, GP catch-up, profit split). Considera il regime fiscale italiano del carried interest (art. 60 D.L. 50/2017) e i requisiti per la qualificazione come reddito di capitale.",
             },
             {
                 index: 9,
-                name: "Preferred Return (Hurdle Rate)",
+                name: "Hurdle Rate (Preferred Return)",
                 format: "percentage",
-                prompt: "Is there a preferred return or hurdle rate that LPs must receive before the GP earns carry? State the rate, whether it is compounded (and on what basis), and how it is calculated (e.g. on invested capital, on contributed capital). If there is no preferred return, state this explicitly.",
+                prompt: "È previsto un preferred return o hurdle rate che gli investitori devono ricevere prima che il GP percepisca il carried interest? Indica il tasso (tipicamente 6-8%), se è composto e su quale base (capital invested, contributed capital). Se non è previsto un preferred return, indicalo esplicitamente.",
             },
             {
                 index: 10,
                 name: "GP Catch-Up",
                 format: "text",
-                prompt: "Is there a GP catch-up mechanism after the preferred return is met? If so, describe how it operates: what percentage of distributions go to the GP during the catch-up, and what economic result the catch-up is designed to achieve (e.g. the GP receives 20% of all profits to date).",
+                prompt: "È previsto un meccanismo di GP catch-up dopo il raggiungimento dell'hurdle? In caso affermativo descrivi: quale percentuale delle distribuzioni va al GP durante la fase di catch-up (tipicamente 100%), e quale risultato economico è progettato per ottenere (es. il GP riceve il 20% di tutti i profitti distribuiti fino a quel punto).",
             },
             {
                 index: 11,
                 name: "Clawback",
                 format: "text",
-                prompt: "Is there a clawback obligation on the GP if it receives excess carry? State whether the clawback is calculated at fund level or individual partner level, when it is triggered, any cap or limit on the clawback obligation, and whether there is any escrow or security arrangement to support the GP's clawback obligation.",
+                prompt: "È prevista un'obbligazione di clawback a carico del GP nel caso percepisca carried in eccesso? Indica se il calcolo è a livello di fondo o di singolo partner, quando si attiva (durante la vita del fondo, alla liquidazione), eventuali tetti all'obbligazione di clawback, e l'esistenza di meccanismi di garanzia (escrow, guarantee del gestore o del personale chiave).",
             },
             {
                 index: 12,
-                name: "Fees & Expenses (Beyond Management Fee)",
+                name: "Spese e Costi (oltre Management Fee)",
                 format: "bulleted_list",
-                prompt: "What fees and expenses are charged to the fund or LPs beyond the management fee? List each category (e.g. transaction fees, monitoring fees, broken deal costs, formation expenses, legal fees, fund administration costs, organisational expenses). For each, state who bears the cost and whether any amounts are offset against the management fee.",
+                prompt: "Quali spese e costi sono addebitati al fondo o agli investitori, oltre la commissione di gestione? Elenca ciascuna categoria (transaction fees, monitoring fees, broken deal costs, formation expenses, legali, fund administration, organisational expenses, costi di compliance/regolamentari). Per ciascuna indica chi sopporta il costo e se è oggetto di offset rispetto alla management fee.",
             },
             {
                 index: 13,
-                name: "Distributions",
+                name: "Distribuzioni",
                 format: "text",
-                prompt: "How and when are distributions made to LPs? Describe the timing of distributions (e.g. upon realisation of investments or at the GP's discretion), whether the GP can reinvest proceeds within the investment period, and whether distributions may be made in-kind (i.e. as securities rather than cash).",
+                prompt: "Come e quando avvengono le distribuzioni agli investitori? Descrivi tempistica (al realizzo degli investimenti o a discrezione del GP), eventuale possibilità di reinvestire i proventi durante il periodo di investimento e se le distribuzioni possono avvenire in-kind (titoli anziché contanti).",
             },
             {
                 index: 14,
-                name: "Key Person Clause",
+                name: "Clausola Key Person",
                 format: "text",
-                prompt: "Is there a key person clause? Identify the designated key persons. What triggers the key person event (e.g. departure, incapacity, reduced time commitment below a threshold)? What are the consequences (e.g. suspension of the investment period)? Do LPs have any right to terminate or vote on continuation following a key person event?",
+                prompt: "È prevista una clausola key person? Identifica le persone chiave designate. Quali eventi attivano la key person event (uscita, incapacità, dedizione di tempo inferiore a soglia)? Quali conseguenze (sospensione del periodo di investimento)? Gli investitori hanno diritto di terminare o votare la continuazione dopo l'evento?",
             },
             {
                 index: 15,
-                name: "Removal of the GP",
+                name: "Rimozione del GP",
                 format: "text",
-                prompt: "Under what circumstances can the GP be removed? Distinguish between removal for cause (e.g. fraud, gross negligence, wilful misconduct — state the LP voting threshold required) and removal without cause (state the LP voting threshold and any associated consequences such as carried interest treatment on removal).",
+                prompt: "In quali circostanze può essere rimosso il GP? Distingui tra rimozione for cause (frode, colpa grave, dolo — indica la maggioranza degli investitori richiesta) e senza causa (no-fault removal — indica la maggioranza richiesta e le conseguenze, es. trattamento del carried al momento della rimozione, indennizzi del GP).",
             },
             {
                 index: 16,
-                name: "Advisory Committee (LPAC)",
+                name: "Comitato Consultivo (LPAC)",
                 format: "text",
-                prompt: "Is there an LP Advisory Committee (LPAC) or similar governance body? If so, describe its composition, how members are selected, its key powers and responsibilities (e.g. approving conflicts of interest, valuations, extensions, related-party transactions), and whether its approval is binding or merely advisory.",
+                prompt: "È previsto un Limited Partner Advisory Committee (LPAC) o organo equivalente? Descrivi composizione, modalità di selezione dei membri, poteri principali (approvazione di conflitti d'interesse, valutazioni, estensioni, operazioni con parti correlate) e se le decisioni sono vincolanti o solo consultive.",
             },
             {
                 index: 17,
-                name: "Transfer Restrictions",
+                name: "Limitazioni al Trasferimento",
                 format: "text",
-                prompt: "What restrictions apply to an LP transferring or assigning its interest in the fund? Is GP consent required? Are there any permitted transfer exceptions (e.g. to affiliates)? Are secondary market sales permitted and, if so, subject to what conditions or rights of first refusal?",
+                prompt: "Quali restrizioni si applicano al trasferimento o cessione della quota di un investitore? È richiesto il consenso del GP? Sono previste eccezioni (trasferimenti ad affiliate)? Sono permesse vendite sul mercato secondario e a quali condizioni o diritti di prelazione?",
             },
             {
                 index: 18,
-                name: "Conflicts of Interest",
+                name: "Conflitti di Interesse",
                 format: "text",
-                prompt: "How does the agreement address conflicts of interest? Describe the deal allocation policy across funds, any co-investment rights granted to LPs, restrictions on related-party transactions, and the role of the LPAC in reviewing or approving conflicts. Note any specific conflict scenarios expressly contemplated.",
+                prompt: "Come sono regolati i conflitti di interesse? Descrivi la deal allocation policy tra fondi del gestore, eventuali co-investment rights concessi agli investitori, restrizioni sulle operazioni con parti correlate e ruolo dell'LPAC nella revisione/approvazione dei conflitti. Verifica conformità con la disciplina del TUF e Reg. Intermediari Consob.",
             },
             {
                 index: 19,
-                name: "Governing Law",
+                name: "Legge Applicabile e Foro",
                 format: "text",
-                prompt: "What governing law applies to this agreement and which courts or arbitral tribunals have jurisdiction over disputes?",
+                prompt: "Quale legge regola il regolamento del fondo / LPA e quali tribunali o collegi arbitrali hanno giurisdizione sulle controversie? Per FIA italiani il regolamento è approvato da Banca d'Italia.",
             },
         ],
     },
 
-    // ─── Shareholder Agreement (Assistant) ───────────────────────────────────────
+    // ─── Sintesi Patti Parasociali (Assistant) ──────────────────────────────────
     {
         id: "builtin-sha-summary",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Shareholder Agreement Summary",
+        title: "Sintesi Patti Parasociali",
         type: "assistant",
-        practice: "Corporate",
+        practice: "Diritto Societario",
         prompt_md:
-            "## Shareholder Agreement Summary\n\n" +
-            "Review the uploaded shareholder agreement and produce a comprehensive legal summary covering the following topics. " +
-            "For each section, identify the key provisions, quote the relevant clause references, and flag any unusual, onerous, or market-standard deviations.\n\n" +
-            "1. **Parties & Shareholdings** — Full legal names, roles, share classes held, and percentage interests (on a fully diluted basis if stated)\n" +
-            "2. **Share Classes & Rights** — For each class: voting rights, dividend rights, liquidation preference, conversion or redemption features\n" +
-            "3. **Board Composition & Governance** — Board size, director appointment rights (and the shareholding thresholds required to maintain them), quorum, and casting vote\n" +
-            "4. **Reserved Matters** — Decisions requiring a special majority, unanimity, or a specific shareholder's consent; note the threshold and whose consent is required for each\n" +
-            "5. **Pre-emption on New Shares** — Who holds pre-emption rights, procedure, timeline, and any carve-outs (e.g. employee option schemes)\n" +
-            "6. **Transfer Restrictions** — Lock-up periods, prohibited transfers, permitted transfers (e.g. to affiliates), and any board or shareholder approval requirements\n" +
-            "7. **Right of First Refusal / Pre-emption on Transfer** — Trigger, procedure, pricing mechanics, and any exceptions\n" +
-            "8. **Drag-Along Rights** — Who holds the right, threshold to trigger, conditions (e.g. minimum price, independent valuation), and minority protections\n" +
-            "9. **Tag-Along Rights** — Who holds the right, triggering threshold, exercise procedure, and price terms\n" +
-            "10. **Anti-Dilution Protections** — Type (full ratchet, weighted average), trigger events, calculation mechanics, and exceptions\n" +
-            "11. **Dividend Policy** — Any obligation or target to pay dividends, preferential dividend rights, and restrictions on distributions\n" +
-            "12. **Exit & Liquidity** — Agreed exit routes (trade sale, IPO, drag sale), timelines, and liquidation preferences on exit\n" +
-            "13. **Deadlock** — Deadlock definition, escalation and resolution mechanisms (e.g. Russian roulette, put/call options), and consequences if unresolved\n" +
-            "14. **Non-Compete & Non-Solicitation** — Who is bound, scope of activities and geography, duration, and carve-outs\n" +
-            "15. **Governing Law & Dispute Resolution** — Applicable law, forum, arbitration or litigation, and any mandatory escalation steps\n\n" +
-            "Generate the summary as a downloadable Word document.",
+            "## Sintesi Patti Parasociali\n\n" +
+            "Analizza i patti parasociali caricati e produci una sintesi legale completa che copra i seguenti punti. " +
+            "Per ciascuna sezione individua le clausole chiave, cita gli articoli del patto e segnala eventuali clausole insolite o non conformi alla disciplina degli artt. 2341-bis e 2341-ter c.c. (durata massima quinquennale per le S.p.A. non quotate; durata massima triennale e obblighi di pubblicità per le società quotate).\n\n" +
+            "1. **Parti e partecipazioni** — Denominazione sociale completa, ruolo, classi di azioni/quote detenute, percentuali di partecipazione (anche su base fully diluted)\n" +
+            "2. **Categorie di azioni e diritti** — Per ciascuna categoria: diritti di voto (anche voto plurimo o maggiorato ex artt. 2351 c.c. e 127-quinquies TUF), dividendi, privilegi in liquidazione, diritti di conversione/riscatto\n" +
+            "3. **Composizione e governance del CdA** — Numero dei consiglieri, diritti di nomina (e soglie di partecipazione necessarie a mantenerli), diritti di nomina del Presidente, voto determinante, voto di lista ex art. 147-ter TUF (se applicabile)\n" +
+            "4. **Materie riservate (reserved matters)** — Decisioni che richiedono maggioranze qualificate, unanimità o consenso specifico di un socio, sia in CdA sia in assemblea (artt. 2364, 2365, 2479 c.c.)\n" +
+            "5. **Diritto di prelazione su nuove emissioni** — Titolari del diritto di opzione ex art. 2441 c.c. (S.p.A.) o art. 2481-bis c.c. (S.r.l.), procedura, tempistiche e carve-out (es. piani di stock option, aumenti riservati)\n" +
+            "6. **Limiti al trasferimento** — Lock-up, divieti di trasferimento, trasferimenti consentiti (a controllate, ad affiliate); annotazione nel libro soci ex art. 2355-bis c.c. (prelazione/gradimento)\n" +
+            "7. **Prelazione e gradimento** — Trigger, procedura, meccanismi di valorizzazione e deroghe; verifica della clausola di mero gradimento ex art. 2355-bis c.c. (necessità di obbligo di acquisto o diritto di recesso)\n" +
+            "8. **Drag-along** — Titolari, soglia di attivazione, condizioni (prezzo minimo, valutazione indipendente), tutele delle minoranze\n" +
+            "9. **Tag-along** — Titolari, soglia di trigger, procedura di esercizio, condizioni di prezzo\n" +
+            "10. **Tutele anti-diluizione** — Tipologia (full ratchet, weighted average broad/narrow-based), eventi di trigger, meccanica di calcolo ed eccezioni\n" +
+            "11. **Politica dei dividendi** — Obblighi o target di distribuzione, dividendi privilegiati, vincoli (utili distribuibili ex art. 2433 c.c., riserva legale ex art. 2430 c.c.)\n" +
+            "12. **Exit e liquidità** — Modalità di uscita (trade sale, IPO, drag sale), tempistiche, preferenze in liquidazione (liquidation preference)\n" +
+            "13. **Stallo decisionale (deadlock)** — Definizione, escalation (mediazione, conciliazione), meccanismi di risoluzione (Russian roulette, Texas shoot-out, opzioni put/call), conseguenze in caso di mancata composizione (eventuale scioglimento ex art. 2484 c.c.)\n" +
+            "14. **Obblighi di non concorrenza e non sollecitazione** — Soggetti vincolati, ambito di attività e geografico, durata, carve-out — verifica conformità con i principi giurisprudenziali sulla non concorrenza post-contrattuale (ragionevolezza, art. 2596 c.c.)\n" +
+            "15. **Durata e pubblicità del patto** — Durata (massimo 5 anni rinnovabili per S.p.A. non quotate ex art. 2341-bis c.c.; per società quotate art. 122 TUF — comunicazione Consob, deposito presso Registro Imprese, pubblicazione su quotidiano)\n" +
+            "16. **Legge applicabile e risoluzione delle controversie** — Legge regolatrice, foro/sede arbitrale, eventuale clausola arbitrale ex art. 34 D.Lgs. 5/2003 per arbitrato societario, escalation obbligatoria (mediazione)\n\n" +
+            "Genera la sintesi come documento Word scaricabile.",
         columns_config: null,
     },
 
-    // ─── Shareholder Agreement ────────────────────────────────────────────────────
+    // ─── Patti Parasociali (Tabular) ─────────────────────────────────────────────
     {
         id: "builtin-shareholder-agreement",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Shareholder Agreement Review",
+        title: "Review Patti Parasociali",
         type: "tabular",
-        practice: "Corporate",
+        practice: "Diritto Societario",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Parties",
+                name: "Parti",
                 format: "bulleted_list",
-                prompt: "Identify all parties to this shareholder agreement. For each, state their full legal name, jurisdiction of incorporation or establishment (if stated), and their role (e.g. company, majority shareholder, minority shareholder, investor, founder, management shareholder).",
+                prompt: "Identifica tutte le parti dei patti parasociali. Per ciascuna indica denominazione sociale completa, sede legale, P.IVA/codice fiscale e ruolo (es. società, socio di maggioranza, socio di minoranza, investitore finanziario, founder, management).",
             },
             {
                 index: 1,
-                name: "Date",
+                name: "Data",
                 format: "date",
-                prompt: "What is the date of this shareholder agreement?",
+                prompt: "Qual è la data dei patti parasociali? Per società quotate verifica la pubblicazione sul sito web della società e l'estratto pubblicato in Gazzetta Ufficiale entro 5 giorni (art. 122 TUF).",
             },
             {
                 index: 2,
-                name: "Share Capital & Classes",
+                name: "Capitale Sociale e Categorie di Azioni",
                 format: "bulleted_list",
-                prompt: "What classes of shares are in issue or contemplated by this agreement? For each class, describe the key rights attaching to it including voting rights, dividend rights, liquidation preference (if any), and any conversion or redemption features.",
+                prompt: "Quali categorie di azioni/quote sono in circolazione o previste? Per ciascuna categoria descrivi i principali diritti (voto incluso voto plurimo/maggiorato ex art. 2351 c.c. e art. 127-quinquies TUF, dividendi, privilegi in liquidazione, conversione, riscatto). Per S.r.l. considera la disciplina ex art. 2468 c.c.",
             },
             {
                 index: 3,
-                name: "Shareholdings",
+                name: "Partecipazioni",
                 format: "bulleted_list",
-                prompt: "What are the shareholdings of each party as set out or contemplated in this agreement? For each shareholder, state the number of shares held, the class, and the percentage of total share capital (on a fully diluted basis if stated).",
+                prompt: "Quali sono le partecipazioni di ciascuna parte come previste o contemplate dai patti? Per ciascun socio indica numero di azioni/quote, categoria, e percentuale del capitale sociale (anche su base fully diluted). Verifica coerenza con il libro soci ex art. 2421 c.c.",
             },
             {
                 index: 4,
-                name: "Board Composition",
+                name: "Composizione del CdA",
                 format: "text",
-                prompt: "How is the board of directors constituted under this agreement? State the total number of directors, each shareholder's or class of shareholders' right to appoint or nominate directors (and the threshold shareholding required to maintain that right), and any provisions for a chairman or casting vote.",
+                prompt: "Come è composto il Consiglio di Amministrazione? Indica il numero totale di consiglieri, il diritto di nomina di ciascun socio o classe (e la soglia di partecipazione necessaria a mantenerlo), eventuali disposizioni sul Presidente o voto determinante. Per società quotate considera il voto di lista ex art. 147-ter TUF e i requisiti di quote di genere (L. 120/2011).",
             },
             {
                 index: 5,
-                name: "Reserved Matters",
+                name: "Materie Riservate",
                 format: "bulleted_list",
-                prompt: "What are the reserved matters or veto rights set out in this agreement? List each matter that requires shareholder or director approval beyond an ordinary majority (e.g. special majority, unanimity, or the consent of a specific shareholder). Identify the applicable threshold or whose consent is required for each.",
+                prompt: "Quali sono le materie riservate o veto rights? Elenca ogni materia che richiede approvazione qualificata oltre la maggioranza ordinaria (maggioranza qualificata, unanimità, consenso specifico di un socio), sia in CdA sia in assemblea. Identifica la soglia o il consenso richiesto per ciascuna. Considera il coordinamento con artt. 2364, 2365, 2479 c.c.",
             },
             {
                 index: 6,
-                name: "Pre-emption on New Shares",
+                name: "Diritto di Opzione su Nuove Emissioni",
                 format: "text",
-                prompt: "What pre-emption rights apply on the issuance of new shares? Describe who holds pre-emption rights, the procedure for offering new shares to existing shareholders, the timeline for acceptance, and any carve-outs or exceptions (e.g. shares issued under an employee option scheme, permitted issuances).",
+                prompt: "Quali diritti di opzione si applicano sull'emissione di nuove azioni/quote? Descrivi i titolari del diritto, la procedura, le tempistiche di accettazione e gli eventuali carve-out (es. azioni emesse in piani di stock option, aumenti riservati, conferimenti in natura). Verifica coordinamento con art. 2441 c.c. (S.p.A.) o art. 2481-bis c.c. (S.r.l.).",
             },
             {
                 index: 7,
-                name: "Transfer Restrictions",
+                name: "Limiti al Trasferimento",
                 format: "text",
-                prompt: "What restrictions apply to the transfer of shares? Identify any lock-up periods (and their duration), which transfers are prohibited outright, and which transfers are permitted without consent (e.g. transfers to affiliates or family trusts). Note any board or shareholder approval requirements for transfers.",
+                prompt: "Quali restrizioni si applicano al trasferimento delle azioni/quote? Identifica eventuali lock-up (con relativa durata), trasferimenti vietati e trasferimenti permessi senza consenso (es. ad affiliate, family trusts). Considera i meccanismi di prelazione/gradimento statutari ex art. 2355-bis c.c. e art. 2469 c.c. Verifica la trascrizione nel libro soci.",
             },
             {
                 index: 8,
-                name: "Right of First Refusal / Pre-emption on Transfer",
+                name: "Diritto di Prelazione",
                 format: "text",
-                prompt: "Is there a right of first refusal or pre-emption right on a proposed transfer of shares? If so, describe who holds the right, the procedure for triggering and exercising it (including notice periods and pricing mechanics), and any exceptions.",
+                prompt: "È previsto un diritto di prelazione sul trasferimento delle partecipazioni? In caso affermativo descrivi titolari, procedura di trigger ed esercizio (preavvisi, meccanismi di valorizzazione, perizia di terzo arbitratore ex art. 1349 c.c.) ed eventuali eccezioni.",
             },
             {
                 index: 9,
-                name: "Drag-Along Rights",
+                name: "Drag-Along",
                 format: "text",
-                prompt: "Are there drag-along rights? If so, identify who holds the drag right (e.g. majority shareholders above a specified threshold), the threshold required to trigger a drag, the obligations imposed on dragged shareholders, any conditions on the drag (e.g. minimum price, independent valuation), and any protections for minority shareholders.",
+                prompt: "Sono previsti diritti di drag-along? In caso affermativo identifica titolari (es. soci di maggioranza sopra una soglia specifica), soglia di attivazione, obblighi imposti ai soci trascinati, condizioni del drag (prezzo minimo, valutazione indipendente, fairness opinion) e tutele dei soci di minoranza (tag pari prezzo, MAC out).",
             },
             {
                 index: 10,
-                name: "Tag-Along Rights",
+                name: "Tag-Along",
                 format: "text",
-                prompt: "Are there tag-along rights? If so, identify who holds the tag right, the threshold transfer that triggers the tag, the procedure for exercising the tag (including notice periods), the price and terms on which the tagging shareholder may sell, and any exceptions.",
+                prompt: "Sono previsti diritti di tag-along? In caso affermativo identifica titolari, soglia che attiva il tag, procedura di esercizio (preavviso), prezzo e condizioni alle quali il socio aderente può vendere ed eventuali eccezioni (es. trasferimenti infragruppo).",
             },
             {
                 index: 11,
-                name: "Anti-Dilution Protections",
+                name: "Tutele Anti-Diluizione",
                 format: "text",
-                prompt: "Are there any anti-dilution protections for any class of shareholders? If so, describe the type of protection (e.g. full ratchet, weighted average, broad-based or narrow-based), the trigger events, how the adjusted price or entitlement is calculated, and any exceptions (e.g. permitted issuances excluded from the calculation).",
+                prompt: "Sono previste tutele anti-diluizione per qualche categoria di soci? In caso affermativo descrivi tipologia (full ratchet, weighted average broad-based o narrow-based), eventi di trigger, modalità di calcolo del prezzo o entitlement aggiustato ed eccezioni (es. emissioni permesse escluse dal calcolo).",
             },
             {
                 index: 12,
-                name: "Dividend Policy",
+                name: "Politica dei Dividendi",
                 format: "text",
-                prompt: "What dividend provisions are set out in this agreement? Describe any obligation or policy to pay dividends (e.g. a minimum percentage of distributable profits), any preferential dividend rights attaching to a particular class of shares, and any restrictions on dividend payments (e.g. subject to available profits, board or shareholder approval, lender consent).",
+                prompt: "Quali clausole sui dividendi sono previste? Descrivi obblighi o policy di distribuzione (es. percentuale minima degli utili distribuibili), eventuali dividendi privilegiati e vincoli (subordinazione a utili effettivamente distribuibili ex art. 2433 c.c., approvazione del CdA o assemblea, consenso dei finanziatori). Considera la disciplina della riserva legale (art. 2430 c.c.) e l'eventuale dividendo preferenziale ex art. 2350 c.c.",
             },
             {
                 index: 13,
-                name: "Exit & Liquidity Provisions",
+                name: "Exit e Liquidità",
                 format: "text",
-                prompt: "What exit or liquidity provisions are included? Describe any agreed exit mechanisms (e.g. trade sale, IPO, drag-along sale), any timelines or milestones by which an exit is targeted, any shareholder rights to initiate or compel an exit process after a specified period, and any preference on exit proceeds attaching to a particular class of shares.",
+                prompt: "Quali meccanismi di exit o liquidità sono previsti? Descrivi i canali di uscita concordati (trade sale, IPO, drag-along), eventuali milestone temporali, diritti di iniziare un processo di exit dopo un periodo specificato e preferenze in liquidazione (liquidation preference, partecipanti vs. non partecipanti).",
             },
             {
                 index: 14,
-                name: "Deadlock",
+                name: "Stallo Decisionale (Deadlock)",
                 format: "text",
-                prompt: "How is deadlock addressed? Describe any deadlock resolution mechanisms (e.g. escalation to senior management, mediation, Russian roulette / shoot-out provisions, put/call options). For each mechanism, state the trigger conditions, the procedure, and the consequences if deadlock is not resolved.",
+                prompt: "Come è regolato lo stallo decisionale? Descrivi i meccanismi di risoluzione (escalation al senior management, mediazione/conciliazione, Russian roulette/Texas shoot-out, opzioni put/call). Per ciascun meccanismo indica condizioni di trigger, procedura e conseguenze in caso di mancata risoluzione (eventuale scioglimento per impossibilità di funzionamento ex art. 2484 c.c.).",
             },
             {
                 index: 15,
-                name: "Non-Compete & Non-Solicitation",
+                name: "Non Concorrenza e Non Sollecitazione",
                 format: "text",
-                prompt: "Are any shareholders subject to non-compete or non-solicitation obligations? If so, identify which shareholders are bound, the scope of the restriction (activities and geography), and the duration (during the term of the agreement and/or for a period after a shareholder ceases to hold shares). Note any carve-outs.",
+                prompt: "Sono previsti obblighi di non concorrenza o non sollecitazione? In caso affermativo identifica i soci vincolati, l'ambito (attività e geografia), la durata (durante la vigenza del patto e/o per un periodo successivo all'uscita). Verifica conformità ex art. 2596 c.c. (limiti di oggetto, tempo e luogo) e con la giurisprudenza sulla ragionevolezza.",
             },
             {
                 index: 16,
-                name: "Confidentiality",
+                name: "Riservatezza",
                 format: "text",
-                prompt: "What confidentiality obligations are imposed on the shareholders? State the scope of confidential information covered, the permitted disclosures (e.g. to professional advisers, affiliates, lenders), and the duration of the obligation. Note whether the obligation survives termination of the agreement.",
+                prompt: "Quali obblighi di riservatezza sono imposti? Indica l'ambito delle informazioni riservate, le divulgazioni permesse (consulenti professionali, affiliate, finanziatori) e la durata dell'obbligo. Verifica se l'obbligo sopravvive alla cessazione del patto. Considera coordinamento con art. 2622 c.c. (false comunicazioni sociali) e disciplina del market abuse ex TUF per società quotate.",
             },
             {
                 index: 17,
-                name: "Warranties",
+                name: "Dichiarazioni e Garanzie",
                 format: "text",
-                prompt: "What warranties are given by the shareholders under this agreement? Identify who gives warranties, the subject matter (e.g. title to shares, capacity, no encumbrances, no conflicts), any limitations on warranty claims (e.g. time limits, caps, knowledge qualifications), and any indemnities given alongside the warranties.",
+                prompt: "Quali dichiarazioni e garanzie sono prestate dai soci? Identifica chi le rilascia, l'oggetto (titolarità delle partecipazioni, capacità, assenza di vincoli, assenza di conflitti, idoneità antiriciclaggio), eventuali limitazioni alle pretese (termini di prescrizione contrattuale, massimali, qualifiche di knowledge) e indennizzi prestati.",
             },
             {
                 index: 18,
-                name: "Governing Law",
+                name: "Durata e Pubblicità",
                 format: "text",
-                prompt: "What governing law applies to this agreement? State the jurisdiction and any specific legal system referenced.",
+                prompt: "Qual è la durata del patto? Verifica conformità con art. 2341-bis c.c.: per S.p.A. non quotate durata massima 5 anni rinnovabile, per S.p.A. quotate durata massima 3 anni (art. 123 TUF). Per società quotate verifica obblighi di pubblicità ex art. 122 TUF: comunicazione a Consob entro 5 giorni dalla stipula, deposito al Registro Imprese, pubblicazione su quotidiano e sito web.",
             },
             {
                 index: 19,
-                name: "Dispute Resolution",
+                name: "Legge Applicabile",
                 format: "text",
-                prompt: "How are disputes resolved under this agreement? Identify whether disputes go to litigation or arbitration, the chosen forum or seat, any mandatory escalation steps, and whether jurisdiction is exclusive.",
+                prompt: "Quale legge regola il patto? Indica la giurisdizione e gli eventuali riferimenti normativi specifici.",
+            },
+            {
+                index: 20,
+                name: "Foro Competente / Arbitrato",
+                format: "text",
+                prompt: "Come si risolvono le controversie? Identifica se vanno in giudizio ordinario o in arbitrato (CAM, ICC), eventuale clausola arbitrale ex art. 34 D.Lgs. 5/2003 (arbitrato societario), eventuali tappe pre-contenziose obbligatorie (mediazione D.Lgs. 28/2010) e se la giurisdizione è esclusiva.",
             },
         ],
     },
 
-    // ─── Employment Agreement ─────────────────────────────────────────────────────
+    // ─── Contratto di Lavoro ─────────────────────────────────────────────────────
     {
         id: "builtin-employment-agreement",
         user_id: null,
         is_system: true,
         created_at: "",
-        title: "Employment Agreement Review",
+        title: "Review Contratto di Lavoro",
         type: "tabular",
-        practice: "Employment",
+        practice: "Diritto del Lavoro",
         prompt_md: null,
         columns_config: [
             {
                 index: 0,
-                name: "Employer",
+                name: "Datore di Lavoro",
                 format: "text",
-                prompt: "Who is the employer under this agreement? State the full legal name and jurisdiction of incorporation or establishment.",
+                prompt: "Chi è il datore di lavoro nel contratto? Indica denominazione sociale completa, sede legale, P.IVA, codice fiscale, posizione INPS e INAIL, eventuale unità produttiva di assegnazione.",
             },
             {
                 index: 1,
-                name: "Employee",
+                name: "Lavoratore",
                 format: "text",
-                prompt: "Who is the employee under this agreement? State their full name and, if provided, their address or location.",
+                prompt: "Chi è il lavoratore nel contratto? Indica nome completo, codice fiscale, residenza/domicilio e luogo di nascita.",
             },
             {
                 index: 2,
-                name: "Date",
+                name: "Data del Contratto",
                 format: "date",
-                prompt: "What is the date of this employment agreement? If a commencement date or start date differs from the signing date, state both.",
+                prompt: "Qual è la data del contratto di lavoro? Se la data di assunzione/decorrenza è diversa dalla data di sottoscrizione, indica entrambe. Verifica il rispetto degli obblighi di comunicazione UNILAV preventiva al Centro per l'Impiego (D.Lgs. 152/1997).",
             },
             {
                 index: 3,
-                name: "Title",
+                name: "Mansioni e Inquadramento",
                 format: "text",
-                prompt: "What is the employee's job title or position as stated in this agreement? If a reporting line is specified, include it.",
+                prompt: "Quali sono le mansioni e l'inquadramento contrattuale del lavoratore? Indica la qualifica, il livello CCNL, la categoria (operaio, impiegato, quadro, dirigente) e la posizione organizzativa. Verifica coerenza con l'art. 2103 c.c. (mansioni ed equivalenza) e disposizioni del CCNL applicabile.",
             },
             {
                 index: 4,
-                name: "Compensation",
+                name: "CCNL Applicato",
                 format: "text",
-                prompt: "What is the employee's compensation under this agreement? State the base salary or wage, the currency, and the payment frequency (e.g. monthly, bi-weekly). Include any guaranteed bonus, commission, or other fixed remuneration elements.",
+                prompt: "Quale CCNL è applicato al rapporto di lavoro? Indica il contratto collettivo nazionale (es. CCNL Commercio, Metalmeccanico, Industria, Studi Professionali), la sigla sindacale firmataria e l'eventuale contrattazione di secondo livello (territoriale o aziendale).",
             },
             {
                 index: 5,
-                name: "Full Time / Part Time",
-                format: "tag",
-                tags: ["Full Time", "Part Time"],
-                prompt: "Is this a full-time or part-time position? If part-time, state the number of days or hours per week where specified.",
+                name: "Retribuzione",
+                format: "text",
+                prompt: "Qual è la retribuzione lorda annua del lavoratore? Indica retribuzione base, scatti di anzianità, indennità (di contingenza, EDR, di funzione, di trasferta), tredicesima e quattordicesima mensilità (se previste dal CCNL), eventuali superminimi assorbibili o non assorbibili. Indica la frequenza di pagamento (di norma mensile) e segnala eventuali bonus/MBO ex art. 2099 c.c.",
             },
             {
                 index: 6,
-                name: "Independent Contractor?",
-                format: "yes_no",
-                prompt: "Does the agreement characterise the worker as an independent contractor rather than an employee? Answer Yes if the agreement uses contractor, consultant, or self-employed language. Note any provisions that address the nature of the relationship.",
+                name: "Tipologia (Tempo Pieno / Tempo Parziale)",
+                format: "tag",
+                tags: ["Tempo Pieno", "Tempo Parziale"],
+                prompt: "Si tratta di un rapporto a tempo pieno o a tempo parziale? Se part-time indica numero di ore/giorni a settimana e tipologia (orizzontale, verticale, misto). Considera D.Lgs. 81/2015 sulle clausole elastiche e flessibili.",
             },
             {
                 index: 7,
-                name: "Benefits",
-                format: "bulleted_list",
-                prompt: "What benefits are the employee entitled to under this agreement? List each benefit (e.g. health insurance, pension/retirement contributions, life assurance, car allowance, share options, expense reimbursement). Note any eligibility conditions or limits.",
+                name: "Lavoro Subordinato o Autonomo?",
+                format: "yes_no",
+                prompt: "Il contratto è qualificato come lavoro subordinato (art. 2094 c.c.) o come collaborazione/lavoro autonomo? Rispondi Sì se autonomo (collaborazione coordinata e continuativa, libero professionista, partita IVA, prestazione d'opera ex art. 2222 c.c.). Considera i criteri di qualificazione e i rischi di riqualificazione ex art. 2 D.Lgs. 81/2015 (etero-organizzazione).",
             },
             {
                 index: 8,
-                name: "Notice Period (Employer to Employee)",
-                format: "text",
-                prompt: "What notice must the employer give to terminate the employee's employment (other than for cause)? State the notice period and any provisions for payment in lieu of notice.",
+                name: "Benefit",
+                format: "bulleted_list",
+                prompt: "Quali benefit sono riconosciuti al lavoratore? Elenca ciascuno (es. assicurazione sanitaria integrativa, polizza vita/infortuni, previdenza complementare ex D.Lgs. 252/2005, auto aziendale ad uso promiscuo, buoni pasto, smartworking, cellulare/PC aziendale, formazione, stock option/RSU). Indica condizioni di eleggibilità e limiti.",
             },
             {
                 index: 9,
-                name: "Notice Period (Employee to Employer)",
+                name: "Periodo di Prova",
                 format: "text",
-                prompt: "What notice must the employee give to resign? State the notice period and any provisions for payment in lieu of notice or garden leave.",
+                prompt: "È previsto un periodo di prova ex art. 2096 c.c.? Indica la durata (massimo previsto dal CCNL applicabile, in genere fino a 6 mesi per dirigenti, 3 mesi per quadri/impiegati). Verifica forma scritta a pena di nullità e validità della clausola.",
             },
             {
                 index: 10,
-                name: "Overtime",
+                name: "Preavviso (Datore al Lavoratore)",
                 format: "text",
-                prompt: "What provisions apply to overtime? Is the employee eligible for overtime pay, and if so at what rate? Or does the agreement state that the salary is inclusive of any overtime? Note any opt-out of statutory working time limits.",
+                prompt: "Quale preavviso deve dare il datore di lavoro per recedere dal rapporto (al di fuori del licenziamento per giusta causa)? Indica il preavviso previsto dal CCNL in funzione di anzianità e qualifica e l'eventuale possibilità di indennità sostitutiva del preavviso. Considera i limiti del licenziamento (giusta causa ex art. 2119 c.c., giustificato motivo ex L. 604/1966 e art. 18 St. Lav.).",
             },
             {
                 index: 11,
-                name: "Working Hours",
+                name: "Preavviso (Lavoratore al Datore)",
                 format: "text",
-                prompt: "What working hours are specified in this agreement? State the normal hours of work, any flexibility provisions, and whether the employee is expected to work additional hours as required.",
+                prompt: "Quale preavviso deve dare il lavoratore per dimettersi? Indica il preavviso previsto dal CCNL in funzione di anzianità e qualifica e l'eventuale obbligo di indennità sostitutiva. Verifica gli obblighi di forma delle dimissioni (procedura telematica obbligatoria ex L. 92/2012, salvo eccezioni — es. dimissioni della lavoratrice in periodo di tutela ex D.Lgs. 151/2001).",
             },
             {
                 index: 12,
-                name: "Variation",
+                name: "Lavoro Straordinario",
                 format: "text",
-                prompt: "What provisions govern variation of the terms of this agreement? Can the employer unilaterally vary terms, or is the employee's consent required? Note any specific terms that are stated to be variable without consent.",
+                prompt: "Quali clausole si applicano al lavoro straordinario? Il lavoratore è eleggibile per maggiorazioni straordinarie (ex CCNL: in genere 15-50% per ore eccedenti l'orario normale)? Oppure il contratto prevede che la retribuzione sia comprensiva di eventuali ore straordinarie (clausola di onnicomprensività, valida solo per dirigenti o ruoli direttivi ex art. 17 D.Lgs. 66/2003)?",
             },
             {
                 index: 13,
-                name: "Intellectual Property Assignment",
+                name: "Orario di Lavoro",
                 format: "text",
-                prompt: "What intellectual property assignment provisions are included? Does the employee assign to the employer all IP created in the course of employment? Are there any carve-outs for pre-existing IP or inventions created outside working hours? Note any moral rights waiver.",
+                prompt: "Qual è l'orario di lavoro? Indica le ore settimanali normali (di norma 40 ex D.Lgs. 66/2003), eventuale articolazione (5 o 6 giorni), flessibilità (banca ore, orario flessibile, smart working ex L. 81/2017). Verifica i limiti massimi (48 ore settimanali medie ex D.Lgs. 66/2003) e il diritto al riposo giornaliero (11 ore consecutive) e settimanale (24 ore).",
             },
             {
                 index: 14,
-                name: "Grounds for Termination",
-                format: "bulleted_list",
-                prompt: "What grounds for summary dismissal or termination for cause are set out in the agreement? List each ground (e.g. gross misconduct, breach of confidentiality, insolvency, criminal conviction). Note whether summary dismissal is without notice or payment in lieu.",
+                name: "Modifica delle Condizioni",
+                format: "text",
+                prompt: "Quali clausole governano la modifica delle condizioni contrattuali? Il datore di lavoro può modificare unilateralmente alcune clausole? Verifica conformità con art. 2103 c.c. (variazione delle mansioni — possibile assegnazione a mansioni equivalenti, declassamento solo per causali specifiche) e art. 2113 c.c. (rinunce e transazioni). Indica clausole specifiche su mobilità (territoriale, ius variandi).",
             },
             {
                 index: 15,
-                name: "Annual Leave Entitlement",
+                name: "Cessione/Assegnazione di Diritti di PI",
                 format: "text",
-                prompt: "What is the employee's annual leave entitlement? State the number of days (or weeks) per year, whether this is inclusive of or in addition to public holidays, and any provisions for accrual, carry-over, or payment of untaken leave on termination.",
+                prompt: "Quali clausole disciplinano la titolarità dei diritti di proprietà intellettuale? Per le invenzioni del lavoratore considera l'art. 64 CPI (D.Lgs. 30/2005): invenzione di servizio (risultato dovuto, datore titolare senza compenso ulteriore), invenzione aziendale (titolare il datore, ma equo premio al lavoratore), invenzione occasionale (titolare il lavoratore, diritto di opzione del datore). Per il software l'art. 12-bis L. 633/1941 attribuisce al datore i diritti economici. Verifica eventuali clausole su know-how e segreti commerciali (art. 98 CPI).",
+            },
+            {
+                index: 16,
+                name: "Cause di Licenziamento",
+                format: "bulleted_list",
+                prompt: "Quali cause di licenziamento per giusta causa o giustificato motivo soggettivo sono previste? Elenca ciascuna causa (es. furto, frode, violazione del codice etico, gravi insubordinazioni, abbandono del posto di lavoro). Verifica conformità con il CCNL (codice disciplinare ex art. 7 St. Lav.), L. 604/1966, art. 2119 c.c. (giusta causa) e art. 18 St. Lav./art. 3 D.Lgs. 23/2015 (tutele crescenti).",
+            },
+            {
+                index: 17,
+                name: "Ferie",
+                format: "text",
+                prompt: "Quali sono le ferie spettanti al lavoratore? Indica i giorni annui (minimo legale 4 settimane ex art. 10 D.Lgs. 66/2003 e art. 36 Cost.; spesso CCNL prevede 26-30 giorni lavorativi). Verifica disposizioni del CCNL su accrual, godimento (almeno 2 settimane consecutive nell'anno di maturazione, residuo entro 18 mesi) e pagamento delle ferie non godute alla cessazione (irrinunciabilità del minimo legale).",
+            },
+            {
+                index: 18,
+                name: "Patto di Non Concorrenza",
+                format: "text",
+                prompt: "È previsto un patto di non concorrenza post-contrattuale ex art. 2125 c.c.? In caso affermativo verifica i requisiti di validità (forma scritta a pena di nullità, corrispettivo specifico — la giurisprudenza richiede congruità in genere 30-50% della retribuzione, durata massima 5 anni per dirigenti e 3 anni per altri lavoratori, limiti di oggetto e luogo). Identifica eventuali penali per violazione (art. 1382 c.c.).",
+            },
+            {
+                index: 19,
+                name: "Trattamento Dati Personali",
+                format: "text",
+                prompt: "Come è disciplinato il trattamento dei dati personali del lavoratore? Verifica conformità con il GDPR (Reg. UE 2016/679) e D.Lgs. 196/2003 (Codice Privacy), art. 4 St. Lav. (controlli a distanza), provvedimenti del Garante Privacy in materia di lavoro. È fornita informativa? Sono regolate le basi giuridiche e l'utilizzo di strumenti di controllo (videosorveglianza, geolocalizzazione, posta elettronica)?",
             },
         ],
     },
