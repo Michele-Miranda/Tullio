@@ -857,6 +857,7 @@ async function handleDocumentUpload(
     .insert({
       project_id: projectId,
       user_id: userId,
+      uploaded_by: userId,
       filename,
       file_type: suffix,
       size_bytes: content.byteLength,

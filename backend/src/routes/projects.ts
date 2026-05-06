@@ -358,6 +358,7 @@ projectsRouter.post(
         .insert({
           project_id: projectId,
           user_id: userId,
+          uploaded_by: userId,
           filename: doc.filename,
           file_type: doc.file_type,
           size_bytes: doc.size_bytes,
@@ -610,6 +611,7 @@ export async function handleDocumentUpload(
     .insert({
       project_id: projectId,
       user_id: userId,
+      uploaded_by: userId,
       filename,
       file_type: suffix,
       size_bytes: content.byteLength,

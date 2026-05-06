@@ -9,9 +9,19 @@ import { tabularRouter } from "./routes/tabular";
 import { workflowsRouter } from "./routes/workflows";
 import { userRouter } from "./routes/user";
 import { downloadsRouter } from "./routes/downloads";
+import {
+  aiChatLimiter,
+  globalLimiter,
+  tabularLimiter,
+} from "./middleware/rateLimit";
 
 const app = express();
 const PORT = process.env.PORT ?? 3001;
+
+// Trust the first proxy hop so `req.ip` reflects the real client IP when
+// running behind a load balancer / Cloudflare. Required by
+// express-rate-limit's IP key generator to work correctly.
+app.set("trust proxy", 1);
 
 app.use(
   cors({
@@ -22,11 +32,15 @@ app.use(
 
 app.use(express.json({ limit: "50mb" }));
 
-app.use("/chat", chatRouter);
+// Global, per-IP/per-user safety net. Stricter limiters are layered on
+// top of this for AI chat and tabular review.
+app.use(globalLimiter);
+
+app.use("/chat", aiChatLimiter, chatRouter);
 app.use("/projects", projectsRouter);
-app.use("/projects/:projectId/chat", projectChatRouter);
+app.use("/projects/:projectId/chat", aiChatLimiter, projectChatRouter);
 app.use("/single-documents", documentsRouter);
-app.use("/tabular-review", tabularRouter);
+app.use("/tabular-review", tabularLimiter, tabularRouter);
 app.use("/workflows", workflowsRouter);
 app.use("/user", userRouter);
 app.use("/users", userRouter);

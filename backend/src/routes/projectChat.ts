@@ -13,6 +13,11 @@ import {
 } from "../lib/chatTools";
 import { getUserApiKeys } from "../lib/userSettings";
 import { checkProjectAccess } from "../lib/access";
+import {
+    citationFailuresFromAnnotations,
+    logCitationFailures,
+    logModelInvocation,
+} from "../lib/audit";
 
 const PROJECT_SYSTEM_PROMPT_EXTRA = `PROJECT CONTEXT (FASCICOLO):
 You are operating within a project folder (fascicolo) that contains a collection of Italian legal documents the user has organised for a single matter — typically a "pratica" or operation: contracts, atti giudiziari, perizie, visure camerali, corrispondenza PEC, delibere, procure, etc. The user's questions will usually refer to one or more documents in this fascicolo — your job is to find the relevant files to work on. Use list_documents to see what is available and fetch_documents / read_document to pull in any documents you need before answering.
@@ -158,8 +163,9 @@ projectChatRouter.post("/", requireAuth, async (req, res) => {
 
     try {
         write(`data: ${JSON.stringify({ type: "chat_id", chatId })}\n\n`);
+        const invocationStart = Date.now();
 
-        const { fullText, events } = await runLLMStream({
+        const { fullText, events, usage, model: usedModel } = await runLLMStream({
             apiMessages,
             docStore,
             docIndex,
@@ -173,7 +179,30 @@ projectChatRouter.post("/", requireAuth, async (req, res) => {
             projectId,
         });
 
-        const annotations = extractAnnotations(fullText, docIndex, events);
+        const annotations = await extractAnnotations(fullText, docIndex, events, {
+            docStore,
+            db,
+        });
+
+        const invocationId = await logModelInvocation(db, {
+            userId,
+            chatId,
+            projectId,
+            surface: "project_chat",
+            model: usedModel,
+            usage,
+            latencyMs: Date.now() - invocationStart,
+            status: "ok",
+        });
+        const failures = citationFailuresFromAnnotations(annotations, {
+            userId,
+            chatId,
+            invocationId,
+        });
+        if (failures.length) {
+            await logCitationFailures(db, failures);
+        }
+
         await db.from("chat_messages").insert({
             chat_id: chatId,
             role: "assistant",
@@ -189,6 +218,17 @@ projectChatRouter.post("/", requireAuth, async (req, res) => {
         }
     } catch (err) {
         console.error("[project-chat/stream] error:", err);
+        await logModelInvocation(db, {
+            userId,
+            chatId,
+            projectId,
+            surface: "project_chat",
+            model: model ?? "unknown",
+            usage: { input_tokens: 0, output_tokens: 0, provider: "claude", iterations: 0 },
+            latencyMs: 0,
+            status: "error",
+            errorMessage: (err as Error)?.message?.slice(0, 500) ?? "unknown",
+        });
         try {
             write(
                 `data: ${JSON.stringify({ type: "error", message: "Stream error" })}\n\n`,

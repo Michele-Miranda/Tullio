@@ -50,13 +50,18 @@ export async function streamGemini(
 
     const contents: GeminiContent[] = toNativeContents(params.messages);
     let fullText = "";
+    let usageInput = 0;
+    let usageOutput = 0;
+    let iterations = 0;
 
     for (let iter = 0; iter < maxIter; iter++) {
+        iterations++;
         const stream = await ai.models.generateContentStream({
             model,
             contents: contents as never,
             config: {
                 systemInstruction: systemPrompt,
+                temperature: 0.3,
                 tools: functionDeclarations.length
                     ? [{ functionDeclarations } as never]
                     : undefined,
@@ -78,6 +83,15 @@ export async function streamGemini(
 
         for await (const chunk of stream) {
             console.log("[gemini stream chunk]", JSON.stringify(chunk, null, 2));
+            const usageMeta = (chunk as { usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number; totalTokenCount?: number } }).usageMetadata;
+            if (usageMeta) {
+                if (typeof usageMeta.promptTokenCount === "number") {
+                    usageInput = Math.max(usageInput, usageMeta.promptTokenCount);
+                }
+                if (typeof usageMeta.candidatesTokenCount === "number") {
+                    usageOutput = Math.max(usageOutput, usageMeta.candidatesTokenCount);
+                }
+            }
             const parts =
                 (chunk as { candidates?: { content?: { parts?: GeminiPart[] } }[] })
                     .candidates?.[0]?.content?.parts ?? [];
@@ -141,7 +155,15 @@ export async function streamGemini(
         });
     }
 
-    return { fullText };
+    return {
+        fullText,
+        usage: {
+            input_tokens: usageInput,
+            output_tokens: usageOutput,
+            provider: "gemini",
+            iterations,
+        },
+    };
 }
 
 export async function completeGeminiText(params: {
@@ -154,9 +176,12 @@ export async function completeGeminiText(params: {
     const resp = await ai.models.generateContent({
         model: params.model,
         contents: [{ role: "user", parts: [{ text: params.user }] }],
-        config: params.systemPrompt
-            ? { systemInstruction: params.systemPrompt }
-            : undefined,
+        config: {
+            temperature: 0.3,
+            ...(params.systemPrompt
+                ? { systemInstruction: params.systemPrompt }
+                : {}),
+        },
     });
     return resp.text ?? "";
 }

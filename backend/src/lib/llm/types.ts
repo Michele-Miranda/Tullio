@@ -59,6 +59,18 @@ export type StreamChatParams = {
     enableThinking?: boolean;
 };
 
+export type LlmUsage = {
+    /** Best-effort sum of input tokens across all iterations of the chat loop. */
+    input_tokens: number;
+    /** Best-effort sum of output tokens across all iterations. */
+    output_tokens: number;
+    /** Provider that handled the call ("claude" | "gemini"). */
+    provider: Provider;
+    /** Number of iterations of the streaming/tool loop. */
+    iterations: number;
+};
+
 export type StreamChatResult = {
     fullText: string;
+    usage: LlmUsage;
 };

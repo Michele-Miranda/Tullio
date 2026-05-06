@@ -56,8 +56,12 @@ export async function streamClaude(
 
     const messages: NativeMessage[] = toNativeMessages(params.messages);
     let fullText = "";
+    let usageInput = 0;
+    let usageOutput = 0;
+    let iterations = 0;
 
     for (let iter = 0; iter < maxIter; iter++) {
+        iterations++;
         const stream = anthropic.messages.stream({
             model,
             system: systemPrompt,
@@ -74,8 +78,7 @@ export async function streamClaude(
                       thinking: { type: "adaptive" },
                       output_config: { effort: "high" },
                   } as unknown as Record<string, unknown>)
-                : {}),
-            // Extended thinking requires temperature to be default (omitted).
+                : { temperature: 0.3 }),
         });
 
         let sawThinking = false;
@@ -100,6 +103,11 @@ export async function streamClaude(
         if (sawThinking) callbacks.onReasoningBlockEnd?.();
         const stopReason = final.stop_reason;
         const assistantBlocks = final.content as ContentBlock[];
+        const finalUsage = (final as unknown as { usage?: { input_tokens?: number; output_tokens?: number } }).usage;
+        if (finalUsage) {
+            usageInput += finalUsage.input_tokens ?? 0;
+            usageOutput += finalUsage.output_tokens ?? 0;
+        }
 
         // Extract text content and tool_use calls from the final assistant
         // message so we can accumulate text and drive the tool-call loop.
@@ -144,7 +152,15 @@ export async function streamClaude(
         });
     }
 
-    return { fullText };
+    return {
+        fullText,
+        usage: {
+            input_tokens: usageInput,
+            output_tokens: usageOutput,
+            provider: "claude",
+            iterations,
+        },
+    };
 }
 
 export async function completeClaudeText(params: {
@@ -158,6 +174,7 @@ export async function completeClaudeText(params: {
     const resp = await anthropic.messages.create({
         model: params.model,
         max_tokens: params.maxTokens ?? 512,
+        temperature: 0.3,
         system: params.systemPrompt,
         messages: [{ role: "user", content: params.user }],
     });

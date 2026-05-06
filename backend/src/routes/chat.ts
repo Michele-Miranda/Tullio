@@ -13,6 +13,11 @@ import {
 import { completeText } from "../lib/llm";
 import { getUserApiKeys, getUserModelSettings } from "../lib/userSettings";
 import { checkProjectAccess } from "../lib/access";
+import {
+    citationFailuresFromAnnotations,
+    logCitationFailures,
+    logModelInvocation,
+} from "../lib/audit";
 
 export const chatRouter = Router();
 
@@ -436,10 +441,11 @@ chatRouter.post("/", requireAuth, async (req, res) => {
 
     const apiKeys = await getUserApiKeys(userId, db);
 
+    const invocationStart = Date.now();
     try {
         write(`data: ${JSON.stringify({ type: "chat_id", chatId })}\n\n`);
 
-        const { fullText, events } = await runLLMStream({
+        const { fullText, events, usage, model: usedModel } = await runLLMStream({
             apiMessages,
             docStore,
             docIndex,
@@ -457,7 +463,30 @@ chatRouter.post("/", requireAuth, async (req, res) => {
             eventCount: events?.length ?? 0,
         });
 
-        const annotations = extractAnnotations(fullText, docIndex, events);
+        const annotations = await extractAnnotations(fullText, docIndex, events, {
+            docStore,
+            db,
+        });
+
+        const invocationId = await logModelInvocation(db, {
+            userId,
+            chatId,
+            projectId: project_id ?? null,
+            surface: "chat",
+            model: usedModel,
+            usage,
+            latencyMs: Date.now() - invocationStart,
+            status: "ok",
+        });
+        const failures = citationFailuresFromAnnotations(annotations, {
+            userId,
+            chatId,
+            invocationId,
+        });
+        if (failures.length) {
+            await logCitationFailures(db, failures);
+        }
+
         await db.from("chat_messages").insert({
             chat_id: chatId,
             role: "assistant",
@@ -473,6 +502,17 @@ chatRouter.post("/", requireAuth, async (req, res) => {
         }
     } catch (err) {
         console.error("[chat/stream] error:", err);
+        await logModelInvocation(db, {
+            userId,
+            chatId,
+            projectId: project_id ?? null,
+            surface: "chat",
+            model: model ?? "unknown",
+            usage: { input_tokens: 0, output_tokens: 0, provider: "claude", iterations: 0 },
+            latencyMs: Date.now() - invocationStart,
+            status: "error",
+            errorMessage: (err as Error)?.message?.slice(0, 500) ?? "unknown",
+        });
         try {
             write(
                 `data: ${JSON.stringify({ type: "error", message: "Stream error" })}\n\n`,
